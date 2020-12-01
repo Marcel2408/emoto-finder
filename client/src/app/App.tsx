@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Favourites from './Components/Favourites';
-import Login from './Components/Login';
-import SelectDestination from './Components/SelectDestination';
-import Map from './Containers/Map';
+import Favourites from '../features/Favourites';
+import Login from '../features/Login';
+import SelectDestination from '../features/SelectDestination';
+import Map from '../components/Map';
 
 const App: React.FC = () => {
   return (
