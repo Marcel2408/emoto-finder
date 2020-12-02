@@ -11,7 +11,7 @@ const App: React.FC = () => {
       <Route exact path="/favourites" component={Favourites} />
       <Route exact path="/" component={Login} />
       <Route exact path="/map" component={Map} />
-      <Route exact path="/select_destination" component={SelectDestination} />
+      <Route exact path="/destination" component={SelectDestination} />
     </Switch>
   );
 };
