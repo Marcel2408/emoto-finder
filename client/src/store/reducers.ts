@@ -15,7 +15,7 @@ import {
   MapActionTypes,
 } from './types';
 
-const initialState: AppState = {
+export const initialState: AppState = {
   currentUser: {},
   finalDestination: {},
   customDestination: {},

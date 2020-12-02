@@ -21,6 +21,7 @@ import {
   MapActionTypes,
   AppState,
   User,
+  Moto,
 } from './types';
 
 export const BASE_URL = 'http://localhost:4000';
@@ -71,10 +72,10 @@ export function useFavDest(destinaion: FavDest): DestActionTypes {
   };
 }
 
-export function loadMap(appState: AppState): MapActionTypes {
+export function loadMap(motos: Moto[]): MapActionTypes {
   return {
     type: LOAD_MAP,
-    payload: appState,
+    payload: motos,
   };
 }
 
@@ -107,13 +108,15 @@ export function bookMoto(appState: AppState): MapActionTypes {
 }
 
 export function getAllMotos(): ThunkAction<void, RootState, unknown, Action> {
+  console.log('getAllMotos');
   return (dispatch) => {
+    console.log('dispatch');
     axios
       .get(`${BASE_URL}/test`)
       .then((res) => {
         dispatch({
           type: LOAD_MAP,
-          payload: res.data,
+          avbMotos: res.data,
         });
       })
       .catch((err) => {
