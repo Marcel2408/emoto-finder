@@ -1,27 +1,22 @@
 
 import
-{ User, CurrentLocation, CustomDest, FavDest, CurrentDest, CurrentTrip,
+{ CustomDest, FavDest, CurrentDest, CurrentTrip,
   Moto, LOGIN, LOGOUT, GET_CUSTOM_DEST, USE_FAVOURITE_DEST, LOAD_MAP,
   CHANGE_CURRENT_DEST, ADD_FAVOURITE, DELETE_FAVOURITE, BOOK_MOTO,
-  LoginActionTypes, DestActionTypes, FavActionTypes, MapActionTypes }
+  LoginActionTypes, DestActionTypes, FavActionTypes, MapActionTypes, AppState }
   from './types';
 
-export function loginUser(
-  user: User, userLocation: CurrentLocation
-): LoginActionTypes {
+export function loginUser(appState: AppState): LoginActionTypes {
   return {
     type: LOGIN,
-    payload: {
-      user,
-      userLocation
-    }
+    payload: appState
   };
 }
 
-export function logoutUser(user: User): LoginActionTypes {
+export function logoutUser(appState: AppState): LoginActionTypes {
   return {
     type: LOGOUT,
-    payload: user
+    payload: appState
   };
 }
 
@@ -52,9 +47,10 @@ export function loadMap(
   };
 }
 
-export function changeCurrentDest(): DestActionTypes {
+export function changeCurrentDest(destinaion: CurrentDest): DestActionTypes {
   return {
-    type: CHANGE_CURRENT_DEST
+    type: CHANGE_CURRENT_DEST,
+    payload: destinaion
   };
 }
 
