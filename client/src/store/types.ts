@@ -1,4 +1,3 @@
-
 // global interfaces
 
 export interface User {
@@ -8,11 +7,6 @@ export interface User {
   lat?: number;
   lng?: number;
   favourites?: FavDest[];
-}
-
-export interface CurrentLocation {
-  lat?: number;
-  lng?: number;
 }
 
 export interface CustomDest {
@@ -59,11 +53,10 @@ export interface Moto {
 
 export interface AppState {
   currentUser?: User;
-  userLocation?: CurrentLocation;
   finalDestination?: CurrentDest;
   customDestination?: CustomDest;
-  currentTrips?: CurrentTrip[]
-  avbMotos?: Moto[]
+  currentTrips?: CurrentTrip[];
+  avbMotos?: Moto[];
 }
 
 // action constans
@@ -82,12 +75,12 @@ export const BOOK_MOTO = 'BOOK_MOTO';
 
 interface LoginUser {
   type: typeof LOGIN;
-  payload: AppState
+  payload: AppState;
 }
 
 interface LogoutUser {
   type: typeof LOGOUT;
-  payload: AppState
+  payload: AppState;
 }
 
 interface GetCustomDest {
@@ -107,7 +100,7 @@ interface LoadMap {
 
 interface ChangeCurretnDest {
   type: typeof CHANGE_CURRENT_DEST;
-  payload: CurrentDest
+  payload: CurrentDest;
 }
 
 interface AddFav {
@@ -122,12 +115,12 @@ interface DeleteFav {
 
 interface BookMoto {
   type: typeof BOOK_MOTO;
-  payload: AppState
+  payload: AppState;
 }
 
 // using TypeScript's Union Types here to express all possible actions
 
 export type LoginActionTypes = LoginUser | LogoutUser;
-export type DestActionTypes =  GetCustomDest | UseFavDest | ChangeCurretnDest;
-export type FavActionTypes =  AddFav | DeleteFav;
-export type MapActionTypes = | LoadMap |BookMoto;
+export type DestActionTypes = GetCustomDest | UseFavDest | ChangeCurretnDest;
+export type FavActionTypes = AddFav | DeleteFav;
+export type MapActionTypes = LoadMap | BookMoto;

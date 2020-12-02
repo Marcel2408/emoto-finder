@@ -17,7 +17,6 @@ import {
 
 const initialState: AppState = {
   currentUser: {},
-  userLocation: {},
   finalDestination: {},
   customDestination: {},
   currentTrips: [],
