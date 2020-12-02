@@ -82,15 +82,12 @@ export const BOOK_MOTO = 'BOOK_MOTO';
 
 interface LoginUser {
   type: typeof LOGIN;
-  payload: {
-    user: User,
-    userLocation: CurrentLocation
-  };
+  payload: AppState
 }
 
 interface LogoutUser {
   type: typeof LOGOUT;
-  payload: User;
+  payload: AppState
 }
 
 interface GetCustomDest {
@@ -114,7 +111,7 @@ interface LoadMap {
 
 interface ChangeCurretnDest {
   type: typeof CHANGE_CURRENT_DEST;
-
+  payload: CurrentDest
 }
 
 interface AddFav {
