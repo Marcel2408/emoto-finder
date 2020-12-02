@@ -1,8 +1,19 @@
-import { combineReducers } from 'redux';
-import { AppState, LOGIN, LOGOUT, GET_CUSTOM_DEST, USE_FAVOURITE_DEST, LOAD_MAP,
-  CHANGE_CURRENT_DEST, ADD_FAVOURITE, DELETE_FAVOURITE, BOOK_MOTO,
-  LoginActionTypes, DestActionTypes, FavActionTypes, MapActionTypes }
-  from './types';
+import {
+  AppState,
+  LOGIN,
+  LOGOUT,
+  GET_CUSTOM_DEST,
+  USE_FAVOURITE_DEST,
+  LOAD_MAP,
+  CHANGE_CURRENT_DEST,
+  ADD_FAVOURITE,
+  DELETE_FAVOURITE,
+  BOOK_MOTO,
+  LoginActionTypes,
+  DestActionTypes,
+  FavActionTypes,
+  MapActionTypes,
+} from './types';
 
 const initialState: AppState = {
   currentUser: {},
@@ -10,17 +21,18 @@ const initialState: AppState = {
   finalDestination: {},
   customDestination: {},
   currentTrips: [],
-  avbMotos: []
+  avbMotos: [],
 };
 
-const sessionReducer = (
-  state = initialState, action: LoginActionTypes
+export const sessionReducer = (
+  state = initialState,
+  action: LoginActionTypes
 ): AppState => {
   switch (action.type) {
     case LOGIN: {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
     case LOGOUT: {
@@ -31,20 +43,21 @@ const sessionReducer = (
   }
 };
 
-const finalDestReducer = (
-  state = initialState.finalDestination, action: DestActionTypes
+export const finalDestReducer = (
+  state = initialState.finalDestination,
+  action: DestActionTypes
 ): AppState['finalDestination'] => {
   switch (action.type) {
     case GET_CUSTOM_DEST: {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
     case USE_FAVOURITE_DEST: {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
     case CHANGE_CURRENT_DEST: {
@@ -57,20 +70,21 @@ const finalDestReducer = (
   }
 };
 
-const modifyFavourites = (
-  state = initialState.currentUser, action: FavActionTypes
+export const modifyFavourites = (
+  state = initialState.currentUser,
+  action: FavActionTypes
 ): AppState['currentUser'] => {
   switch (action.type) {
     case ADD_FAVOURITE: {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
     case DELETE_FAVOURITE: {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
 
@@ -79,33 +93,24 @@ const modifyFavourites = (
   }
 };
 
-const showMap = (
-  state = initialState, action: MapActionTypes
+export const showMap = (
+  state = initialState,
+  action: MapActionTypes
 ): AppState => {
   switch (action.type) {
     case LOAD_MAP: {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
     case BOOK_MOTO: {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
     default:
       return state;
   }
 };
-
-const appReducers = combineReducers({
-  sessionReducer,
-  finalDestReducer,
-  modifyFavourites,
-  showMap
-});
-
-export type RootState = ReturnType<typeof appReducers>;
-
