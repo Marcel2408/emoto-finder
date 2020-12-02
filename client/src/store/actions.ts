@@ -34,16 +34,10 @@ export function useFavDest(destinaion: FavDest): DestActionTypes {
   };
 }
 
-export function loadMap(
-  destination: CurrentDest, motos: Moto[], currTrips: CurrentTrip[]
-): MapActionTypes {
+export function loadMap(appState: AppState): MapActionTypes {
   return {
     type: LOAD_MAP,
-    payload: {
-      destination,
-      motos,
-      currTrips
-    }
+    payload: appState
   };
 }
 
@@ -68,8 +62,9 @@ export function deleteFavDest(favourites: FavDest[]): FavActionTypes {
   };
 }
 
-export function bookMoto(): MapActionTypes {
+export function bookMoto(appState: AppState): MapActionTypes {
   return {
-    type: BOOK_MOTO
+    type: BOOK_MOTO,
+    payload: appState
   };
 }
