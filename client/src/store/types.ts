@@ -7,7 +7,7 @@ export interface User {
   password?: string;
   lat?: number;
   lng?: number;
-  favorites?: FavDest[];
+  favourites?: FavDest[];
 }
 
 export interface CurrentLocation {
@@ -102,11 +102,7 @@ interface UseFavDest {
 
 interface LoadMap {
   type: typeof LOAD_MAP;
-  payload: {
-    destination: CurrentDest,
-    motos: Moto[],
-    currTrips: CurrentTrip[]
-  };
+  payload: AppState;
 }
 
 interface ChangeCurretnDest {
@@ -126,6 +122,7 @@ interface DeleteFav {
 
 interface BookMoto {
   type: typeof BOOK_MOTO;
+  payload: AppState
 }
 
 // using TypeScript's Union Types here to express all possible actions
