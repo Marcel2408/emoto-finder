@@ -16,8 +16,8 @@ const initialState: AppState = {
 };
 
 const sessionReducer = (
-  state = initialState.currentUser, action: LoginActionTypes
-): AppState['currentUser'] => {
+  state = initialState, action: LoginActionTypes
+): AppState => {
   switch (action.type) {
     case LOGIN: {
       return {
@@ -26,10 +26,7 @@ const sessionReducer = (
       };
     }
     case LOGOUT: {
-      return {
-        ...state,
-        ...action.payload
-      };
+      return state;
     }
     default:
       return state;
@@ -52,14 +49,19 @@ const finalDestReducer = (
         ...action.payload
       };
     }
+    case CHANGE_CURRENT_DEST: {
+      // eslint-disable-next-line no-param-reassign
+      state = {};
+      return state;
+    }
     default:
       return state;
   }
 };
 
-const reducers = combineReducers({
+const appReducers = combineReducers({
   sessionReducer,
   finalDestReducer
 });
 
-export type RootState = ReturnType<typeof reducers>;
+export type RootState = ReturnType<typeof appReducers>;
