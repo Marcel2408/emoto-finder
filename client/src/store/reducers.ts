@@ -1,5 +1,3 @@
-// TODO: create reducers
-
 import { combineReducers } from 'redux';
 import { AppState, LOGIN, LOGOUT, GET_CUSTOM_DEST, USE_FAVOURITE_DEST, LOAD_MAP,
   CHANGE_CURRENT_DEST, ADD_FAVOURITE, DELETE_FAVOURITE, BOOK_MOTO,
@@ -59,9 +57,55 @@ const finalDestReducer = (
   }
 };
 
+const modifyFavourites = (
+  state = initialState.currentUser, action: FavActionTypes
+): AppState['currentUser'] => {
+  switch (action.type) {
+    case ADD_FAVOURITE: {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    case DELETE_FAVOURITE: {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+
+    default:
+      return state;
+  }
+};
+
+const showMap = (
+  state = initialState, action: MapActionTypes
+): AppState => {
+  switch (action.type) {
+    case LOAD_MAP: {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    case BOOK_MOTO: {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    default:
+      return state;
+  }
+};
+
 const appReducers = combineReducers({
   sessionReducer,
-  finalDestReducer
+  finalDestReducer,
+  modifyFavourites,
+  showMap
 });
 
 export type RootState = ReturnType<typeof appReducers>;
+
