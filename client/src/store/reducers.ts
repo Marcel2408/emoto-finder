@@ -2,8 +2,6 @@ import {
   AppState,
   LOGIN,
   LOGOUT,
-  GET_CUSTOM_DEST,
-  USE_FAVOURITE_DEST,
   LOAD_MAP,
   CHANGE_CURRENT_DEST,
   ADD_FAVOURITE,
@@ -13,12 +11,12 @@ import {
   DestActionTypes,
   FavActionTypes,
   MapActionTypes,
+  SET_DEST,
 } from './types';
 
 export const initialState: AppState = {
   currentUser: {},
   finalDestination: {},
-  customDestination: {},
   currentTrips: [],
   avbMotos: [],
 };
@@ -47,13 +45,7 @@ export const finalDestReducer = (
   action: DestActionTypes
 ): AppState['finalDestination'] => {
   switch (action.type) {
-    case GET_CUSTOM_DEST: {
-      return {
-        ...state,
-        ...action.payload,
-      };
-    }
-    case USE_FAVOURITE_DEST: {
+    case SET_DEST: {
       return {
         ...state,
         ...action.payload,
