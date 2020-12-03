@@ -4,16 +4,16 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {
   sessionReducer,
-  finalDestReducer,
-  modifyFavourites,
-  showMap,
+  destinationReducer,
+  favouritesReducer,
+  motosReducer,
 } from './reducers';
 
 const appReducers = combineReducers({
-  sessionReducer,
-  finalDestReducer,
-  modifyFavourites,
-  showMap,
+  user: sessionReducer,
+  destination: destinationReducer,
+  favourites: favouritesReducer,
+  motos: motosReducer,
 });
 
 export const store = createStore(

@@ -2,34 +2,34 @@ import {
   AppState,
   LOGIN,
   LOGOUT,
-  LOAD_MAP,
-  CHANGE_CURRENT_DEST,
+  LOAD_MOTOS,
+  CHANGE_CURRENT_DESTINATION,
   ADD_FAVOURITE,
   DELETE_FAVOURITE,
   BOOK_MOTO,
+  SET_DESTINATION,
   LoginActionTypes,
-  DestActionTypes,
-  FavActionTypes,
+  FavouritesActionTypes,
   MapActionTypes,
-  SET_DEST,
+  DestinationActionTypes,
 } from './types';
 
 export const initialState: AppState = {
   currentUser: {},
   finalDestination: {},
   currentTrips: [],
-  avbMotos: [],
+  availableMotos: [],
 };
 
 export const sessionReducer = (
-  state = initialState,
+  state = initialState.currentUser,
   action: LoginActionTypes
-): AppState => {
+): AppState['currentUser'] => {
   switch (action.type) {
     case LOGIN: {
       return {
         ...state,
-        ...action.payload,
+        ...action.currentUser,
       };
     }
     case LOGOUT: {
@@ -40,18 +40,18 @@ export const sessionReducer = (
   }
 };
 
-export const finalDestReducer = (
+export const destinationReducer = (
   state = initialState.finalDestination,
-  action: DestActionTypes
+  action: DestinationActionTypes
 ): AppState['finalDestination'] => {
   switch (action.type) {
-    case SET_DEST: {
+    case SET_DESTINATION: {
       return {
         ...state,
-        ...action.payload,
+        ...action.destination,
       };
     }
-    case CHANGE_CURRENT_DEST: {
+    case CHANGE_CURRENT_DESTINATION: {
       // eslint-disable-next-line no-param-reassign
       state = {};
       return state;
@@ -61,21 +61,21 @@ export const finalDestReducer = (
   }
 };
 
-export const modifyFavourites = (
+export const favouritesReducer = (
   state = initialState.currentUser,
-  action: FavActionTypes
+  action: FavouritesActionTypes
 ): AppState['currentUser'] => {
   switch (action.type) {
     case ADD_FAVOURITE: {
       return {
         ...state,
-        ...action.payload,
+        ...action.favourites,
       };
     }
     case DELETE_FAVOURITE: {
       return {
         ...state,
-        ...action.payload,
+        ...action.favourites,
       };
     }
 
@@ -84,22 +84,19 @@ export const modifyFavourites = (
   }
 };
 
-export const showMap = (
-  state = initialState,
+export const motosReducer = (
+  state = initialState.availableMotos,
   action: MapActionTypes
-): AppState => {
+): AppState['availableMotos'] => {
   switch (action.type) {
-    case LOAD_MAP: {
+    case LOAD_MOTOS: {
       return {
         ...state,
-        avbMotos: action.avbMotos,
+        ...action.availableMotos,
       };
     }
     case BOOK_MOTO: {
-      return {
-        ...state,
-        ...action.payload,
-      };
+      return state;
     }
     default:
       return state;

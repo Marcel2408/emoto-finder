@@ -71,7 +71,7 @@ export const Map: React.FC<IMapProps> = (props) => {
 // ))}
 
 const mapStateToProps = (state: AppState) => ({
-  avbMotos: state.avbMotos,
+  availableMotos: state.availableMotos,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

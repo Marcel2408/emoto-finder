@@ -4,27 +4,27 @@ export interface User {
   _id?: string;
   name?: string;
   password?: string;
-  lat?: number;
-  lng?: number;
-  favourites?: FavDest[];
+  latitude?: number;
+  longitude?: number;
+  favourites?: FavouriteDestination[];
 }
-export interface FavDest {
+export interface FavouriteDestination {
   label?: string;
   destination: string;
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
 }
 
-export interface CurrentDest {
+export interface CurrentDestination {
   destination?: string;
-  lat?: number;
-  lng?: number;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface CurrentTrip {
   _id?: number;
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
   moto_id: string;
   provider: {
     name: string;
@@ -36,8 +36,8 @@ export interface Moto {
   id: string;
   publicId: string;
   type: string;
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
   provider: {
     name: string;
   };
@@ -46,18 +46,18 @@ export interface Moto {
 
 export interface AppState {
   currentUser: User;
-  finalDestination?: CurrentDest;
+  finalDestination?: CurrentDestination;
   currentTrips?: CurrentTrip[];
-  avbMotos?: Moto[];
+  availableMotos?: Moto[];
 }
 
 // action constans
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
-export const SET_DEST = 'SET_DEST';
-export const LOAD_MAP = 'LOAD_MAP';
-export const CHANGE_CURRENT_DEST = 'CHANGE_CURRENT_DEST';
+export const SET_DESTINATION = 'SET_DESTINATION';
+export const LOAD_MOTOS = 'LOAD_MAP';
+export const CHANGE_CURRENT_DESTINATION = 'CHANGE_CURRENT_DESTINATION';
 export const ADD_FAVOURITE = 'ADD_FAVOURITE';
 export const DELETE_FAVOURITE = 'DELETE_FAVOURITE';
 export const BOOK_MOTO = 'BOOK_MOTO';
@@ -66,7 +66,7 @@ export const BOOK_MOTO = 'BOOK_MOTO';
 
 interface LoginUser {
   type: typeof LOGIN;
-  payload: AppState;
+  currentUser: AppState;
 }
 
 interface LogoutUser {
@@ -74,39 +74,38 @@ interface LogoutUser {
   payload: AppState;
 }
 
-interface SetDest {
-  type: typeof SET_DEST;
-  payload: { destination: string };
+interface SetDestination {
+  type: typeof SET_DESTINATION;
+  destination: { destination: string };
 }
 
-interface LoadMap {
-  type: typeof LOAD_MAP;
-  avbMotos: Moto[];
+interface LoadMotos {
+  type: typeof LOAD_MOTOS;
+  availableMotos: Moto[];
 }
 
-interface ChangeCurretnDest {
-  type: typeof CHANGE_CURRENT_DEST;
-  payload: CurrentDest;
+interface ChangeCurretnDestination {
+  type: typeof CHANGE_CURRENT_DESTINATION;
+  destination: CurrentDestination;
 }
 
-interface AddFav {
+interface AddFavourite {
   type: typeof ADD_FAVOURITE;
-  payload: FavDest[];
+  favourites: FavouriteDestination[];
 }
 
-interface DeleteFav {
+interface DeleteFavourite {
   type: typeof DELETE_FAVOURITE;
-  payload: FavDest[];
+  favourites: FavouriteDestination[];
 }
 
 interface BookMoto {
   type: typeof BOOK_MOTO;
-  payload: AppState;
 }
 
 // using TypeScript's Union Types here to express all possible actions
 
 export type LoginActionTypes = LoginUser | LogoutUser;
-export type DestActionTypes = SetDest | ChangeCurretnDest;
-export type FavActionTypes = AddFav | DeleteFav;
-export type MapActionTypes = LoadMap | BookMoto;
+export type DestinationActionTypes = SetDestination | ChangeCurretnDestination;
+export type FavouritesActionTypes = AddFavourite | DeleteFavourite;
+export type MapActionTypes = LoadMotos | BookMoto;

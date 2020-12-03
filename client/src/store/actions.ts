@@ -3,18 +3,18 @@ import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '.';
 import {
-  FavDest,
-  CurrentDest,
+  FavouriteDestination,
+  CurrentDestination,
   LOGIN,
   LOGOUT,
-  LOAD_MAP,
-  CHANGE_CURRENT_DEST,
+  LOAD_MOTOS,
+  CHANGE_CURRENT_DESTINATION,
   ADD_FAVOURITE,
   DELETE_FAVOURITE,
   BOOK_MOTO,
   LoginActionTypes,
-  DestActionTypes,
-  FavActionTypes,
+  DestinationActionTypes,
+  FavouritesActionTypes,
   MapActionTypes,
   AppState,
   User,
@@ -30,50 +30,47 @@ export function logoutUser(appState: AppState): LoginActionTypes {
   };
 }
 
-export function loadMap(motos: Moto[]): MapActionTypes {
+export function changeCurrentDestination(
+  destination: CurrentDestination
+): DestinationActionTypes {
   return {
-    type: LOAD_MAP,
-    avbMotos: motos,
+    type: CHANGE_CURRENT_DESTINATION,
+    destination,
   };
 }
 
-export function changeCurrentDest(destinaion: CurrentDest): DestActionTypes {
-  return {
-    type: CHANGE_CURRENT_DEST,
-    payload: destinaion,
-  };
-}
-
-export function addFavDest(favourites: FavDest[]): FavActionTypes {
+export function addFavouriteDestination(
+  favourites: FavouriteDestination[]
+): FavouritesActionTypes {
   return {
     type: ADD_FAVOURITE,
-    payload: favourites,
+    favourites,
   };
 }
 
-export function deleteFavDest(favourites: FavDest[]): FavActionTypes {
+export function deleteFavouriteDestination(
+  favourites: FavouriteDestination[]
+): FavouritesActionTypes {
   return {
     type: DELETE_FAVOURITE,
-    payload: favourites,
+    favourites,
   };
 }
 
 export function bookMoto(appState: AppState): MapActionTypes {
   return {
     type: BOOK_MOTO,
-    payload: appState,
   };
 }
 
 export function getAllMotos(): ThunkAction<void, RootState, unknown, Action> {
-  console.log('getAllMotos', process.abort);
   return (dispatch) => {
     axios
       .get(`${BASE_URL}/test`)
       .then((res) => {
         dispatch({
-          type: LOAD_MAP,
-          avbMotos: res.data,
+          type: LOAD_MOTOS,
+          availableMotos: res.data,
         });
       })
       .catch((err) => {
@@ -83,9 +80,7 @@ export function getAllMotos(): ThunkAction<void, RootState, unknown, Action> {
 }
 
 export function loginUser(): ThunkAction<void, RootState, unknown, Action> {
-  console.log('loginUser');
   return (dispatch) => {
-    console.log('dispatch');
     axios
       .post(`${BASE_URL}/test`)
       .then((res) => {
