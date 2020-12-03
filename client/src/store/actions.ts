@@ -66,10 +66,7 @@ export function bookMoto(appState: AppState): MapActionTypes {
 }
 
 export function getAllMotos(): ThunkAction<void, RootState, unknown, Action> {
-<<<<<<< HEAD
-=======
   console.log('getAllMotos', process.abort);
->>>>>>> feat/choseDest
   return (dispatch) => {
     axios
       .get(`${BASE_URL}/test`)
