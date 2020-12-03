@@ -1,53 +1,62 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+/* eslint-disable no-underscore-dangle */
+import React, { useState, useEffect, useRef } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../store';
 import { AppState, MapActionTypes } from '../store/types';
 
 
-interface ISelectDestinationProps {
-
-}
-
-
+interface ISelectDestinationProps {}
 
 export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
-  const [isLoading, setIsLoading] = useState(true);
+
+  const [isClicked, setIsClicked] = useState(false);
 
   const history = useHistory();
+  const user = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    setIsLoading(false);
-    console.log('AFTER LOGIN', userName);
-  });
+    console.log('AFTER LOGIN', user.favourites);
+  }, []);
 
-  const userName = useSelector((state: RootState) => state.user);
 
-  function handleCLick() {
+  function handleCLick(): void {
     console.log('to map');
     history.push('/map');
   }
 
-  if (isLoading) {
-    return <div>LOADING...</div>;
-  }
-
   return (
     <div>
-      <h1>{userName.name}</h1>
+      <h1>{user.name}</h1>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
         <h1>
           Chose destination
         </h1>
-        <div style={{ flexShrink: 0, width: '100%', paddingLeft: '65px' }}>
+        <div style={{ flexShrink: 0, width: '100%' }}>
           <form>
-            <input type="text" placeholder='Example: carrer Sant Miquel 7, Barcelona' style={{ width: '80%', height: '30px' }} />
-            <button
-              type='submit'
-              onClick={handleCLick}
-            >Take me there
-            </button>
+            <div onClickCapture={() => setIsClicked(true)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+              <input
+                type="text"
+                // ref={inputReference}
+                placeholder='Example: carrer Sant Miquel 7, Barcelona'
+                style={{ width: '80%', height: '30px' }}
+              />
+              {isClicked ? (
+                <div>
+                  <h2>Favoirites</h2>
+                  {user.favourites && user.favourites.map((favourite) => (
+                    <div key={favourite.label}>
+                      <p> Name: {favourite.label} </p>
+                      <p>Address: {favourite.destination}</p>
+                    </div>
+                  ))}
+                </div>) : null}
+              <button
+                type='submit'
+                onClick={handleCLick}
+              >Take me there
+              </button>
+            </div>
           </form>
         </div>
       </div>
