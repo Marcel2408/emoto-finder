@@ -8,13 +8,6 @@ export interface User {
   lng?: number;
   favourites?: FavDest[];
 }
-
-export interface CustomDest {
-  destination?: string;
-  lat?: number;
-  lng?: number;
-}
-
 export interface FavDest {
   label?: string;
   destination: string;
@@ -52,9 +45,8 @@ export interface Moto {
 }
 
 export interface AppState {
-  currentUser?: User;
+  currentUser: User;
   finalDestination?: CurrentDest;
-  customDestination?: CustomDest;
   currentTrips?: CurrentTrip[];
   avbMotos?: Moto[];
 }
@@ -63,8 +55,7 @@ export interface AppState {
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
-export const GET_CUSTOM_DEST = 'GET_CUSTOM_DEST';
-export const USE_FAVOURITE_DEST = 'USE_FAVOURITE_DEST';
+export const SET_DEST = 'SET_DEST';
 export const LOAD_MAP = 'LOAD_MAP';
 export const CHANGE_CURRENT_DEST = 'CHANGE_CURRENT_DEST';
 export const ADD_FAVOURITE = 'ADD_FAVOURITE';
@@ -83,14 +74,9 @@ interface LogoutUser {
   payload: AppState;
 }
 
-interface GetCustomDest {
-  type: typeof GET_CUSTOM_DEST;
-  payload: CustomDest;
-}
-
-interface UseFavDest {
-  type: typeof USE_FAVOURITE_DEST;
-  payload: FavDest;
+interface SetDest {
+  type: typeof SET_DEST;
+  payload: { destination: string };
 }
 
 interface LoadMap {
@@ -121,6 +107,6 @@ interface BookMoto {
 // using TypeScript's Union Types here to express all possible actions
 
 export type LoginActionTypes = LoginUser | LogoutUser;
-export type DestActionTypes = GetCustomDest | UseFavDest | ChangeCurretnDest;
+export type DestActionTypes = SetDest | ChangeCurretnDest;
 export type FavActionTypes = AddFav | DeleteFav;
 export type MapActionTypes = LoadMap | BookMoto;
