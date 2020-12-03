@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { RootState } from '../store';
 import { AppState, MapActionTypes } from '../store/types';
+
 
 interface ISelectDestinationProps {
 
@@ -13,12 +15,19 @@ interface ISelectDestinationProps {
 export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   const [isLoading, setIsLoading] = useState(true);
 
+  const history = useHistory();
+
   useEffect(() => {
     setIsLoading(false);
     console.log('AFTER LOGIN', userName);
   });
 
   const userName = useSelector((state: RootState) => state.user);
+
+  function handleCLick() {
+    console.log('to map');
+    history.push('/map');
+  }
 
   if (isLoading) {
     return <div>LOADING...</div>;
@@ -36,7 +45,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
             <input type="text" placeholder='Example: carrer Sant Miquel 7, Barcelona' style={{ width: '80%', height: '30px' }} />
             <button
               type='submit'
-              onClick={() => console.log('take me there')}
+              onClick={handleCLick}
             >Take me there
             </button>
           </form>
