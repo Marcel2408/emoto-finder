@@ -95,7 +95,7 @@ interface UseFavDest {
 
 interface LoadMap {
   type: typeof LOAD_MAP;
-  payload: Moto[];
+  avbMotos: Moto[];
 }
 
 interface ChangeCurretnDest {

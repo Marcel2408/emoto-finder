@@ -75,7 +75,7 @@ export function useFavDest(destinaion: FavDest): DestActionTypes {
 export function loadMap(motos: Moto[]): MapActionTypes {
   return {
     type: LOAD_MAP,
-    payload: motos,
+    avbMotos: motos,
   };
 }
 
@@ -108,9 +108,7 @@ export function bookMoto(appState: AppState): MapActionTypes {
 }
 
 export function getAllMotos(): ThunkAction<void, RootState, unknown, Action> {
-  console.log('getAllMotos');
   return (dispatch) => {
-    console.log('dispatch');
     axios
       .get(`${BASE_URL}/test`)
       .then((res) => {

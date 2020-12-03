@@ -100,7 +100,7 @@ export const showMap = (
     case LOAD_MAP: {
       return {
         ...state,
-        ...action.payload,
+        avbMotos: action.avbMotos,
       };
     }
     case BOOK_MOTO: {
