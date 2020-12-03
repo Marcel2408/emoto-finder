@@ -1,43 +1,66 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as React from 'react';
+import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Action } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import { RootState } from '../store';
 import { loginUser } from '../store/actions';
-import { AppState, LoginActionTypes } from '../store/types';
+import { AppState, LOGIN, User } from '../store/types';
 
 
 interface ILoginProps {}
 
 export const Login: React.FC<ILoginProps> = () => {
+  const [username, setUsername] = useState({ username: '' });
 
-
-  const dispatch: React.Dispatch<any> = useDispatch();
+  const dispatch: any = useDispatch();
   const history = useHistory();
 
-  function handleCLick(props: any): void {
-    console.log('login');
-    dispatch(loginUser());
+  function handleSubmit(event: any): void {
+    event.preventDefault();
+    // const newUserName = event.target.username.value;
+    // setUsername({ username: newUserName });
+    dispatch(loginUser(username));
+    console.log('submit');
     history.push('/destination');
+  }
 
+  function handleChange(event: any) {
+    setUsername({ username: event.target.value });
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-      <h1>
-        LOGIN
-      </h1>
-      <button onClick={handleCLick} type='submit'>LOGIN</button>
-      {}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%',
+          height: '100%'
+        }}
+      >
+        <h1>
+          LOGIN
+        </h1>
+        <input onChange={handleChange} type='text' name='username' placeholder='login' />
+        <input type='text' name='password' placeholder='password' />
+        <button
+          type='submit'
+        >LOGIN
+        </button>
+      </div>
+    </form>
   );
 };
 
 const mapStateToProps = (state: AppState) => ({
-  user: state.currentUser
+
 });
 
 const mapDispatchToProps = (dispatch: React.Dispatch<any>) => ({
-  loginUser: () => dispatch(loginUser())
+  loginUser: (username: User) => dispatch(loginUser(username))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
