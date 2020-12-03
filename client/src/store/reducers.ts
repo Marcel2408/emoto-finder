@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable no-param-reassign */
 import {
   AppState,
@@ -30,7 +31,7 @@ export const sessionReducer = (
     case LOGIN: {
       return {
         ...state,
-        ...action.currentUser,
+        ...action.username,
       };
     }
     case LOGOUT: {
