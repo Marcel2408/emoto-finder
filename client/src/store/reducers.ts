@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import {
   AppState,
   LOGIN,
@@ -90,10 +91,8 @@ export const motosReducer = (
 ): AppState['availableMotos'] => {
   switch (action.type) {
     case LOAD_MOTOS: {
-      return {
-        ...state,
-        ...action.availableMotos,
-      };
+      // eslint-disable-next-line no-return-assign
+      return (state = action.availableMotos);
     }
     case BOOK_MOTO: {
       return state;
