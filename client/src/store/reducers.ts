@@ -2,7 +2,6 @@
 /* eslint-disable no-param-reassign */
 import {
   AppState,
-  LOGIN,
   LOGOUT,
   LOAD_MOTOS,
   CHANGE_CURRENT_DESTINATION,
@@ -15,6 +14,7 @@ import {
   MapActionTypes,
   DestinationActionTypes,
   AUTHENTICATE_USER,
+  STORE_USER_DATA,
 } from './types';
 
 export const initialState: AppState = {
@@ -29,10 +29,10 @@ export const sessionReducer = (
   action: LoginActionTypes
 ): AppState['currentUser'] => {
   switch (action.type) {
-    case LOGIN: {
+    case STORE_USER_DATA: {
       return {
         ...state,
-        ...action.user,
+        ...action.userData,
       };
     }
     case AUTHENTICATE_USER: {

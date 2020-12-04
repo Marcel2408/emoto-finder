@@ -5,7 +5,7 @@ import { RootState } from '.';
 import {
   FavouriteDestination,
   CurrentDestination,
-  LOGIN,
+  STORE_USER_DATA,
   LOGOUT,
   LOAD_MOTOS,
   CHANGE_CURRENT_DESTINATION,
@@ -25,29 +25,31 @@ import {
 
 export const BASE_URL = 'http://localhost:4000';
 
-export function loginUser(
-  user: User
-): ThunkAction<void, RootState, unknown, Action> {
-  return (dispatch) => {
-    dispatch({
-      type: LOGIN,
-      user,
-    });
-  };
-}
-
 export function authenticateUser(username: string) {
   return (
     dispatch: (arg0: { type: string; isAuthenticated: boolean }) => void
   ) => {
     axios.post(`${BASE_URL}/user`, { username }).then((res) => {
-      console.log(
-        '🚀 ~ file: actions.ts -> axios.post to BASE/user -> res.data',
-        res.data
-      );
       dispatch({
         type: AUTHENTICATE_USER,
         isAuthenticated: res.data,
+      });
+    });
+  };
+}
+
+export function getUserData(userInfo: User) {
+  return (dispatch: (arg0: { type: string; userData: User }) => void) => {
+    console.log('starting getUserData >>>>>', userInfo);
+
+    axios.put(`${BASE_URL}/user/info`, { ...userInfo }).then((res) => {
+      console.log(
+        '🚀 ~ file: actions.ts ~ line 48 ~ axios.put ~ res.data',
+        res
+      );
+      dispatch({
+        type: STORE_USER_DATA,
+        userData: res.data,
       });
     });
   };

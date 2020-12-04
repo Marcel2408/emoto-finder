@@ -59,8 +59,8 @@ export interface AppState {
 
 // action constans
 
-export const LOGIN = 'LOGIN';
 export const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
+export const STORE_USER_DATA = 'STORE_USER_DATA';
 export const LOGOUT = 'LOGOUT';
 export const SET_DESTINATION = 'SET_DESTINATION';
 export const LOAD_MOTOS = 'LOAD_MAP';
@@ -71,9 +71,9 @@ export const BOOK_MOTO = 'BOOK_MOTO';
 
 // action shapes
 
-interface LoginUser {
-  type: typeof LOGIN;
-  user: User;
+interface GetUserData {
+  type: typeof STORE_USER_DATA;
+  userData: User;
 }
 
 interface AuthenticateUser {
@@ -117,7 +117,7 @@ interface BookMoto {
 
 // using TypeScript's Union Types here to express all possible actions
 
-export type LoginActionTypes = LoginUser | AuthenticateUser | LogoutUser;
+export type LoginActionTypes = GetUserData | AuthenticateUser | LogoutUser;
 export type DestinationActionTypes = SetDestination | ChangeCurretnDestination;
 export type FavouritesActionTypes = AddFavourite | DeleteFavourite;
 export type MapActionTypes = LoadMotos | BookMoto;

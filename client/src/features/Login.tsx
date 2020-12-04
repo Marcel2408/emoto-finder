@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store';
-import { authenticateUser, loginUser } from '../store/actions';
-import { AppState, CurrentUserLocation, LOGIN, User } from '../store/types';
+import { authenticateUser, getUserData } from '../store/actions';
+import { AppState, CurrentUserLocation, STORE_USER_DATA, User } from '../store/types';
 
 
 interface ILoginProps {}
@@ -18,12 +18,24 @@ export const Login: React.FC<ILoginProps> = () => {
 
   const dispatch: any = useDispatch();
   const history = useHistory();
+  const isUserAuthenticated = useSelector((state: RootState) =>
+    state.user.isAuthenticated);
+
 
 
   useEffect(() => {
     console.log('location>>>>', locationInfo);
-
   });
+
+  useEffect(() => {
+    if (isUserAuthenticated) {
+      dispatch(getUserData({
+        username,
+        latitude: 10,
+        longitude: 10
+      }));
+    }
+  }, [isUserAuthenticated]);
 
   function getUserLocation() {
     const userLocation = {
@@ -46,8 +58,11 @@ export const Login: React.FC<ILoginProps> = () => {
   function handleSubmit(event: any): void {
     event.preventDefault();
     dispatch(authenticateUser(username));
-    // dispatch(loginUser({ username }));
-
+    // setTimeout(() => dispatch(getUserData({
+    //   username,
+    //   latitude: 0,
+    //   longitude: 0
+    // })), 100);
     console.log('submit');
     // history.push('/destination');
   }
@@ -98,7 +113,9 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: React.Dispatch<any>) => ({
-  loginUser: (username: User) => dispatch(loginUser(username))
+  getUserData: (userData: User) => dispatch(getUserData(userData)),
+  authenticateUser: (username: string) => dispatch(authenticateUser(username)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
