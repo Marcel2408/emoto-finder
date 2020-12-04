@@ -48,6 +48,13 @@ export function getUserData(
   };
 }
 
+export function storeUserLocation(userInfo: User): UserActionTypes {
+  return {
+    type: STORE_USER_DATA,
+    userData: userInfo,
+  };
+}
+
 export function updateFavouriteDestination(
   userId: string,
   newFavourites: FavouriteDestination[]
@@ -100,7 +107,7 @@ export function getAllMotos(): ThunkAction<void, RootState, unknown, Action> {
     axios
       .post(`${BASE_URL}/map`, {
         username: 'Ewa',
-        address: 'Carrer del Marquès de Sentmenat, 75, 08029 Barcelona',
+        destination: 'Carrer del Marquès de Sentmenat, 75, 08029 Barcelona',
       })
       .then((res) => {
         dispatch({

@@ -25,6 +25,7 @@ export const initialState: AppState = {
     favourites: [],
   },
   finalDestination: {
+    destination: '',
     latitude: 0,
     longitude: 0,
   },
