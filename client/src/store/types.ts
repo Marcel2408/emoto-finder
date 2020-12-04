@@ -2,7 +2,7 @@
 
 export interface User {
   _id?: string;
-  name?: string;
+  username?: string;
   password?: string;
   latitude?: number;
   longitude?: number;
@@ -66,7 +66,7 @@ export const BOOK_MOTO = 'BOOK_MOTO';
 
 interface LoginUser {
   type: typeof LOGIN;
-  currentUser: AppState;
+  username: User;
 }
 
 interface LogoutUser {
@@ -76,7 +76,7 @@ interface LogoutUser {
 
 interface SetDestination {
   type: typeof SET_DESTINATION;
-  destination: { destination: string };
+  destination: CurrentDestination;
 }
 
 interface LoadMotos {
