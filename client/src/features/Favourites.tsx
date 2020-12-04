@@ -1,10 +1,10 @@
 import { Button } from '@material-ui/core';
 import * as React from 'react';
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../store';
-import { addFavouriteDestination } from '../store/actions';
+import { updateFavouriteDestination } from '../store/actions';
 import { AppState, FavouriteDestination } from '../store/types';
 
 interface IFavouritesProps {}
@@ -12,24 +12,32 @@ interface IFavouritesProps {}
 export const Favourites: React.FC<IFavouritesProps> = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [labelDestination, setLabelDestination] = useState('');
-  const [currentDestination, setCurrentDestination] = useState(
-    "Carrer d'Avila 27, Barcelona"
-  );
+  const [label, setLabel] = useState('');
 
-  const favourites = useSelector((state: RootState) => state.user.favourites);
+  const user = useSelector((state: RootState) => state.user);
+  const destination = useSelector(
+    (state: RootState) => state.destination.destination
+  );
+  // eslint-disable-next-line no-underscore-dangle
+  const userId = user._id;
+
+  let newFavourites: FavouriteDestination[] = [];
+  if (user.favourites.length === 0) {
+    // eslint-disable-next-line no-const-assign
+    newFavourites = [...user.favourites];
+  } else {
+    newFavourites = [...user.favourites];
+  }
 
   const handleLabelClick = () => {
-    console.log('SUBMIT');
+    newFavourites.push({ label, destination });
+    dispatch(updateFavouriteDestination(userId, newFavourites));
+  };
 
-    dispatch(
-      addFavouriteDestination({
-        label: labelDestination,
-        destination: currentDestination,
-        latitude: 0,
-        longitude: 0,
-      })
-    );
+  const handleInputLabel = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setLabel(e.target.value);
   };
 
   return (
@@ -41,12 +49,12 @@ export const Favourites: React.FC<IFavouritesProps> = () => {
             id="label"
             type="text"
             placeholder="name destination..."
-            onChange={(e) => setLabelDestination(e.target.value)}
+            onChange={handleInputLabel}
           />
         </div>
         <div>
           <h3>Address</h3>
-          <input id="label" type="text" placeholder={currentDestination} />
+          <input id="label" type="text" placeholder={destination} />
         </div>
         <Button
           onClick={handleLabelClick}
@@ -57,8 +65,8 @@ export const Favourites: React.FC<IFavouritesProps> = () => {
           SAVE
         </Button>
       </form>
-      {favourites?.map((favoriteDestination) => (
-        <div key={favoriteDestination.latitude}>
+      {newFavourites?.map((favoriteDestination) => (
+        <div key={favoriteDestination.label}>
           <h2>{favoriteDestination.label}</h2>
           <p>{favoriteDestination.destination}</p>
         </div>

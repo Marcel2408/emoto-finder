@@ -54,7 +54,9 @@ export function updateFavouriteDestination(
 ): ThunkAction<void, RootState, unknown, Action> {
   return (dispatch) => {
     axios
-      .put(`${BASE_URL}/user/favourites/${userId}`, { newFavourites })
+      .put(`${BASE_URL}/user/favourites/${userId}`, {
+        favourites: newFavourites,
+      })
       .then(() => {
         dispatch({
           type: UPDATE_FAVOURITES,
@@ -100,7 +102,7 @@ export function getAllMotos(): ThunkAction<void, RootState, unknown, Action> {
     axios
       .post(`${BASE_URL}/map`, {
         username: 'Ewa',
-        address: 'Carrer del Marquès de Sentmenat, 75, 08029 Barcelona',
+        destination: 'Carrer del Marquès de Sentmenat, 75, 08029 Barcelona',
       })
       .then((res) => {
         dispatch({
