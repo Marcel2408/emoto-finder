@@ -23,8 +23,8 @@ import HamburgerMenu from './HamburgerMenu';
 
 interface IMapProps {}
 const currentCoordinates = {
-  latitude: 41.388322990209986,
-  longitude: 2.1674086563622703,
+  latitude: 41.38078806455369,
+  longitude: 2.1417923975515394,
 };
 
 export const Map: React.FC<IMapProps> = (props) => {
@@ -47,8 +47,8 @@ export const Map: React.FC<IMapProps> = (props) => {
   const [viewport, setViewport] = useState({
     width: 414,
     height: 736,
-    latitude: 41.388322990209986,
-    longitude: 2.1674086563622703,
+    latitude: 41.38078806455369,
+    longitude: 2.1417923975515394,
     zoom: 16,
   });
 
