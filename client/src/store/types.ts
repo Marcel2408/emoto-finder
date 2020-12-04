@@ -1,6 +1,7 @@
 // global interfaces
 
 export interface User {
+  isAuthenticated?: boolean;
   _id?: string;
   username?: string;
   password?: string;
@@ -19,6 +20,11 @@ export interface CurrentDestination {
   destination?: string;
   latitude?: number;
   longitude?: number;
+}
+
+export interface CurrentUserLocation {
+  latitude: number;
+  longitude: number;
 }
 
 export interface CurrentTrip {
@@ -54,6 +60,7 @@ export interface AppState {
 // action constans
 
 export const LOGIN = 'LOGIN';
+export const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
 export const LOGOUT = 'LOGOUT';
 export const SET_DESTINATION = 'SET_DESTINATION';
 export const LOAD_MOTOS = 'LOAD_MAP';
@@ -66,7 +73,12 @@ export const BOOK_MOTO = 'BOOK_MOTO';
 
 interface LoginUser {
   type: typeof LOGIN;
-  username: User;
+  user: User;
+}
+
+interface AuthenticateUser {
+  type: typeof AUTHENTICATE_USER;
+  isAuthenticated: User['isAuthenticated'];
 }
 
 interface LogoutUser {
@@ -105,7 +117,7 @@ interface BookMoto {
 
 // using TypeScript's Union Types here to express all possible actions
 
-export type LoginActionTypes = LoginUser | LogoutUser;
+export type LoginActionTypes = LoginUser | AuthenticateUser | LogoutUser;
 export type DestinationActionTypes = SetDestination | ChangeCurretnDestination;
 export type FavouritesActionTypes = AddFavourite | DeleteFavourite;
 export type MapActionTypes = LoadMotos | BookMoto;

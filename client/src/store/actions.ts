@@ -20,26 +20,36 @@ import {
   User,
   Moto,
   SET_DESTINATION,
+  AUTHENTICATE_USER,
 } from './types';
 
 export const BASE_URL = 'http://localhost:4000';
 
 export function loginUser(
-  username: User
+  user: User
 ): ThunkAction<void, RootState, unknown, Action> {
   return (dispatch) => {
     dispatch({
       type: LOGIN,
-      username,
+      user,
     });
-    axios
-      .post(`${BASE_URL}`, { username: 'null' })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
+  };
+}
+
+export function authenticateUser(username: string) {
+  return (
+    dispatch: (arg0: { type: string; isAuthenticated: boolean }) => void
+  ) => {
+    axios.post(`${BASE_URL}/user`, { username }).then((res) => {
+      console.log(
+        '🚀 ~ file: actions.ts -> axios.post to BASE/user -> res.data',
+        res.data
+      );
+      dispatch({
+        type: AUTHENTICATE_USER,
+        isAuthenticated: res.data,
       });
+    });
   };
 }
 

@@ -14,6 +14,7 @@ import {
   FavouritesActionTypes,
   MapActionTypes,
   DestinationActionTypes,
+  AUTHENTICATE_USER,
 } from './types';
 
 export const initialState: AppState = {
@@ -31,7 +32,13 @@ export const sessionReducer = (
     case LOGIN: {
       return {
         ...state,
-        ...action.username,
+        ...action.user,
+      };
+    }
+    case AUTHENTICATE_USER: {
+      return {
+        ...state,
+        isAuthenticated: action.isAuthenticated,
       };
     }
     case LOGOUT: {

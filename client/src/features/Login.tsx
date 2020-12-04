@@ -1,33 +1,68 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store';
-import { loginUser } from '../store/actions';
-import { AppState, LOGIN, User } from '../store/types';
+import { authenticateUser, loginUser } from '../store/actions';
+import { AppState, CurrentUserLocation, LOGIN, User } from '../store/types';
 
 
 interface ILoginProps {}
 
 export const Login: React.FC<ILoginProps> = () => {
-  const [username, setUsername] = useState({ username: '' });
+  const [username, setUsername] = useState('');
+  const [locationInfo, setLocationInfo] = useState(false);
+
 
   const dispatch: any = useDispatch();
   const history = useHistory();
 
-  function handleSubmit(event: any): void {
-    event.preventDefault();
-    // const newUserName = event.target.username.value;
-    // setUsername({ username: newUserName });
-    dispatch(loginUser(username));
-    console.log('submit');
-    history.push('/destination');
+
+  useEffect(() => {
+    console.log('location>>>>', locationInfo);
+
+  });
+
+  function getUserLocation() {
+    const userLocation = {
+      latitude: 0,
+      longitude: 0
+    };
+    navigator.geolocation.getCurrentPosition(function (location) {
+      console.log('LAT: ', location.coords.latitude);
+      console.log('LONG: ', location.coords.longitude);
+
+    });
+    console.log('inside gerUserLOc', userLocation);
+    // setLocationInfo({
+    //   ...locationInfo,
+    //   latitude: userLocation.latitude,
+    //   longitude: userLocation.longitude
+    // });
   }
 
-  function handleChange(event: any) {
-    setUsername({ username: event.target.value });
+  function handleSubmit(event: any): void {
+    event.preventDefault();
+    dispatch(authenticateUser(username));
+    // dispatch(loginUser({ username }));
+
+    console.log('submit');
+    // history.push('/destination');
+  }
+
+  function handleUsernameChange(event: any) {
+    setUsername(event.target.value);
+  }
+
+  function handleLocationPermissionChange(event: any) {
+    setLocationInfo(event.target.checked);
+    navigator.geolocation.getCurrentPosition((location) => {
+      console.log('LAT: ', location.coords.latitude);
+      console.log('LONG: ', location.coords.longitude);
+
+    });
   }
 
   return (
@@ -44,8 +79,11 @@ export const Login: React.FC<ILoginProps> = () => {
         <h1>
           LOGIN
         </h1>
-        <input onChange={handleChange} type='text' name='username' placeholder='login' />
+        <input onChange={handleUsernameChange} type='text' name='username' placeholder='login' />
         <input type='text' name='password' placeholder='password' />
+        <label htmlFor='geo-location'> Allow location services
+          <input onChange={handleLocationPermissionChange} type='checkbox' name='geo-location' />
+        </label>
         <button
           type='submit'
         >LOGIN
