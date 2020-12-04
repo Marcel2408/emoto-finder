@@ -40,22 +40,22 @@ export function changeCurrentDestination(
 }
 
 export function addFavouriteDestination(
-  favourites: FavouriteDestination[]
+  favourite: FavouriteDestination
 ): FavouritesActionTypes {
   return {
     type: ADD_FAVOURITE,
-    favourites,
+    favourite,
   };
 }
 
-export function deleteFavouriteDestination(
-  favourites: FavouriteDestination[]
-): FavouritesActionTypes {
-  return {
-    type: DELETE_FAVOURITE,
-    favourites,
-  };
-}
+// export function deleteFavouriteDestination(
+//   favourites: FavouriteDestination
+// ): FavouritesActionTypes {
+//   return {
+//     type: DELETE_FAVOURITE,
+//     favourite,
+//   };
+// }
 
 export function bookMoto(appState: AppState): MapActionTypes {
   return {

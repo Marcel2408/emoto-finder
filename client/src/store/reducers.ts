@@ -16,7 +16,7 @@ import {
 } from './types';
 
 export const initialState: AppState = {
-  currentUser: {},
+  currentUser: { favourites: [] },
   finalDestination: {},
   currentTrips: [],
   availableMotos: [],
@@ -63,22 +63,19 @@ export const destinationReducer = (
 };
 
 export const favouritesReducer = (
-  state = initialState.currentUser,
+  state = initialState.currentUser.favourites,
   action: FavouritesActionTypes
-): AppState['currentUser'] => {
+): AppState['currentUser']['favourites'] => {
   switch (action.type) {
     case ADD_FAVOURITE: {
-      return {
-        ...state,
-        ...action.favourites,
-      };
+      return [...(state || []), action.favourite];
     }
-    case DELETE_FAVOURITE: {
-      return {
-        ...state,
-        ...action.favourites,
-      };
-    }
+    // case DELETE_FAVOURITE: {
+    //   return {
+    //     ...state,
+    //     ...action.favourite,
+    //   };
+    // }
 
     default:
       return state;

@@ -91,12 +91,12 @@ interface ChangeCurretnDestination {
 
 interface AddFavourite {
   type: typeof ADD_FAVOURITE;
-  favourites: FavouriteDestination[];
+  favourite: FavouriteDestination;
 }
 
 interface DeleteFavourite {
   type: typeof DELETE_FAVOURITE;
-  favourites: FavouriteDestination[];
+  favourite: FavouriteDestination;
 }
 
 interface BookMoto {
