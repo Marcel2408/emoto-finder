@@ -12,8 +12,6 @@ export interface User {
 export interface FavouriteDestination {
   label?: string;
   destination: string;
-  latitude: number;
-  longitude: number;
 }
 
 export interface CurrentDestination {
@@ -65,8 +63,7 @@ export const LOGOUT = 'LOGOUT';
 export const SET_DESTINATION = 'SET_DESTINATION';
 export const LOAD_MOTOS = 'LOAD_MAP';
 export const CHANGE_CURRENT_DESTINATION = 'CHANGE_CURRENT_DESTINATION';
-export const ADD_FAVOURITE = 'ADD_FAVOURITE';
-export const DELETE_FAVOURITE = 'DELETE_FAVOURITE';
+export const UPDATE_FAVOURITES = 'UPDATE_FAVOURITES';
 export const BOOK_MOTO = 'BOOK_MOTO';
 
 // action shapes
@@ -101,14 +98,9 @@ interface ChangeCurretnDestination {
   destination: CurrentDestination;
 }
 
-interface AddFavourite {
-  type: typeof ADD_FAVOURITE;
-  favourite: FavouriteDestination;
-}
-
-interface DeleteFavourite {
-  type: typeof DELETE_FAVOURITE;
-  favourite: FavouriteDestination;
+interface UpdateFavourites {
+  type: typeof UPDATE_FAVOURITES;
+  favourites: FavouriteDestination[];
 }
 
 interface BookMoto {
@@ -117,7 +109,11 @@ interface BookMoto {
 
 // using TypeScript's Union Types here to express all possible actions
 
-export type LoginActionTypes = GetUserData | AuthenticateUser | LogoutUser;
+export type UserActionTypes =
+  | GetUserData
+  | AuthenticateUser
+  | LogoutUser
+  | UpdateFavourites;
+
 export type DestinationActionTypes = SetDestination | ChangeCurretnDestination;
-export type FavouritesActionTypes = AddFavourite | DeleteFavourite;
 export type MapActionTypes = LoadMotos | BookMoto;

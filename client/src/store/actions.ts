@@ -3,32 +3,29 @@ import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '.';
 import {
-  FavouriteDestination,
   CurrentDestination,
   STORE_USER_DATA,
   LOGOUT,
   LOAD_MOTOS,
   CHANGE_CURRENT_DESTINATION,
-  ADD_FAVOURITE,
-  DELETE_FAVOURITE,
   BOOK_MOTO,
-  LoginActionTypes,
+  SET_DESTINATION,
+  AUTHENTICATE_USER,
+  UserActionTypes,
   DestinationActionTypes,
-  FavouritesActionTypes,
   MapActionTypes,
   AppState,
   User,
-  Moto,
-  SET_DESTINATION,
-  AUTHENTICATE_USER,
+  FavouriteDestination,
+  UPDATE_FAVOURITES,
 } from './types';
 
 export const BASE_URL = 'http://localhost:4000';
 
-export function authenticateUser(username: string) {
-  return (
-    dispatch: (arg0: { type: string; isAuthenticated: boolean }) => void
-  ) => {
+export function authenticateUser(
+  username: string
+): ThunkAction<void, RootState, unknown, Action> {
+  return (dispatch) => {
     axios.post(`${BASE_URL}/user`, { username }).then((res) => {
       dispatch({
         type: AUTHENTICATE_USER,
@@ -38,15 +35,11 @@ export function authenticateUser(username: string) {
   };
 }
 
-export function getUserData(userInfo: User) {
-  return (dispatch: (arg0: { type: string; userData: User }) => void) => {
-    console.log('starting getUserData >>>>>', userInfo);
-
+export function getUserData(
+  userInfo: User
+): ThunkAction<void, RootState, unknown, Action> {
+  return (dispatch) => {
     axios.put(`${BASE_URL}/user/info`, { ...userInfo }).then((res) => {
-      console.log(
-        '🚀 ~ file: actions.ts ~ line 48 ~ axios.put ~ res.data',
-        res
-      );
       dispatch({
         type: STORE_USER_DATA,
         userData: res.data,
@@ -55,7 +48,23 @@ export function getUserData(userInfo: User) {
   };
 }
 
-export function logoutUser(appState: AppState): LoginActionTypes {
+export function updateFavouriteDestination(
+  userId: string,
+  newFavourites: FavouriteDestination[]
+): ThunkAction<void, RootState, unknown, Action> {
+  return (dispatch) => {
+    axios
+      .put(`${BASE_URL}/user/favourites/${userId}`, { newFavourites })
+      .then(() => {
+        dispatch({
+          type: UPDATE_FAVOURITES,
+          favourites: newFavourites,
+        });
+      });
+  };
+}
+
+export function logoutUser(appState: AppState): UserActionTypes {
   return {
     type: LOGOUT,
     payload: appState,
@@ -79,24 +88,6 @@ export function changeCurrentDestination(
     destination,
   };
 }
-
-export function addFavouriteDestination(
-  favourite: FavouriteDestination
-): FavouritesActionTypes {
-  return {
-    type: ADD_FAVOURITE,
-    favourite,
-  };
-}
-
-// export function deleteFavouriteDestination(
-//   favourites: FavouriteDestination
-// ): FavouritesActionTypes {
-//   return {
-//     type: DELETE_FAVOURITE,
-//     favourite,
-//   };
-// }
 
 export function bookMoto(appState: AppState): MapActionTypes {
   return {

@@ -4,28 +4,37 @@ import {
   LOGOUT,
   LOAD_MOTOS,
   CHANGE_CURRENT_DESTINATION,
-  ADD_FAVOURITE,
-  DELETE_FAVOURITE,
   BOOK_MOTO,
   SET_DESTINATION,
-  LoginActionTypes,
-  FavouritesActionTypes,
+  UserActionTypes,
   MapActionTypes,
   DestinationActionTypes,
   STORE_USER_DATA,
   AUTHENTICATE_USER,
+  UPDATE_FAVOURITES,
 } from './types';
 
 export const initialState: AppState = {
-  currentUser: { favourites: [] },
-  finalDestination: {},
+  currentUser: {
+    isAuthenticated: false,
+    _id: '',
+    username: '',
+    password: '',
+    latitude: 0,
+    longitude: 0,
+    favourites: [],
+  },
+  finalDestination: {
+    latitude: 0,
+    longitude: 0,
+  },
   currentTrips: [],
   availableMotos: [],
 };
 
-export const sessionReducer = (
+export const userReducer = (
   state = initialState.currentUser,
-  action: LoginActionTypes
+  action: UserActionTypes
 ): AppState['currentUser'] => {
   switch (action.type) {
     case STORE_USER_DATA: {
@@ -40,8 +49,11 @@ export const sessionReducer = (
         isAuthenticated: action.isAuthenticated,
       };
     }
-    case LOGOUT: {
-      return state;
+    case UPDATE_FAVOURITES: {
+      return {
+        ...state,
+        favourites: action.favourites,
+      };
     }
     default:
       return state;
@@ -64,26 +76,6 @@ export const destinationReducer = (
       state = {};
       return state;
     }
-    default:
-      return state;
-  }
-};
-
-export const favouritesReducer = (
-  state = initialState.currentUser.favourites,
-  action: FavouritesActionTypes
-): AppState['currentUser']['favourites'] => {
-  switch (action.type) {
-    case ADD_FAVOURITE: {
-      return [...(state || []), action.favourite];
-    }
-    // case DELETE_FAVOURITE: {
-    //   return {
-    //     ...state,
-    //     ...action.favourite,
-    //   };
-    // }
-
     default:
       return state;
   }
