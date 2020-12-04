@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../store';
-import { setCurrentDestination } from '../store/actions';
+import { getUserData, setCurrentDestination } from '../store/actions';
 import { AppState, MapActionTypes } from '../store/types';
 
+// todo on useEffect I'm sending {username, current location of user}
 
 interface ISelectDestinationProps {}
 
@@ -13,9 +14,8 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
 
   const [isFromClicked, setIsFromClicked] = useState(false);
   const [isOKClicked, setIsOKClicked] = useState(false);
-  const [isSubmited, setIsSybmited] = useState(false);
+  const [isSubmited, setIsSubmited] = useState(false);
   const [newDestination, setNewDestination] = useState('');
-
 
   const history = useHistory();
   const user = useSelector((state: RootState) => state.user);
@@ -23,24 +23,14 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   const dispatch = useDispatch();
   const inputFields = document.getElementsByTagName('input');
 
-
-
   useEffect(() => {
-
-    console.log('AFTER LOGIN', user.favourites);
-
+    dispatch(getUserData({ ...user }));
   }, []);
 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleSubmit(event: any): void {
     event.preventDefault();
-    console.log('to map');
-    dispatch(setCurrentDestination({
-      destination: newDestination,
-      latitude: user.latitude,
-      longitude: user.longitude
-    }));
     history.push('/map');
   }
 
@@ -55,7 +45,6 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
     setIsOKClicked(!isOKClicked);
     inputFields[0].value = '';
     inputFields[0].disabled = true;
-
   }
 
   function handleChangeClick(): void {

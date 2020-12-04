@@ -2,20 +2,21 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Action } from 'redux';
-import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store';
-import { authenticateUser, getUserData } from '../store/actions';
-import { AppState, CurrentUserLocation, STORE_USER_DATA, User } from '../store/types';
+import { authenticateUser, getUserData, storeUserLocation } from '../store/actions';
+import { AppState, STORE_USER_DATA, User } from '../store/types';
 
 
 interface ILoginProps {}
 
 export const Login: React.FC<ILoginProps> = () => {
   const [username, setUsername] = useState('');
-  const [locationInfo, setLocationInfo] = useState(false);
   const [password, setPassword] = useState('');
-
+  const [locationPermission, setLocationPermission] = useState(false);
+  const [userLocation, setUserLocation] = useState({
+    latitude: 0,
+    longitude: 0
+  });
 
   const dispatch: any = useDispatch();
   const history = useHistory();
@@ -23,51 +24,37 @@ export const Login: React.FC<ILoginProps> = () => {
     state.user.isAuthenticated);
 
 
-
   useEffect(() => {
-    console.log('location>>>>', locationInfo);
-  }, []);
+    locationPermission ?
+      getUserLocation() : console.log('location permission denied');
+  }, [locationPermission]);
 
   useEffect(() => {
     if (isUserAuthenticated) {
-      dispatch(getUserData({
-        username,
-        latitude: 41.38078806455369,
-        longitude: 2.1417923975515394,
-      }));
+      dispatch(storeUserLocation(userLocation));
       history.push('/destination');
     }
-
   }, [isUserAuthenticated]);
 
   function getUserLocation() {
-    const userLocation = {
-      latitude: 0,
-      longitude: 0
-    };
-    navigator.geolocation.getCurrentPosition(function (location) {
+    navigator.geolocation.getCurrentPosition((location) => {
       console.log('LAT: ', location.coords.latitude);
       console.log('LONG: ', location.coords.longitude);
 
+      setUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+      });
     });
-    console.log('inside gerUserLOc', userLocation);
-    // setLocationInfo({
-    //   ...locationInfo,
-    //   latitude: userLocation.latitude,
-    //   longitude: userLocation.longitude
-    // });
   }
 
   function handleSubmit(event: any): void {
     event.preventDefault();
+    dispatch({
+      type: STORE_USER_DATA,
+      userData: { username, password }
+    });
     dispatch(authenticateUser(username));
-    // setTimeout(() => dispatch(getUserData({
-    //   username,
-    //   latitude: 0,
-    //   longitude: 0
-    // })), 100);
-    console.log('submit');
-
   }
 
   function handleUsernameChange(event: any) {
@@ -76,17 +63,10 @@ export const Login: React.FC<ILoginProps> = () => {
 
   function handlePasswordChange(event: any) {
     setPassword(event.target.value);
-    console.log('🚀 ~ file: Login.tsx ~ line 28 ~ password', password);
-
   }
 
   function handleLocationPermissionChange(event: any) {
-    setLocationInfo(event.target.checked);
-    navigator.geolocation.getCurrentPosition((location) => {
-      console.log('LAT: ', location.coords.latitude);
-      console.log('LONG: ', location.coords.longitude);
-
-    });
+    setLocationPermission(event.target.checked);
   }
 
   return (
@@ -103,10 +83,27 @@ export const Login: React.FC<ILoginProps> = () => {
         <h1>
           LOGIN
         </h1>
-        <input onChange={handleUsernameChange} type='text' name='username' placeholder='login' />
-        <input onChange={handlePasswordChange} type='password' name='password' placeholder='password' />
-        <label htmlFor='geo-location'> Allow location services
-          <input onChange={handleLocationPermissionChange} type='checkbox' name='geo-location' />
+        <input
+          onChange={handleUsernameChange}
+          type='text'
+          name='username'
+          placeholder='login'
+        />
+        <input
+          onChange={handlePasswordChange}
+          type='password'
+          name='password'
+          placeholder='password'
+        />
+        <label
+          htmlFor='geo-location'
+        > Allow location services
+          <input
+            onChange={handleLocationPermissionChange}
+            type='checkbox'
+            name='geo-location'
+            required={true}
+          />
         </label>
         <button
           type='submit'

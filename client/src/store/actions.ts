@@ -48,6 +48,13 @@ export function getUserData(
   };
 }
 
+export function storeUserLocation(userInfo: User): UserActionTypes {
+  return {
+    type: STORE_USER_DATA,
+    userData: userInfo,
+  };
+}
+
 export function updateFavouriteDestination(
   userId: string,
   newFavourites: FavouriteDestination[]
