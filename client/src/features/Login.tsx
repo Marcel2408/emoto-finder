@@ -14,6 +14,7 @@ interface ILoginProps {}
 export const Login: React.FC<ILoginProps> = () => {
   const [username, setUsername] = useState('');
   const [locationInfo, setLocationInfo] = useState(false);
+  const [password, setPassword] = useState('');
 
 
   const dispatch: any = useDispatch();
@@ -25,16 +26,18 @@ export const Login: React.FC<ILoginProps> = () => {
 
   useEffect(() => {
     console.log('location>>>>', locationInfo);
-  });
+  }, []);
 
   useEffect(() => {
     if (isUserAuthenticated) {
       dispatch(getUserData({
         username,
-        latitude: 10,
-        longitude: 10
+        latitude: 41.38078806455369,
+        longitude: 2.1417923975515394,
       }));
+      history.push('/destination');
     }
+
   }, [isUserAuthenticated]);
 
   function getUserLocation() {
@@ -64,11 +67,17 @@ export const Login: React.FC<ILoginProps> = () => {
     //   longitude: 0
     // })), 100);
     console.log('submit');
-    // history.push('/destination');
+
   }
 
   function handleUsernameChange(event: any) {
     setUsername(event.target.value);
+  }
+
+  function handlePasswordChange(event: any) {
+    setPassword(event.target.value);
+    console.log('🚀 ~ file: Login.tsx ~ line 28 ~ password', password);
+
   }
 
   function handleLocationPermissionChange(event: any) {
@@ -95,7 +104,7 @@ export const Login: React.FC<ILoginProps> = () => {
           LOGIN
         </h1>
         <input onChange={handleUsernameChange} type='text' name='username' placeholder='login' />
-        <input type='text' name='password' placeholder='password' />
+        <input onChange={handlePasswordChange} type='password' name='password' placeholder='password' />
         <label htmlFor='geo-location'> Allow location services
           <input onChange={handleLocationPermissionChange} type='checkbox' name='geo-location' />
         </label>

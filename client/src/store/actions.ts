@@ -107,7 +107,10 @@ export function bookMoto(appState: AppState): MapActionTypes {
 export function getAllMotos(): ThunkAction<void, RootState, unknown, Action> {
   return (dispatch) => {
     axios
-      .get(`${BASE_URL}/test`)
+      .post(`${BASE_URL}/map`, {
+        username: 'Ewa',
+        address: 'Carrer del Marquès de Sentmenat, 75, 08029 Barcelona',
+      })
       .then((res) => {
         dispatch({
           type: LOAD_MOTOS,

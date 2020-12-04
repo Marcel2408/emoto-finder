@@ -16,14 +16,19 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   const [isSubmited, setIsSybmited] = useState(false);
   const [newDestination, setNewDestination] = useState('');
 
+
   const history = useHistory();
   const user = useSelector((state: RootState) => state.user);
   const destination = useSelector((state: RootState) => state.destination);
   const dispatch = useDispatch();
   const inputFields = document.getElementsByTagName('input');
 
+
+
   useEffect(() => {
+
     console.log('AFTER LOGIN', user.favourites);
+
   }, []);
 
 
@@ -82,7 +87,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
         }}
       >
         <h1>
-          Chose destination
+          Choose destination
         </h1>
         <div
           style={{
@@ -118,7 +123,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
               </button>
               {isFromClicked ? (
                 <div>
-                  <h2>Favoirites</h2>
+                  <h2>Favourites</h2>
                   {user.favourites && user.favourites.map((favourite) => (
                     <div key={favourite.label}>
                       <h3>{favourite.label}</h3>
@@ -150,6 +155,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
           }}
         >
           <button
+            onClick={() => history.push('/map')}
             type='submit'
           >Take me there
           </button>
