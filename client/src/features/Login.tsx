@@ -31,7 +31,6 @@ export const Login: React.FC<ILoginProps> = () => {
 
   useEffect(() => {
     if (isUserAuthenticated) {
-      dispatch(getUserData({ username, ...userLocation }));
       dispatch(storeUserLocation(userLocation));
       history.push('/destination');
     }
