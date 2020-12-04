@@ -1,31 +1,40 @@
 import { Button } from '@material-ui/core';
 import * as React from 'react';
 import { FormEvent, useState } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../store';
-import { AppState } from '../store/types';
+import { addFavouriteDestination } from '../store/actions';
+import { AppState, FavouriteDestination } from '../store/types';
 
 interface IFavouritesProps {}
-const currentDestination = "Carrer d'Avila 27, Barcelona";
 
 export const Favourites: React.FC<IFavouritesProps> = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [labelDestination, setLabelDestination] = useState('');
-
-  const favoriteDestinations = useSelector(
-    (state: RootState) => state.user.favourites
+  const [currentDestination, setCurrentDestination] = useState(
+    "Carrer d'Avila 27, Barcelona"
   );
-  const STATE = useSelector((state: RootState) => state);
-  console.log('STATE>>>', STATE);
 
-  const handleLabelSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const favourites = useSelector((state: RootState) => state.user.favourites);
+
+  const handleLabelClick = () => {
+    console.log('SUBMIT');
+
+    dispatch(
+      addFavouriteDestination({
+        label: labelDestination,
+        destination: currentDestination,
+        latitude: 0,
+        longitude: 0,
+      })
+    );
   };
 
   return (
     <>
-      <form onSubmit={handleLabelSubmit}>
+      <form>
         <div>
           <h3>Label</h3>
           <input
@@ -39,11 +48,16 @@ export const Favourites: React.FC<IFavouritesProps> = () => {
           <h3>Address</h3>
           <input id="label" type="text" placeholder={currentDestination} />
         </div>
-        <Button variant="contained" type="button" color="primary">
+        <Button
+          onClick={handleLabelClick}
+          variant="contained"
+          type="button"
+          color="primary"
+        >
           SAVE
         </Button>
       </form>
-      {favoriteDestinations?.map((favoriteDestination) => (
+      {favourites?.map((favoriteDestination) => (
         <div key={favoriteDestination.latitude}>
           <h2>{favoriteDestination.label}</h2>
           <p>{favoriteDestination.destination}</p>
