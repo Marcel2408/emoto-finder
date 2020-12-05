@@ -11,7 +11,6 @@ import { AppState, MapActionTypes } from '../store/types';
 interface ISelectDestinationProps {}
 
 export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
-
   const [isFromClicked, setIsFromClicked] = useState(false);
   const [isOKClicked, setIsOKClicked] = useState(false);
   const [isSubmited, setIsSubmited] = useState(false);
@@ -25,8 +24,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
 
   useEffect(() => {
     dispatch(getUserData({ ...user }));
-  }, [dispatch, user]);
-
+  }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleSubmit(event: any): void {
@@ -34,13 +32,13 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
     history.push('/map');
   }
 
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleOKClick(): void {
-    dispatch(setCurrentDestination({
-      destination: newDestination,
-
-    }));
+    dispatch(
+      setCurrentDestination({
+        destination: newDestination,
+      })
+    );
     setIsOKClicked(!isOKClicked);
     inputFields[0].value = '';
     inputFields[0].disabled = true;
@@ -49,11 +47,13 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   function handleChangeClick(): void {
     inputFields[0].value = '';
     setNewDestination('');
-    dispatch(setCurrentDestination({
-      destination: '',
-      latitude: 0,
-      longitude: 0
-    }));
+    dispatch(
+      setCurrentDestination({
+        destination: '',
+        latitude: 0,
+        longitude: 0,
+      })
+    );
     setIsOKClicked(!isOKClicked);
     inputFields[0].disabled = false;
   }
@@ -71,16 +71,14 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          width: '100%'
+          width: '100%',
         }}
       >
-        <h1>
-          Choose destination
-        </h1>
+        <h1>Choose destination</h1>
         <div
           style={{
             flexShrink: 0,
-            width: '100%'
+            width: '100%',
           }}
         >
           <form onSubmit={handleSubmit}>
@@ -91,34 +89,38 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                width: '100%'
+                width: '100%',
               }}
             >
               <input
                 type="text"
-                placeholder='Example: carrer Sant Miquel 7, Barcelona'
+                placeholder="Example: carrer Sant Miquel 7, Barcelona"
                 style={{
                   width: '80%',
-                  height: '30px'
+                  height: '30px',
                 }}
               />
               <button
                 disabled={isOKClicked}
-                id='OK_button'
-                type='button'
+                id="OK_button"
+                type="button"
                 onClick={handleOKClick}
-              > OK
+              >
+                {' '}
+                OK
               </button>
               {isFromClicked ? (
                 <div>
                   <h2>Favourites</h2>
-                  {user.favourites && user.favourites.map((favourite) => (
-                    <div key={favourite.label}>
-                      <h3>{favourite.label}</h3>
-                      <p>Address: {favourite.destination}</p>
-                    </div>
-                  ))}
-                </div>) : null}
+                  {user.favourites &&
+                    user.favourites.map((favourite) => (
+                      <div key={favourite.label}>
+                        <h3>{favourite.label}</h3>
+                        <p>Address: {favourite.destination}</p>
+                      </div>
+                    ))}
+                </div>
+              ) : null}
             </div>
           </form>
         </div>
@@ -130,22 +132,20 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
               <div key={destination && destination.destination}>
                 <h3>{destination && destination.destination}</h3>
               </div>
-              <button
-                type='button'
-                onClick={handleChangeClick}
-              > CHANGE
+              <button type="button" onClick={handleChangeClick}>
+                {' '}
+                CHANGE
               </button>
-            </div>) : null}
+            </div>
+          ) : null}
         </div>
         <div
           style={{
-            paddingTop: '40px'
+            paddingTop: '40px',
           }}
         >
-          <button
-            onClick={() => history.push('/map')}
-            type='submit'
-          >Take me there
+          <button onClick={() => history.push('/map')} type="submit">
+            Take me there
           </button>
         </div>
       </div>
@@ -153,9 +153,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   );
 };
 
-const mapStateToProps = (state: AppState) => ({
-
-});
+const mapStateToProps = (state: AppState) => ({});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapDispatchToProps = (dispatch: React.Dispatch<MapActionTypes>) => ({});
