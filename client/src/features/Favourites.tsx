@@ -1,8 +1,9 @@
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import * as React from 'react';
-import { useState } from 'react';
+import { MouseEventHandler, SetStateAction, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { RootState } from '../store';
 import { updateFavouriteDestination } from '../store/actions';
 import { AppState, FavouriteDestination } from '../store/types';
@@ -33,9 +34,18 @@ export const Favourites: React.FC<IFavouritesProps> = () => {
     newFavourites.push({ label, destination });
     dispatch(updateFavouriteDestination(userId, newFavourites));
   };
+  const handleDeleteClick = (favoriteDestination: FavouriteDestination) => {
+    newFavourites = newFavourites.filter(
+      (favorite) => favoriteDestination.label !== favorite.label
+    );
+    dispatch(updateFavouriteDestination(userId, newFavourites));
+
+    // newFavourites.push({ label, destination });
+    // dispatch(updateFavouriteDestination(userId, newFavourites));
+  };
 
   const handleInputLabel = (e: {
-    target: { value: React.SetStateAction<string> };
+    target: { value: SetStateAction<string> };
   }) => {
     setLabel(e.target.value);
   };
@@ -45,16 +55,23 @@ export const Favourites: React.FC<IFavouritesProps> = () => {
       <form>
         <div>
           <h3>Label</h3>
-          <input
-            id="label"
+          <TextField
+            required
+            id="standard-required"
+            label="Required"
+            defaultValue="Label"
             type="text"
-            placeholder="name destination..."
             onChange={handleInputLabel}
           />
         </div>
         <div>
           <h3>Address</h3>
-          <input id="label" type="text" placeholder={destination} />
+          <TextField
+            id="standard-basic"
+            label={`${destination}`}
+            type="text"
+            defaultValue={`${destination}`}
+          />
         </div>
         <Button
           onClick={handleLabelClick}
@@ -67,8 +84,16 @@ export const Favourites: React.FC<IFavouritesProps> = () => {
       </form>
       {newFavourites?.map((favoriteDestination) => (
         <div key={favoriteDestination.label}>
-          <h2>{favoriteDestination.label}</h2>
-          <p>{favoriteDestination.destination}</p>
+          <div>
+            <h2>{favoriteDestination.label}</h2>
+            <p>{favoriteDestination.destination}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => handleDeleteClick(favoriteDestination)}
+          >
+            <DeleteForeverIcon />
+          </button>
         </div>
       ))}
       <Button
