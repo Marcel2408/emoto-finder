@@ -6,7 +6,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
-import { getAllMotos } from '../store/actions';
 import { AppState, Moto } from '../store/types';
 import scotterSVG from '../images/scooter.svg';
 import { RootState } from '../store';
@@ -54,7 +53,6 @@ export const Map: React.FC<IMapProps> = (props) => {
 
   useEffect(() => {
     setIsLoading(false);
-    dispatch(getAllMotos());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -149,7 +147,7 @@ const mapStateToProps = (state: AppState) => ({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapDispatchToProps = (dispatch: any) => ({
-  getAllMotos: () => dispatch(getAllMotos()),
+  // getAllMotos: () => dispatch(getAllMotos()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Map);

@@ -15,6 +15,7 @@ export interface FavouriteDestination {
 }
 
 export interface CurrentDestination {
+  label?: string;
   destination?: string;
 }
 

@@ -15,7 +15,10 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   const [isFromClicked, setIsFromClicked] = useState(false);
   const [isOKClicked, setIsOKClicked] = useState(false);
   const [isSubmited, setIsSubmited] = useState(false);
-  const [newDestination, setNewDestination] = useState('');
+  const [newDestination, setNewDestination] = useState({
+    destination: '',
+    label: ''
+  });
 
   const history = useHistory();
   const user = useSelector((state: RootState) => state.user);
@@ -25,7 +28,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
 
   useEffect(() => {
     dispatch(getUserData({ ...user }));
-  }, [dispatch, user]);
+  }, []);
 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,10 +40,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleOKClick(): void {
-    dispatch(setCurrentDestination({
-      destination: newDestination,
-
-    }));
+    dispatch(setCurrentDestination(newDestination));
     setIsOKClicked(!isOKClicked);
     inputFields[0].value = '';
     inputFields[0].disabled = true;
@@ -48,18 +48,23 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
 
   function handleChangeClick(): void {
     inputFields[0].value = '';
-    setNewDestination('');
-    dispatch(setCurrentDestination({
+    setNewDestination({
       destination: '',
-      latitude: 0,
-      longitude: 0
-    }));
+      label: '' });
+    dispatch(setCurrentDestination(newDestination));
     setIsOKClicked(!isOKClicked);
     inputFields[0].disabled = false;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleChange(event: any): void {
+  function handleFavoutiteClick(event: any): void{
+    console.log(event.target.textContent);
+    dispatch(setCurrentDestination(newDestination));
+
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handleCustomDestinationChange(event: any): void {
     setNewDestination(event.target.value);
   }
 
@@ -86,7 +91,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
           <form onSubmit={handleSubmit}>
             <div
               onClickCapture={() => setIsFromClicked(true)}
-              onChange={handleChange}
+              onChange={handleCustomDestinationChange}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -113,9 +118,25 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
                 <div>
                   <h2>Favourites</h2>
                   {user.favourites && user.favourites.map((favourite) => (
-                    <div key={favourite.label}>
-                      <h3>{favourite.label}</h3>
-                      <p>Address: {favourite.destination}</p>
+                    <div
+                      key={favourite.label}
+                    >
+                      <div
+                        role='button'
+                        onClick={handleFavoutiteClick}
+                        onKeyDown={handleFavoutiteClick}
+                        tabIndex={-1}
+                      >
+                        {favourite.label}
+                      </div>
+                      <div
+                        role='button'
+                        onClick={handleFavoutiteClick}
+                        onKeyDown={handleFavoutiteClick}
+                        tabIndex={-1}
+                      >
+                        {favourite.destination}
+                      </div>
                     </div>
                   ))}
                 </div>) : null}
