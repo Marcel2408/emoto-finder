@@ -25,7 +25,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
 
   useEffect(() => {
     dispatch(getUserData({ ...user }));
-  }, []);
+  }, [dispatch, user]);
 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,8 +39,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   function handleOKClick(): void {
     dispatch(setCurrentDestination({
       destination: newDestination,
-      latitude: user.latitude,
-      longitude: user.longitude
+
     }));
     setIsOKClicked(!isOKClicked);
     inputFields[0].value = '';
