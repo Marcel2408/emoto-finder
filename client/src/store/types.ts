@@ -37,7 +37,7 @@ export interface CurrentTrip {
 
 export interface Moto {
   id: string;
-  publicId: string;
+  publicId: string | null;
   type: string;
   latitude: number;
   longitude: number;
@@ -45,6 +45,10 @@ export interface Moto {
     name: string;
   };
   battery: number;
+  walkTime?: number;
+  driveTime?: number | null;
+  totalTravelTime?: number | null;
+  isIncomming?: boolean;
 }
 
 export interface AppState {

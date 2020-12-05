@@ -19,16 +19,13 @@ import {
   ChangeDestinationDiv,
 } from './MapStyle';
 import HamburgerMenu from './HamburgerMenu';
+import { setCurrentDestination } from '../store/actions';
 
 interface IMapProps {}
-const currentCoordinates = {
-  latitude: 41.38078806455369,
-  longitude: 2.1417923975515394,
-};
 
 export const Map: React.FC<IMapProps> = (props) => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  const disptach= useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [isMotoInfoClicked, setIsMotoInfoClicked] = useState(false);
   const [motoInfo, setMotoInfo] = useState({
@@ -42,14 +39,17 @@ export const Map: React.FC<IMapProps> = (props) => {
     },
     battery: 0,
   });
+  const userStore = useSelector((state: RootState) => state.user);
+
   const [motoIndex, setMotoIndex] = useState(0);
   const [viewport, setViewport] = useState({
     width: 414,
     height: 736,
-    latitude: 41.38078806455369,
-    longitude: 2.1417923975515394,
+    latitude: userStore.latitude,
+    longitude: userStore.longitude,
     zoom: 16,
   });
+
 
   useEffect(() => {
     setIsLoading(false);
@@ -66,6 +66,7 @@ export const Map: React.FC<IMapProps> = (props) => {
     setIsMotoInfoClicked(false);
   }
   const handleChangeDestination = () => {
+    disptach(setCurrentDestination({ destination: '', label: '' }));
     history.push('/destination');
   };
 
@@ -100,8 +101,8 @@ export const Map: React.FC<IMapProps> = (props) => {
           mapStyle="mapbox://styles/carlosdsv/cki9d9jnu3v3h19o1d7f88oew"
         >
           <Marker
-            latitude={currentCoordinates.latitude}
-            longitude={currentCoordinates.longitude}
+            latitude={userStore.latitude}
+            longitude={userStore.longitude}
           >
             <PersonPinIcon />
           </Marker>
