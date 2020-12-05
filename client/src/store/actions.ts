@@ -85,8 +85,13 @@ export function getDestinationCoordinatesAndMotos(
   destination: string,
   username: string
 ): ThunkAction<void, RootState, unknown, Action> {
+  console.log('args>>>>>', destination, username);
+
   return (dispatch) => {
+    console.log('entred return');
     axios.post(`${BASE_URL}/map`, { destination, username }).then((res) => {
+      console.log(res.data);
+
       dispatch({
         type: GET_DESTINATION_COORDINATES_AND_MOTOS,
         availableMotos: res.data,

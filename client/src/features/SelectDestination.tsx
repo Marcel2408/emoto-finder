@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../store';
-import { getUserData, setCurrentDestination } from '../store/actions';
+import { getUserData, setCurrentDestination, getDestinationCoordinatesAndMotos } from '../store/actions';
 import { AppState, FavouriteDestination, MapActionTypes } from '../store/types';
 
 // todo on useEffect I'm sending {username, current location of user}
@@ -28,8 +28,11 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleSubmit(event: any): void {
+  function handleTakeMeThereSubmit(event: any): void {
     event.preventDefault();
+    console.log('submit to map');
+
+    dispatch(getDestinationCoordinatesAndMotos(destination.destination, user.username));
     history.push('/map');
   }
 
@@ -78,7 +81,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
             width: '100%',
           }}
         >
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleTakeMeThereSubmit}>
             <div
               onClickCapture={() => setIsFromClicked(true)}
               onChange={handleCustomDestinationChange}
@@ -149,7 +152,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
             paddingTop: '40px',
           }}
         >
-          <button onClick={() => history.push('/map')} type="submit">
+          <button onClick={handleTakeMeThereSubmit} type="submit">
             Take me there
           </button>
         </div>
