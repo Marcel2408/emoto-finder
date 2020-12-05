@@ -26,6 +26,7 @@ export const initialState: AppState = {
   },
   finalDestination: {
     destination: '',
+    label: '',
   },
   currentTrips: [],
   availableMotos: [],
@@ -72,7 +73,7 @@ export const destinationReducer = (
     }
     case CHANGE_CURRENT_DESTINATION: {
       // eslint-disable-next-line no-param-reassign
-      state = {};
+      state = { destination: '', label: '' };
       return state;
     }
     default:
