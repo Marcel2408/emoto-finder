@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -18,7 +17,7 @@ export const Login: React.FC<ILoginProps> = () => {
     longitude: 0
   });
 
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const history = useHistory();
   const isUserAuthenticated = useSelector((state: RootState) =>
     state.user.isAuthenticated);
@@ -48,7 +47,7 @@ export const Login: React.FC<ILoginProps> = () => {
     });
   }
 
-  function handleSubmit(event: any): void {
+  function handleSubmit(event: { preventDefault: () => void; }): void {
     event.preventDefault();
     dispatch({
       type: STORE_USER_DATA,
@@ -57,15 +56,21 @@ export const Login: React.FC<ILoginProps> = () => {
     dispatch(authenticateUser(username));
   }
 
-  function handleUsernameChange(event: any) {
+  function handleUsernameChange(
+    event: { target: { value: React.SetStateAction<string>; };
+    }) {
     setUsername(event.target.value);
   }
 
-  function handlePasswordChange(event: any) {
+  function handlePasswordChange(
+    event: { target: { value: React.SetStateAction<string>; };
+    }) {
     setPassword(event.target.value);
   }
 
-  function handleLocationPermissionChange(event: any) {
+  function handleLocationPermissionChange(
+    event: { target: { checked: React.SetStateAction<boolean>; };
+    }) {
     setLocationPermission(event.target.checked);
   }
 
@@ -118,6 +123,7 @@ const mapStateToProps = (state: AppState) => ({
 
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapDispatchToProps = (dispatch: React.Dispatch<any>) => ({
   getUserData: (userData: User) => dispatch(getUserData(userData)),
   authenticateUser: (username: string) => dispatch(authenticateUser(username)),
