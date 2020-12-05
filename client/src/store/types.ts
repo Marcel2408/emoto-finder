@@ -16,8 +16,6 @@ export interface FavouriteDestination {
 
 export interface CurrentDestination {
   destination?: string;
-  latitude?: number;
-  longitude?: number;
 }
 
 export interface CurrentUserLocation {
@@ -65,6 +63,8 @@ export const LOAD_MOTOS = 'LOAD_MAP';
 export const CHANGE_CURRENT_DESTINATION = 'CHANGE_CURRENT_DESTINATION';
 export const UPDATE_FAVOURITES = 'UPDATE_FAVOURITES';
 export const BOOK_MOTO = 'BOOK_MOTO';
+export const GET_DESTINATION_COORDINATES_AND_MOTOS =
+  'GET_DESTINATION_COORDINATES_AND_MOTOS';
 
 // action shapes
 
@@ -88,10 +88,15 @@ interface SetDestination {
   destination: CurrentDestination;
 }
 
-interface LoadMotos {
-  type: typeof LOAD_MOTOS;
+interface GetDestinationCoordinatesAndMotos {
+  type: typeof GET_DESTINATION_COORDINATES_AND_MOTOS;
   availableMotos: Moto[];
 }
+
+// interface LoadMotos {
+//   type: typeof LOAD_MOTOS;
+//   availableMotos: Moto[];
+// }
 
 interface ChangeCurretnDestination {
   type: typeof CHANGE_CURRENT_DESTINATION;
@@ -114,6 +119,5 @@ export type UserActionTypes =
   | AuthenticateUser
   | LogoutUser
   | UpdateFavourites;
-
 export type DestinationActionTypes = SetDestination | ChangeCurretnDestination;
-export type MapActionTypes = LoadMotos | BookMoto;
+export type MapActionTypes = BookMoto | GetDestinationCoordinatesAndMotos;

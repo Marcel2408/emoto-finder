@@ -2,7 +2,6 @@
 import {
   AppState,
   LOGOUT,
-  LOAD_MOTOS,
   CHANGE_CURRENT_DESTINATION,
   BOOK_MOTO,
   SET_DESTINATION,
@@ -12,6 +11,7 @@ import {
   STORE_USER_DATA,
   AUTHENTICATE_USER,
   UPDATE_FAVOURITES,
+  GET_DESTINATION_COORDINATES_AND_MOTOS,
 } from './types';
 
 export const initialState: AppState = {
@@ -26,8 +26,6 @@ export const initialState: AppState = {
   },
   finalDestination: {
     destination: '',
-    latitude: 0,
-    longitude: 0,
   },
   currentTrips: [],
   availableMotos: [],
@@ -87,7 +85,7 @@ export const motosReducer = (
   action: MapActionTypes
 ): AppState['availableMotos'] => {
   switch (action.type) {
-    case LOAD_MOTOS: {
+    case GET_DESTINATION_COORDINATES_AND_MOTOS: {
       // eslint-disable-next-line no-param-reassign
       return (state = action.availableMotos);
     }
