@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
+import { Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../store';
 import { authenticateUser, getUserData, storeUserLocation } from '../store/actions';
 import { AppState, STORE_USER_DATA, User } from '../store/types';
+import { LoginDiv } from './SelectDestinationStyle';
 
 
 interface ILoginProps {}
@@ -77,15 +79,7 @@ export const Login: React.FC<ILoginProps> = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%',
-          height: '100%'
-        }}
-      >
+      <LoginDiv>
         <h1>
           LOGIN
         </h1>
@@ -111,11 +105,10 @@ export const Login: React.FC<ILoginProps> = () => {
             required={true}
           />
         </label>
-        <button
-          type='submit'
-        >LOGIN
-        </button>
-      </div>
+        <Button type='submit' variant="contained" color="primary">
+          LOGIN
+        </Button>
+      </LoginDiv>
     </form>
   );
 };
