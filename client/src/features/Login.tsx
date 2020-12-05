@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -33,7 +34,7 @@ export const Login: React.FC<ILoginProps> = () => {
       dispatch(storeUserLocation(userLocation));
       history.push('/destination');
     }
-  }, [isUserAuthenticated]);
+  }, [dispatch, history, isUserAuthenticated, userLocation]);
 
   function getUserLocation() {
     navigator.geolocation.getCurrentPosition((location) => {
