@@ -6,7 +6,9 @@ import { useHistory } from 'react-router-dom';
 import { RootState } from '../store';
 import { authenticateUser, getUserData, storeUserLocation } from '../store/actions';
 import { AppState, STORE_USER_DATA, User } from '../store/types';
+import { Video } from './LoginStyle';
 import { LoginDiv } from './SelectDestinationStyle';
+import video from '../../video/SampleVideo_1280x720_1mb.mp4';
 
 
 interface ILoginProps {}
@@ -78,38 +80,41 @@ export const Login: React.FC<ILoginProps> = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <LoginDiv>
-        <h1>
-          LOGIN
-        </h1>
-        <input
-          onChange={handleUsernameChange}
-          type='text'
-          name='username'
-          placeholder='login'
-        />
-        <input
-          onChange={handlePasswordChange}
-          type='password'
-          name='password'
-          placeholder='password'
-        />
-        <label
-          htmlFor='geo-location'
-        > Allow location services
+    <Video loop autoPlay muted>
+      <source src={video} />
+      <form onSubmit={handleSubmit}>
+        <LoginDiv>
+          <h1>
+            LOGIN
+          </h1>
           <input
-            onChange={handleLocationPermissionChange}
-            type='checkbox'
-            name='geo-location'
-            required={true}
+            onChange={handleUsernameChange}
+            type='text'
+            name='username'
+            placeholder='login'
           />
-        </label>
-        <Button type='submit' variant="contained" color="primary">
-          LOGIN
-        </Button>
-      </LoginDiv>
-    </form>
+          <input
+            onChange={handlePasswordChange}
+            type='password'
+            name='password'
+            placeholder='password'
+          />
+          <label
+            htmlFor='geo-location'
+          > Allow location services
+            <input
+              onChange={handleLocationPermissionChange}
+              type='checkbox'
+              name='geo-location'
+              required={true}
+            />
+          </label>
+          <Button type='submit' variant="contained" color="primary">
+            LOGIN
+          </Button>
+        </LoginDiv>
+      </form>
+    </Video>
   );
 };
 
