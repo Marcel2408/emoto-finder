@@ -4,7 +4,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../store';
 import { getUserData, setCurrentDestination } from '../store/actions';
-import { AppState, MapActionTypes } from '../store/types';
+import { AppState, FavouriteDestination, MapActionTypes } from '../store/types';
 
 // todo on useEffect I'm sending {username, current location of user}
 
@@ -12,18 +12,16 @@ interface ISelectDestinationProps {}
 
 export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   const [isFromClicked, setIsFromClicked] = useState(false);
-  const [isOKClicked, setIsOKClicked] = useState(false);
+  const [isDestinationChosen, setIsDestinationChosen] = useState(false);
   const [isSubmited, setIsSubmited] = useState(false);
-  const [newDestination, setNewDestination] = useState({
-    destination: '',
-    label: '',
-  });
+  const [newDestination, setNewDestination] = useState('');
 
   const history = useHistory();
   const user = useSelector((state: RootState) => state.user);
   const destination = useSelector((state: RootState) => state.destination);
   const dispatch = useDispatch();
   const inputFields = document.getElementsByTagName('input');
+
 
   useEffect(() => {
     dispatch(getUserData({ ...user }));
@@ -37,27 +35,24 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleOKClick(): void {
-    dispatch(setCurrentDestination(newDestination));
-    setIsOKClicked(!isOKClicked);
+    dispatch(setCurrentDestination({ destination: newDestination, label: '' }));
+    setIsDestinationChosen(!isDestinationChosen);
     inputFields[0].value = '';
     inputFields[0].disabled = true;
   }
 
   function handleChangeClick(): void {
     inputFields[0].value = '';
-    setNewDestination({
-      destination: '',
-      label: '',
-    });
-    dispatch(setCurrentDestination(newDestination));
-    setIsOKClicked(!isOKClicked);
+    setNewDestination('');
+    dispatch(setCurrentDestination({ destination: '', label: '' }));
+    setIsDestinationChosen(!isDestinationChosen);
     inputFields[0].disabled = false;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleFavoutiteClick(event: any): void {
-    console.log(event.target.textContent);
-    dispatch(setCurrentDestination(newDestination));
+  function handleFavoutiteClick(favourite: FavouriteDestination): void{
+    dispatch(setCurrentDestination({ ...favourite }));
+    setIsDestinationChosen(!isDestinationChosen);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,9 +98,9 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
                 }}
               />
               <button
-                disabled={isOKClicked}
-                id="OK_button"
-                type="button"
+                disabled={isDestinationChosen}
+                id='OK_button'
+                type='button'
                 onClick={handleOKClick}
               >
                 {' '}
@@ -114,35 +109,29 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
               {isFromClicked ? (
                 <div>
                   <h2>Favourites</h2>
-                  {user.favourites &&
-                    user.favourites.map((favourite) => (
-                      <div key={favourite.label}>
-                        <div
-                          role="button"
-                          onClick={handleFavoutiteClick}
-                          onKeyDown={handleFavoutiteClick}
-                          tabIndex={-1}
-                        >
-                          {favourite.label}
-                        </div>
-                        <div
-                          role="button"
-                          onClick={handleFavoutiteClick}
-                          onKeyDown={handleFavoutiteClick}
-                          tabIndex={-1}
-                        >
-                          {favourite.destination}
-                        </div>
+                  {user.favourites && user.favourites.map((favourite) => (
+                    <div
+                      key={favourite.label}
+                      style={{ display:'flex' }}
+                    >
+                      <div
+                        role='button'
+                        onClick={() => handleFavoutiteClick(favourite)}
+                        onKeyDown={() => handleFavoutiteClick(favourite)}
+                        tabIndex={-1}
+                      >
+                        <p> {favourite.label}</p>
+                        <p> {favourite.destination}</p>
                       </div>
-                    ))}
-                </div>
-              ) : null}
+                    </div>
+                  ))}
+                </div>) : null}
             </div>
           </form>
         </div>
         <div />
         <div>
-          {isOKClicked ? (
+          {isDestinationChosen ? (
             <div>
               <h2>You are heading to:</h2>
               <div key={destination && destination.destination}>

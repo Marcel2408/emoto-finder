@@ -10,12 +10,12 @@ export interface User {
   favourites?: FavouriteDestination[];
 }
 export interface FavouriteDestination {
-  label?: string;
+  label: string;
   destination: string;
 }
 
 export interface CurrentDestination {
-  label?: string;
+  label: string;
   destination?: string;
 }
 
