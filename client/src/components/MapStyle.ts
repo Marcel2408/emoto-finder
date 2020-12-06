@@ -13,7 +13,7 @@ export const MotoContainerDiv = styled.div`
   height: 200px;
   width: 414px;
   position: absolute;
-  z-index: 2;
+  z-index: 5;
   bottom: 0px;
 `;
 export const HeaderDiv = styled.div`
@@ -26,21 +26,32 @@ export const HeaderDiv = styled.div`
   margin-top: 20px;
   left: 0px;
   top: 0px;
-  z-index: 2;
+  z-index: 5;
 `;
 export const ChangeDestinationDiv = styled.div`
   margin-left: 100px;
 `;
 export const SelectedMotoDiv = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 30px;
-  width: 30px;
-  background-color: green;
-  border-radius: 50%;
-  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
-    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-    0 100px 80px rgba(0, 0, 0, 0.12);
+  justify-content: center;
+  position: absolute;
+  z-index: 4;
+  p {
+    margin: 0px;
+    padding: 0px;
+  }
+`;
+export const NormalMotoDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 3;
+  p {
+    margin: 0px;
+    padding: 0px;
+  }
 `;
