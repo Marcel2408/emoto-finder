@@ -8,10 +8,20 @@ export interface User {
   latitude?: number;
   longitude?: number;
   favourites?: FavouriteDestination[];
+  providers?: Provider[];
+  destinationCoordinates?: DestinationCoordinates;
+}
+export interface DestinationCoordinates {
+  destinationLatitude: number;
+  destinationLongitude: number;
 }
 export interface FavouriteDestination {
   label: string;
   destination: string;
+}
+export interface Provider {
+  name: string;
+  isFiltered: boolean;
 }
 
 export interface CurrentDestination {
@@ -37,19 +47,23 @@ export interface CurrentTrip {
 
 export interface Moto {
   id: string;
+  isIncomming?: boolean;
+  creationTime?: Date;
   publicId: string | null;
   type: string;
   latitude: number;
   longitude: number;
   provider: {
     name: string;
+    app?: {
+      android?: string;
+      ios?: string;
+    };
   };
   battery: number;
   walkTime?: number;
   driveTime?: number | null;
   totalTravelTime?: number | null;
-  isIncomming?: boolean;
-  creationTime?: Date;
 }
 
 export interface AppState {
@@ -116,11 +130,6 @@ interface UpdateFavourites {
 
 interface BookMoto {
   type: typeof BOOK_MOTO;
-}
-
-export interface Provider {
-  name: string;
-  isFiltered: boolean;
 }
 
 // using TypeScript's Union Types here to express all possible actions
