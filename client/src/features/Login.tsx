@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Button, IconButton, InputLabel } from '@material-ui/core';
+import { Button, Switch } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -8,23 +8,22 @@ import { useHistory } from 'react-router-dom';
 import { createStyles, Theme, makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
-import { BorderBottom, Visibility, VisibilityOff } from '@material-ui/icons';
-import purple from '@material-ui/core/colors/purple';
-import grey from '@material-ui/core/colors/grey';
 import common from '@material-ui/core/colors/common';
+import orange from '@material-ui/core/colors/orange';
 
 import { RootState } from '../store';
 import { authenticateUser, getUserData, storeUserLocation } from '../store/actions';
 import { AppState, STORE_USER_DATA, User } from '../store/types';
-import { Video, LoginDiv, WrapperDiv, FormDiv } from './LoginStyle';
+import { Video, LoginDiv, WrapperDiv, FormDiv, LoginButton, Footer } from './LoginStyle';
 import video from '../assets/video/background-login-video.mp4';
+import logo from '../assets/logos/emotoLogo.svg';
 
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: common.white }
+    primary: { main: common.white },
+    secondary: { main: orange[400] }
   }
 
 });
@@ -133,6 +132,7 @@ export const Login: React.FC<ILoginProps> = () => {
   function handleOnUsernameFieldBlur() {
     setFieldFocus({ ...fieldFocus, username: false });
   }
+
   function handleOnPasswordFieldFocus() {
     setFieldFocus({ ...fieldFocus, password: true });
   }
@@ -148,6 +148,7 @@ export const Login: React.FC<ILoginProps> = () => {
         <Video loop autoPlay muted>
           <source src={video} />
         </Video>
+
         <ThemeProvider theme={theme}>
           <LoginDiv>
             <FormDiv onSubmit={handleSubmit}>
@@ -186,22 +187,28 @@ export const Login: React.FC<ILoginProps> = () => {
                   onChange={handlePasswordChange}
                 />
               </FormControl>
-
-              <label
-                htmlFor='geo-location'
-              > Allow location services
-                <input
+              <WrapperDiv className='location'>
+                Allow location services
+                <Switch
                   onChange={handleLocationPermissionChange}
                   type='checkbox'
                   name='geo-location'
                   required={true}
-                  checked
+                  checked={locationPermission}
+                  color='secondary'
+                  inputProps={{ 'aria-label': 'secondary checkbox' }}
                 />
-              </label>
-              <Button type='submit' variant='contained' color='default' onClick={handleSubmit}>
+
+              </WrapperDiv>
+
+
+              <LoginButton type='submit' className='login'>
                 LOGIN
-              </Button>
+              </LoginButton>
             </FormDiv>
+            <Footer>
+              New to eMoto? Create account here.
+            </Footer>
           </LoginDiv>
         </ThemeProvider>
       </WrapperDiv>

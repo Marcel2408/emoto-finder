@@ -16,7 +16,7 @@ export const Video = styled.video`
 
 export const LoginDiv = styled.div`
   position: fixed;
-  top: 430px;
+  top: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,4 +53,33 @@ export const WrapperDiv = styled.div`
   height: auto;
   width: auto;
   color: white;
+
+  .location {
+    margin-top: 30px;
+    flex-direction: row;
+  }
+  .login {
+    margin-top: 30px;
+  }
 `;
+
+export const LoginButton = styled.button`
+  color: white;
+  background-color: Transparent;
+  border: 2px solid white;
+  border-radius: 5px;
+  height: 4em;
+  width: 80%;
+
+  :hover {
+    background-color: #3f51b5;
+  }
+`;
+
+export const Footer = styled.footer`
+  margin-top: 20px;
+  font-size: small;
+  color: white;
+`;
+
+// #FFA40B
