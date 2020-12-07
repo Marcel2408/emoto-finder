@@ -1,101 +1,74 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import * as React from 'react';
-import {
-  ChangeEvent,
-  MouseEventHandler,
-  SetStateAction,
-  useState,
-} from 'react';
+import { ChangeEvent, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Switch from '@material-ui/core/Switch';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { AppState, Provider } from '../store/types';
 import { RootState } from '../store';
-import { updateFavouriteDestination } from '../store/actions';
-import { AppState, FavouriteDestination } from '../store/types';
-import { Div } from './FavouritesStyle';
+import { updateFavouriteProviders } from '../store/actions';
 
 interface IProvidersProps {}
 
 export const Providers: React.FC<IProvidersProps> = () => {
   const history = useHistory();
-  const switchProviders: any = [
-    {
-      name: 'Acciona',
-      isFiltered: true,
-    },
-    {
-      name: 'Avant',
-      isFiltered: false,
-    },
-    {
-      name: 'Cityscoot',
-      isFiltered: false,
-    },
-    {
-      name: 'Ecooltra',
-      isFiltered: false,
-    },
-    {
-      name: 'Gecco',
-      isFiltered: false,
-    },
-    {
-      name: 'Iberscot',
-      isFiltered: false,
-    },
-    {
-      name: 'OIZ',
-      isFiltered: false,
-    },
-    {
-      name: 'SEAT MÓtosharing',
-      isFiltered: false,
-    },
-    {
-      name: 'TuCycleBarcelona',
-      isFiltered: false,
-    },
-    {
-      name: 'Yego',
-      isFiltered: false,
-    },
-  ];
-  const [switchState, setSwitchState] = useState(switchProviders);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log('🍌 -> handleChange -> event.target.name', event.target.name);
-    console.log(
-      '🍌 -> handleChange -> switchState[event.target.name]',
-      switchState[event.target.name]
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
+  const provStorecopy: any = [...user.providers];
+  const userId = user._id;
+  const [providersState, setProvidersState] = useState(provStorecopy);
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    provider: Provider
+  ) => {
+    setProvidersState(
+      providersState.map((prov: { name: string; isFiltered: boolean }) => {
+        if (prov.name === provider.name) {
+          // eslint-disable-next-line no-param-reassign
+          prov.isFiltered = event.target.checked;
+          return prov;
+        }
+        return prov;
+      })
     );
-    // setSwitchState(
-    //   ...switchState,
-    //   (switchState[event.target.name].isFiltered = event.target.checked)
-    // );
   };
-  const providers = useSelector((state: RootState) => state.user.providers);
+  const handleSaveProviders = () => {
+    dispatch(updateFavouriteProviders(userId, providersState));
+    history.push('/map');
+  };
 
   return (
     <>
-      {providers.map((provider, i) => (
-        <>
-          <div key={provider.name}>{provider.name}</div>
-          <Switch
-            checked={switchState[i].isFiltered}
-            onChange={handleChange}
-            color="primary"
-            name={`${i}`}
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-          />
-        </>
-      ))}
+      <FormControl component="fieldset">
+        <FormGroup>
+          {user.providers.map((provider, i) => (
+            <div key={provider.name}>
+              <FormControlLabel
+                label={provider.name}
+                control={
+                  <Switch
+                    checked={provider.isFiltered}
+                    onChange={(event) => handleChange(event, provider)}
+                    name={provider.name}
+                    color="primary"
+                  />
+                }
+              />
+            </div>
+          ))}
+        </FormGroup>
+      </FormControl>
       <Button
         variant="contained"
         type="button"
         color="primary"
-        onClick={() => history.push('/map')}
+        onClick={handleSaveProviders}
       >
         SAVE
       </Button>
