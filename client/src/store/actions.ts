@@ -85,6 +85,8 @@ export function updateFavouriteProviders(
         updatedValues: newFavouritesProviders,
       })
       .then((res) => {
+        console.log('>>>>>>', res.data);
+
         dispatch({
           type: UPDATE_FAVOURITES_PROVIDERS,
           providers: res.data.providers,
