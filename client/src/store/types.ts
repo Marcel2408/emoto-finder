@@ -82,6 +82,7 @@ export const SET_DESTINATION = 'SET_DESTINATION';
 export const LOAD_MOTOS = 'LOAD_MAP';
 export const CHANGE_CURRENT_DESTINATION = 'CHANGE_CURRENT_DESTINATION';
 export const UPDATE_FAVOURITES = 'UPDATE_FAVOURITES';
+export const UPDATE_FAVOURITES_PROVIDERS = 'UPDATE_FAVOURITES_PROVIDERS';
 export const BOOK_MOTO = 'BOOK_MOTO';
 export const GET_DESTINATION_COORDINATES_AND_MOTOS =
   'GET_DESTINATION_COORDINATES_AND_MOTOS';
@@ -91,6 +92,7 @@ export const GET_DESTINATION_COORDINATES_AND_MOTOS =
 interface GetUserData {
   type: typeof STORE_USER_DATA;
   userData: User;
+  destinationCoordinates?: DestinationCoordinates;
 }
 
 interface AuthenticateUser {
@@ -127,6 +129,10 @@ interface UpdateFavourites {
   type: typeof UPDATE_FAVOURITES;
   favourites: FavouriteDestination[];
 }
+interface UpdateFavouritesProviders {
+  type: typeof UPDATE_FAVOURITES_PROVIDERS;
+  providers: Provider[];
+}
 
 interface BookMoto {
   type: typeof BOOK_MOTO;
@@ -138,6 +144,7 @@ export type UserActionTypes =
   | GetUserData
   | AuthenticateUser
   | LogoutUser
-  | UpdateFavourites;
+  | UpdateFavourites
+  | UpdateFavouritesProviders;
 export type DestinationActionTypes = SetDestination | ChangeCurretnDestination;
 export type MapActionTypes = BookMoto | GetDestinationCoordinatesAndMotos;

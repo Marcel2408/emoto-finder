@@ -14,14 +14,17 @@ const HamburgerMenu: React.FC<IHamburgerMenuProps> = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleProviders = () => {
+    history.push('/providers');
   };
   const handleDestination = () => {
     history.push('/favourites');
   };
   const handleLogout = () => {
     history.push('/');
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
   return (
     <>
@@ -40,7 +43,7 @@ const HamburgerMenu: React.FC<IHamburgerMenuProps> = () => {
         onClose={handleClose}
       >
         <MenuItem onClick={handleDestination}>Favorites</MenuItem>
-        <MenuItem onClick={handleClose}>Providers</MenuItem>
+        <MenuItem onClick={handleProviders}>Providers</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>
