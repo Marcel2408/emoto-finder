@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -5,9 +6,11 @@ import ReactMapGL, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
+import RoomIcon from '@material-ui/icons/Room';
+import StarIcon from '@material-ui/icons/Star';
 import { AppState, Moto } from '../store/types';
-import scotterSVG from '../images/scooter.svg';
+import userSVG from '../assets/images/user.svg';
+import starSVG from '../assets/images/star.svg';
 import { RootState } from '../store';
 import MotoInfo from './MotoInfo';
 import {
@@ -15,17 +18,44 @@ import {
   HeaderDiv,
   MapDiv,
   MotoContainerDiv,
-  SelectedMotoDiv,
   ChangeDestinationDiv,
+  SelectedMotoDiv,
+  NormalMotoDiv,
 } from './MapStyle';
 import HamburgerMenu from './HamburgerMenu';
 import { setCurrentDestination } from '../store/actions';
+import logoAcciona from '../assets/logos/accionaLogo.png';
+import logoAvant from '../assets/logos/avantLogo.png';
+import logoCityscoot from '../assets/logos/cityscootLogo.png';
+import logoEcooltra from '../assets/logos/ecooltraLogo.png';
+import logoGecco from '../assets/logos/geccoLogo.png';
+import logoIberscot from '../assets/logos/iberscotLogo.png';
+import logoSeat from '../assets/logos/seatLogo.png';
+import logoTucycle from '../assets/logos/tucycleLogo.png';
+import logoOIZ from '../assets/logos/oizLogo.png';
+import logoYego from '../assets/logos/yegoLogo.png';
 
+const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
+const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
 interface IMapProps {}
 
-export const Map: React.FC<IMapProps> = (props) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const providerStore: any = {
+  Acciona: { color: '#FF0100', logo: logoAcciona },
+  Avant: { color: '#1974BB', logo: logoAvant },
+  Cityscoot: { color: '#0054BB', logo: logoCityscoot },
+  Ecooltra: { color: '#73C1A1', logo: logoEcooltra },
+  Gecco: { color: '#000', logo: logoGecco },
+  Iberscot: { color: '#BF1E2E', logo: logoIberscot },
+  'SEAT MÓtosharing': { color: '#33302E', logo: logoSeat },
+  TuCycleBarcelona: { color: '#661812', logo: logoTucycle },
+  OIZ: { color: '#00AEEF', logo: logoOIZ },
+  Yego: { color: '#28323C', logo: logoYego },
+};
+
+export const Map: React.FC<IMapProps> = () => {
   const history = useHistory();
-  const disptach= useDispatch();
+  const disptach = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [isMotoInfoClicked, setIsMotoInfoClicked] = useState(false);
   const [motoInfo, setMotoInfo] = useState({
@@ -39,9 +69,10 @@ export const Map: React.FC<IMapProps> = (props) => {
     },
     battery: 0,
   });
+  const [motoIndex, setMotoIndex] = useState(0);
+  const [motoProvider, setMotoProvider] = useState({});
   const userStore = useSelector((state: RootState) => state.user);
 
-  const [motoIndex, setMotoIndex] = useState(0);
   const [viewport, setViewport] = useState({
     width: 414,
     height: 736,
@@ -50,16 +81,17 @@ export const Map: React.FC<IMapProps> = (props) => {
     zoom: 16,
   });
 
-
   useEffect(() => {
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function handleClickedMoto(moto: Moto, i: number) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handleClickedMoto(moto: Moto, i: number, motoProviderInfo: any) {
     setIsMotoInfoClicked(true);
     setMotoInfo(moto);
     setMotoIndex(i);
+    setMotoProvider(motoProviderInfo);
   }
 
   function handleClickedScreen() {
@@ -75,6 +107,7 @@ export const Map: React.FC<IMapProps> = (props) => {
   if (isLoading) {
     return <div>LOADING...</div>;
   }
+
   return (
     <ContainerDiv>
       <HeaderDiv>
@@ -97,44 +130,106 @@ export const Map: React.FC<IMapProps> = (props) => {
           {...viewport}
           onClick={() => handleClickedScreen()}
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
-          mapboxApiAccessToken="pk.eyJ1IjoiY2FybG9zZHN2IiwiYSI6ImNraTBndG9sYTFjeXkycW1wa2Rtbjd3bHcifQ.k9Spta0MBUHxwMJcOdoGwA"
-          mapStyle="mapbox://styles/carlosdsv/cki9d9jnu3v3h19o1d7f88oew"
+          mapboxApiAccessToken={MAPBOX_TOKEN}
+          mapStyle={MAPBOX_STYLE}
         >
-          <Marker
-            latitude={userStore.latitude}
-            longitude={userStore.longitude}
-          >
-            <PersonPinIcon />
+          <Marker latitude={userStore.latitude} longitude={userStore.longitude}>
+            {viewport.zoom > 18 ? <p>{userStore.username}</p> : null}
+            <img
+              src={userSVG}
+              alt="user marker"
+              style={{ width: '35px', height: '35px' }}
+            />
           </Marker>
-          {motoStore?.map((moto, i) => (
-            <Marker
-              key={moto.id}
-              latitude={moto.latitude}
-              longitude={moto.longitude}
-            >
-              {i === 1 ? (
-                <SelectedMotoDiv>
-                  <img
-                    onClickCapture={() => handleClickedMoto(moto, i)}
-                    src={scotterSVG}
-                    alt=""
-                    style={{ width: '20px', height: '20px' }}
-                  />
-                </SelectedMotoDiv>
-              ) : (
-                <img
-                  onClickCapture={() => handleClickedMoto(moto, i)}
-                  src={scotterSVG}
-                  alt=""
-                  style={{ width: '20px', height: '20px' }}
-                />
-              )}
-            </Marker>
-          ))}
+          {motoStore?.map((moto, i) => {
+            const { provider } = moto;
+            return (
+              <Marker
+                key={moto.id}
+                latitude={moto.latitude}
+                longitude={moto.longitude}
+              >
+                {i === 0 ? (
+                  <SelectedMotoDiv>
+                    {viewport.zoom > 18 ? (
+                      <img
+                        src={providerStore[provider.name].logo}
+                        alt="provider logo"
+                        style={{ height: '20px' }}
+                      />
+                    ) : null}
+
+                    <RoomIcon
+                      onClickCapture={
+                        () =>
+                          handleClickedMoto(
+                            moto,
+                            i,
+                            providerStore[provider.name]
+                          )
+                        // eslint-disable-next-line react/jsx-curly-newline
+                      }
+                      style={{
+                        color: '#FFA40B',
+                        width: 35,
+                        height: 35,
+                      }}
+                    />
+                  </SelectedMotoDiv>
+                ) : (
+                  <NormalMotoDiv>
+                    {viewport.zoom > 18 ? (
+                      <img
+                        src={providerStore[provider.name].logo}
+                        alt="provider logo"
+                        style={{ height: '20px' }}
+                      />
+                    ) : null}
+                    <RoomIcon
+                      onClickCapture={
+                        () =>
+                          handleClickedMoto(
+                            moto,
+                            i,
+                            providerStore[provider.name]
+                          )
+                        // eslint-disable-next-line react/jsx-curly-newline
+                      }
+                      style={{
+                        color: `${providerStore[provider.name].color}`,
+                        width: 25,
+                        height: 25,
+                      }}
+                    />
+                  </NormalMotoDiv>
+                )}
+              </Marker>
+            );
+          })}
           {isMotoInfoClicked && (
-            <MotoContainerDiv>
-              <MotoInfo moto={motoInfo} motoIndex={motoIndex} />
-            </MotoContainerDiv>
+            <>
+              {motoIndex === 0 ? (
+                <img
+                  src={starSVG}
+                  alt="star"
+                  style={{
+                    height: '65px',
+                    marginLeft: 20,
+                    position: 'absolute',
+                    zIndex: 20,
+                    marginTop: '65vh',
+                  }}
+                />
+              ) : null}
+
+              <MotoContainerDiv>
+                <MotoInfo
+                  moto={motoInfo}
+                  motoIndex={motoIndex}
+                  motoProvider={motoProvider}
+                />
+              </MotoContainerDiv>
+            </>
           )}
         </ReactMapGL>
       </MapDiv>
