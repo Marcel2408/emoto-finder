@@ -39,7 +39,6 @@ const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
 interface IMapProps {}
 
-<<<<<<< HEAD
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const providerStore: any = {
   Acciona: { color: '#FF0100', logo: logoAcciona },
@@ -55,12 +54,6 @@ const providerStore: any = {
 };
 
 export const Map: React.FC<IMapProps> = () => {
-=======
-const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
-const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
-
-export const Map: React.FC<IMapProps> = (props) => {
->>>>>>> feat/bcg-video
   const history = useHistory();
   const disptach = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
