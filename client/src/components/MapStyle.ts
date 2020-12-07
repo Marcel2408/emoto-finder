@@ -37,7 +37,25 @@ export const SelectedMotoDiv = styled.div`
   align-items: center;
   justify-content: center;
   position: absolute;
-  z-index: 4;
+  z-index: 10;
+  transform: scale(1);
+  animation: pulse 1s infinite;
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      filter: drop-shadow(0px 0px 0px #ffd700);
+    }
+
+    70% {
+      transform: scale(1.2);
+      filter: drop-shadow(4px 8px 16px #ffd700);
+    }
+
+    100% {
+      transform: scale(1);
+      filter: drop-shadow(0px 0px 0px #ffd700);
+    }
+  }
   p {
     margin: 0px;
     padding: 0px;
@@ -49,7 +67,7 @@ export const NormalMotoDiv = styled.div`
   align-items: center;
   justify-content: center;
   position: absolute;
-  z-index: 3;
+  z-index: 7;
   p {
     margin: 0px;
     padding: 0px;

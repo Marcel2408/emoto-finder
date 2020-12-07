@@ -8,7 +8,7 @@ import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import RoomIcon from '@material-ui/icons/Room';
 import { AppState, Moto } from '../store/types';
-import userSVG from '../images/user.svg';
+import userSVG from '../assets/images/user.svg';
 import { RootState } from '../store';
 import MotoInfo from './MotoInfo';
 import {
@@ -22,31 +22,20 @@ import {
 } from './MapStyle';
 import HamburgerMenu from './HamburgerMenu';
 import { setCurrentDestination } from '../store/actions';
-import logoAcciona from '../images/logos/accionaLogo.png';
-import logoAvant from '../images/logos/avantLogo.jpg';
-import logoCityscoot from '../images/logos/cityscootLogo.png';
-import logoEcooltra from '../images/logos/ecooltraLogo.png';
-import logoGecco from '../images/logos/geccoLogo.png';
-import logoIberscot from '../images/logos/iberscotLogo.png';
-import logoOIZ from '../images/logos/oizLogo.png';
-import logoYego from '../images/logos/yegoLogo.png';
+import logoAcciona from '../assets/logos/accionaLogo.png';
+import logoAvant from '../assets/logos/avantLogo.jpg';
+import logoCityscoot from '../assets/logos/cityscootLogo.png';
+import logoEcooltra from '../assets/logos/ecooltraLogo.png';
+import logoGecco from '../assets/logos/geccoLogo.png';
+import logoIberscot from '../assets/logos/iberscotLogo.png';
+import logoSeat from '../assets/logos/seatLogo.svg';
+import logoTucycle from '../assets/logos/tucycleLogo.png';
+import logoOIZ from '../assets/logos/oizLogo.png';
+import logoYego from '../assets/logos/yegoLogo.png';
 
+const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
+const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
 interface IMapProps {}
-
-// interface ProviderI {
-//   color: string;
-//   logo: string;
-// }
-// interface ProviderStoreI {
-//   Acciona: ProviderI;
-//   Avant: ProviderI;
-//   Cityscoot: ProviderI;
-//   Ecooltra: ProviderI;
-//   Gecco: ProviderI;
-//   Iberscot: ProviderI;
-//   OIZ: ProviderI;
-//   Yego: ProviderI;
-// }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const providerStore: any = {
@@ -56,6 +45,8 @@ const providerStore: any = {
   Ecooltra: { color: '#73C1A1', logo: logoEcooltra },
   Gecco: { color: '#000', logo: logoGecco },
   Iberscot: { color: '#BF1E2E', logo: logoIberscot },
+  'SEAT MÓtosharing': { color: '#33302E', logo: logoSeat },
+  TuCycleBarcelona: { color: '#661812', logo: logoTucycle },
   OIZ: { color: '#00AEEF', logo: logoOIZ },
   Yego: { color: '#28323C', logo: logoYego },
 };
@@ -134,10 +125,11 @@ export const Map: React.FC<IMapProps> = () => {
           {...viewport}
           onClick={() => handleClickedScreen()}
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
-          mapboxApiAccessToken="pk.eyJ1IjoiY2FybG9zZHN2IiwiYSI6ImNraTBndG9sYTFjeXkycW1wa2Rtbjd3bHcifQ.k9Spta0MBUHxwMJcOdoGwA"
-          mapStyle="mapbox://styles/carlosdsv/cki9d9jnu3v3h19o1d7f88oew"
+          mapboxApiAccessToken={MAPBOX_TOKEN}
+          mapStyle={MAPBOX_STYLE}
         >
           <Marker latitude={userStore.latitude} longitude={userStore.longitude}>
+            {viewport.zoom > 18 ? <p>{userStore.username}</p> : null}
             <img
               src={userSVG}
               alt="user marker"
@@ -165,7 +157,7 @@ export const Map: React.FC<IMapProps> = () => {
                     <RoomIcon
                       onClickCapture={() => handleClickedMoto(moto, i)}
                       style={{
-                        color: `${providerStore[provider.name].color}`,
+                        color: '#DAA520',
                         width: 35,
                         height: 35,
                       }}
