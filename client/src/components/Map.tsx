@@ -23,6 +23,9 @@ import { setCurrentDestination } from '../store/actions';
 
 interface IMapProps {}
 
+const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
+const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
+
 export const Map: React.FC<IMapProps> = (props) => {
   const history = useHistory();
   const disptach= useDispatch();
@@ -97,8 +100,8 @@ export const Map: React.FC<IMapProps> = (props) => {
           {...viewport}
           onClick={() => handleClickedScreen()}
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
-          mapboxApiAccessToken="pk.eyJ1IjoiY2FybG9zZHN2IiwiYSI6ImNraTBndG9sYTFjeXkycW1wa2Rtbjd3bHcifQ.k9Spta0MBUHxwMJcOdoGwA"
-          mapStyle="mapbox://styles/carlosdsv/cki9d9jnu3v3h19o1d7f88oew"
+          mapboxApiAccessToken={MAPBOX_TOKEN}
+          mapStyle={MAPBOX_STYLE}
         >
           <Marker
             latitude={userStore.latitude}
