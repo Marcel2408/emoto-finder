@@ -7,8 +7,10 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import RoomIcon from '@material-ui/icons/Room';
+import StarIcon from '@material-ui/icons/Star';
 import { AppState, Moto } from '../store/types';
 import userSVG from '../assets/images/user.svg';
+import starSVG from '../assets/images/star.svg';
 import { RootState } from '../store';
 import MotoInfo from './MotoInfo';
 import {
@@ -67,9 +69,10 @@ export const Map: React.FC<IMapProps> = () => {
     },
     battery: 0,
   });
+  const [motoIndex, setMotoIndex] = useState(0);
+  const [motoProvider, setMotoProvider] = useState({});
   const userStore = useSelector((state: RootState) => state.user);
 
-  const [motoIndex, setMotoIndex] = useState(0);
   const [viewport, setViewport] = useState({
     width: 414,
     height: 736,
@@ -83,10 +86,12 @@ export const Map: React.FC<IMapProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function handleClickedMoto(moto: Moto, i: number) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handleClickedMoto(moto: Moto, i: number, motoProviderInfo: any) {
     setIsMotoInfoClicked(true);
     setMotoInfo(moto);
     setMotoIndex(i);
+    setMotoProvider(motoProviderInfo);
   }
 
   function handleClickedScreen() {
@@ -155,9 +160,17 @@ export const Map: React.FC<IMapProps> = () => {
                     ) : null}
 
                     <RoomIcon
-                      onClickCapture={() => handleClickedMoto(moto, i)}
+                      onClickCapture={
+                        () =>
+                          handleClickedMoto(
+                            moto,
+                            i,
+                            providerStore[provider.name]
+                          )
+                        // eslint-disable-next-line react/jsx-curly-newline
+                      }
                       style={{
-                        color: '#DAA520',
+                        color: '#FFA40B',
                         width: 35,
                         height: 35,
                       }}
@@ -173,7 +186,15 @@ export const Map: React.FC<IMapProps> = () => {
                       />
                     ) : null}
                     <RoomIcon
-                      onClickCapture={() => handleClickedMoto(moto, i)}
+                      onClickCapture={
+                        () =>
+                          handleClickedMoto(
+                            moto,
+                            i,
+                            providerStore[provider.name]
+                          )
+                        // eslint-disable-next-line react/jsx-curly-newline
+                      }
                       style={{
                         color: `${providerStore[provider.name].color}`,
                         width: 25,
@@ -186,9 +207,29 @@ export const Map: React.FC<IMapProps> = () => {
             );
           })}
           {isMotoInfoClicked && (
-            <MotoContainerDiv>
-              <MotoInfo moto={motoInfo} motoIndex={motoIndex} />
-            </MotoContainerDiv>
+            <>
+              {motoIndex === 0 ? (
+                <img
+                  src={starSVG}
+                  alt="star"
+                  style={{
+                    height: '65px',
+                    marginLeft: 20,
+                    position: 'absolute',
+                    zIndex: 20,
+                    marginTop: '65vh',
+                  }}
+                />
+              ) : null}
+
+              <MotoContainerDiv>
+                <MotoInfo
+                  moto={motoInfo}
+                  motoIndex={motoIndex}
+                  motoProvider={motoProvider}
+                />
+              </MotoContainerDiv>
+            </>
           )}
         </ReactMapGL>
       </MapDiv>
