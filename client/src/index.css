@@ -9,7 +9,17 @@ body {
   padding: 0px;
   margin: 0px;
 }
-
+h1,
+h2,
+h3,
+h4,
+p,
+div,
+input {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
