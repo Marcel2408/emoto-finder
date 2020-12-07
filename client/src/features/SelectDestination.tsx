@@ -2,9 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import { Autorenew } from '@material-ui/icons';
 import { RootState } from '../store';
 import { getUserData, setCurrentDestination, getDestinationCoordinatesAndMotos } from '../store/actions';
 import { AppState, FavouriteDestination, MapActionTypes } from '../store/types';
+
+import { SelectDestinationContainerDiv, FormWrapper, FavouritesContainerDiv, FavouritesHeader, InputContainerDiv,
+  DestinationSummaryContainerDiv, SelectDestinationHeader, FormTag, MainButtonWrapper, InputButton, InputTag, DestinationSummaryHeader,  FavouriteWrapper, FavouriteLabelParagraph, FavouriteDestinationParagraph } from './SelectDestinationStyle';
+
+import { Favourites } from './Favourites';
 
 // todo on useEffect I'm sending {username, current location of user}
 
@@ -12,8 +20,8 @@ interface ISelectDestinationProps {}
 
 export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   const [isFromClicked, setIsFromClicked] = useState(false);
-  const [isDestinationChosen, setIsDestinationChosen] = useState(false);
-  const [isSubmited, setIsSubmited] = useState(false);
+  // const [isDestinationChosen, setIsDestinationChosen] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const [newDestination, setNewDestination] = useState('');
 
   const history = useHistory();
@@ -39,23 +47,16 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleOKClick(): void {
     dispatch(setCurrentDestination({ destination: newDestination, label: '' }));
-    setIsDestinationChosen(!isDestinationChosen);
-    inputFields[0].value = '';
-    inputFields[0].disabled = true;
-  }
+    setIsClicked(!isClicked);
 
-  function handleChangeClick(): void {
     inputFields[0].value = '';
-    setNewDestination('');
-    dispatch(setCurrentDestination({ destination: '', label: '' }));
-    setIsDestinationChosen(!isDestinationChosen);
-    inputFields[0].disabled = false;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleFavoutiteClick(favourite: FavouriteDestination): void{
     dispatch(setCurrentDestination({ ...favourite }));
-    setIsDestinationChosen(!isDestinationChosen);
+    setIsClicked(!isClicked);
+    // setIsDestinationChosen(!isDestinationChosen);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,100 +65,74 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   }
 
   return (
-    <div>
-      <h1>{user.username}</h1>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%',
-        }}
-      >
-        <h1>Choose destination</h1>
-        <div
-          style={{
-            flexShrink: 0,
-            width: '100%',
-          }}
+    <SelectDestinationContainerDiv>
+      <SelectDestinationHeader>Choose destination
+      </SelectDestinationHeader>
+      <FormWrapper>
+        <FormTag
+          onSubmit={handleTakeMeThereSubmit}
         >
-          <form onSubmit={handleTakeMeThereSubmit}>
-            <div
-              onClickCapture={() => setIsFromClicked(true)}
-              onChange={handleCustomDestinationChange}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '100%',
-              }}
+          <InputContainerDiv
+            onClickCapture={() => setIsFromClicked(true)}
+            onChange={handleCustomDestinationChange}
+          >
+            <InputTag
+              type="text"
+              disabled={isClicked}
+              placeholder="Eg: Carrer Sant Miquel 7, Barcelona"
+            />
+            <InputButton
+              id='OK_button'
+              type='button'
+              onClick={handleOKClick}
             >
-              <input
-                type="text"
-                placeholder="Example: carrer Sant Miquel 7, Barcelona"
-                style={{
-                  width: '80%',
-                  height: '30px',
-                }}
-              />
-              <button
-                disabled={isDestinationChosen}
-                id='OK_button'
-                type='button'
-                onClick={handleOKClick}
-              >
-                {' '}
-                OK
-              </button>
-              {isFromClicked ? (
-                <div>
-                  <h2>Favourites</h2>
-                  {user.favourites && user.favourites.map((favourite) => (
-                    <div
-                      key={favourite.label}
-                      style={{ display:'flex' }}
-                    >
-                      <div
-                        role='button'
-                        onClick={() => handleFavoutiteClick(favourite)}
-                        onKeyDown={() => handleFavoutiteClick(favourite)}
-                        tabIndex={-1}
-                      >
-                        <p> {favourite.label}</p>
-                        <p> {favourite.destination}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>) : null}
-            </div>
-          </form>
-        </div>
-        <div />
-        <div>
-          {isDestinationChosen ? (
-            <div>
-              <h2>You are heading to:</h2>
-              <div key={destination && destination.destination}>
-                <h3>{destination && destination.destination}</h3>
-              </div>
-              <button type="button" onClick={handleChangeClick}>
-                {' '}
-                CHANGE
-              </button>
-            </div>
-          ) : null}
-        </div>
-        <div
-          style={{
-            paddingTop: '40px',
-          }}
-        >
-          <button onClick={handleTakeMeThereSubmit} type="submit">
+              {isClicked ? 'change' : 'add'}
+            </InputButton>
+            <FavouritesContainerDiv>
+              <FavouritesHeader>Favourites</FavouritesHeader>
+              {user.favourites && user.favourites.map((favourite) => (
+                <FavouriteWrapper
+                  key={favourite.label}
+                  style={{
+                    display:'flex',
+                  }}
+                >
+                  <div
+                    role='button'
+                    onClick={() => handleFavoutiteClick(favourite)}
+                    onKeyDown={() => handleFavoutiteClick(favourite)}
+                    tabIndex={-1}
+                  >
+                    <FavouriteLabelParagraph>
+                      {favourite.label}
+                    </FavouriteLabelParagraph>
+                    <FavouriteDestinationParagraph>
+                      {favourite.destination}
+                    </FavouriteDestinationParagraph>
+                  </div>
+                </FavouriteWrapper>
+              ))}
+            </FavouritesContainerDiv>
+          </InputContainerDiv>
+        </FormTag>
+      </FormWrapper>
+      <div />
+      {isClicked ? (
+        <DestinationSummaryContainerDiv>
+          <DestinationSummaryHeader>You are heading to:
+          </DestinationSummaryHeader>
+          <div key={destination && destination.destination}>
+            <h4>{destination && destination.destination}</h4>
+          </div>
+          <MainButtonWrapper
+            onClick={handleTakeMeThereSubmit}
+            type="submit"
+          >
             Take me there
-          </button>
-        </div>
-      </div>
-    </div>
+          </MainButtonWrapper>
+        </DestinationSummaryContainerDiv>
+      ) : null}
+    </SelectDestinationContainerDiv>
   );
 };
 
