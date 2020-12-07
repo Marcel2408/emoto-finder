@@ -49,6 +49,7 @@ export interface Moto {
   driveTime?: number | null;
   totalTravelTime?: number | null;
   isIncomming?: boolean;
+  creationTime?: Date;
 }
 
 export interface AppState {
@@ -115,6 +116,11 @@ interface UpdateFavourites {
 
 interface BookMoto {
   type: typeof BOOK_MOTO;
+}
+
+export interface Provider {
+  name: string;
+  isFiltered: boolean;
 }
 
 // using TypeScript's Union Types here to express all possible actions
