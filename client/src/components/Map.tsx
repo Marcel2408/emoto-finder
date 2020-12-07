@@ -23,12 +23,12 @@ import {
 import HamburgerMenu from './HamburgerMenu';
 import { setCurrentDestination } from '../store/actions';
 import logoAcciona from '../assets/logos/accionaLogo.png';
-import logoAvant from '../assets/logos/avantLogo.jpg';
+import logoAvant from '../assets/logos/avantLogo.png';
 import logoCityscoot from '../assets/logos/cityscootLogo.png';
 import logoEcooltra from '../assets/logos/ecooltraLogo.png';
 import logoGecco from '../assets/logos/geccoLogo.png';
 import logoIberscot from '../assets/logos/iberscotLogo.png';
-import logoSeat from '../assets/logos/seatLogo.svg';
+import logoSeat from '../assets/logos/seatLogo.png';
 import logoTucycle from '../assets/logos/tucycleLogo.png';
 import logoOIZ from '../assets/logos/oizLogo.png';
 import logoYego from '../assets/logos/yegoLogo.png';
