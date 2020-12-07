@@ -19,6 +19,8 @@ import {
   User,
   FavouriteDestination,
   UPDATE_FAVOURITES,
+  Provider,
+  UPDATE_FAVOURITES_PROVIDERS,
 } from './types';
 
 export const BASE_URL = 'http://localhost:4000';
@@ -63,12 +65,29 @@ export function updateFavouriteDestination(
   return (dispatch) => {
     axios
       .put(`${BASE_URL}/user/favourites/${userId}`, {
-        favourites: newFavourites,
+        updatedValues: newFavourites,
       })
-      .then(() => {
+      .then((res) => {
         dispatch({
           type: UPDATE_FAVOURITES,
-          favourites: newFavourites,
+          favourites: res.data.favourites,
+        });
+      });
+  };
+}
+export function updateFavouriteProviders(
+  userId: string,
+  newFavouritesProviders: Provider[]
+): ThunkAction<void, RootState, unknown, Action> {
+  return (dispatch) => {
+    axios
+      .put(`${BASE_URL}/user/providers/${userId}`, {
+        updatedValues: newFavouritesProviders,
+      })
+      .then((res) => {
+        dispatch({
+          type: UPDATE_FAVOURITES_PROVIDERS,
+          providers: res.data.providers,
         });
       });
   };
@@ -87,13 +106,15 @@ export function getDestinationCoordinatesAndMotos(
 ): ThunkAction<void, RootState, unknown, Action> {
   return (dispatch) => {
     axios.post(`${BASE_URL}/map`, { destination, username }).then((res) => {
+      console.log(res.data);
+
       dispatch({
         type: GET_DESTINATION_COORDINATES_AND_MOTOS,
         availableMotos: res.data.motos,
       });
       dispatch({
         type: STORE_USER_DATA,
-        userData: res.data.destinationCoordinates,
+        destinationCoordinates: res.data.destinationCoordinates,
       });
     });
   };
