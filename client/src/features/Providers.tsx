@@ -13,6 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { AppState, Provider } from '../store/types';
 import { RootState } from '../store';
 import { updateFavouriteProviders } from '../store/actions';
+import { Container, Header, ProviderSwitch } from './ProvidersStyle';
 
 interface IProvidersProps {}
 
@@ -32,7 +33,6 @@ export const Providers: React.FC<IProvidersProps> = () => {
         if (prov.name === provider.name) {
           // eslint-disable-next-line no-param-reassign
           prov.isFiltered = event.target.checked;
-          return prov;
         }
         return prov;
       })
@@ -44,11 +44,12 @@ export const Providers: React.FC<IProvidersProps> = () => {
   };
 
   return (
-    <>
+    <Container>
+      <Header>Select Providers</Header>
       <FormControl component="fieldset">
         <FormGroup>
           {user.providers.map((provider, i) => (
-            <div key={provider.name}>
+            <ProviderSwitch key={provider.name}>
               <FormControlLabel
                 label={provider.name}
                 control={
@@ -60,7 +61,7 @@ export const Providers: React.FC<IProvidersProps> = () => {
                   />
                 }
               />
-            </div>
+            </ProviderSwitch>
           ))}
         </FormGroup>
       </FormControl>
@@ -69,10 +70,11 @@ export const Providers: React.FC<IProvidersProps> = () => {
         type="button"
         color="primary"
         onClick={handleSaveProviders}
+        style={{ marginTop: 50 }}
       >
         SAVE
       </Button>
-    </>
+    </Container>
   );
 };
 
