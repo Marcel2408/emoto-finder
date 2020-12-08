@@ -106,6 +106,10 @@ export const Login: React.FC<ILoginProps> = () => {
       userData: { username, password }
     });
     dispatch(authenticateUser(username));
+    dispatch(storeUserLocation(userLocation));
+
+
+    history.push('/destination');
   }
 
   function handleUsernameChange(

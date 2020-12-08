@@ -65,14 +65,15 @@ export const WrapperDiv = styled.div`
 
 export const LoginButton = styled.button`
   color: white;
-  background-color: Transparent;
-  border: 2px solid white;
+  background-color: #3f51b5;
+  border: 1px solid #3f51b5;
   border-radius: 5px;
   height: 4em;
   width: 80%;
 
   :hover {
-    background-color: #3f51b5;
+    background-color: #ffa726;
+    border: 1px solid #ffa726;
   }
 `;
 
