@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable array-callback-return */
@@ -10,7 +11,6 @@ import ReactMapGL, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import RoomIcon from '@material-ui/icons/Room';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PinDropIcon from '@material-ui/icons/PinDrop';
 import { AppState, Moto } from '../store/types';
@@ -38,23 +38,74 @@ import logoSeat from '../assets/logos/seatLogo.png';
 import logoTucycle from '../assets/logos/tucycleLogo.png';
 import logoOIZ from '../assets/logos/oizLogo.png';
 import logoYego from '../assets/logos/yegoLogo.png';
+import incommingMoto from '../assets/images/incommingMoto.png';
+import motoRecommended from '../assets/images/motoRecommended.svg';
+import motoAcciona from '../assets/images/motoAcciona.svg';
+import motoAvant from '../assets/images/motoAvant.svg';
+import motoCityscoot from '../assets/images/motoCityscoot.svg';
+import motoEcooltra from '../assets/images/motoEcooltra.svg';
+import motoIberscot from '../assets/images/motoIberscot.svg';
+import motoSeat from '../assets/images/motoSeat.svg';
+import motoTucycle from '../assets/images/motoTucycle.svg';
+import motoOIZ from '../assets/images/motoOIZ.svg';
+import motoYego from '../assets/images/motoYego.svg';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
 interface IMapProps {}
 
+interface ProviderStoreI {
+  [key: string]: ProviderI;
+}
+interface ProviderI {
+  color: string;
+  logo: string;
+  price: number;
+  moto: string;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const providerStore: any = {
-  Acciona: { color: '#FF0100', logo: logoAcciona, price: 0.26 },
-  Avant: { color: '#1974BB', logo: logoAvant, price: 0.14 },
-  Cityscoot: { color: '#0054BB', logo: logoCityscoot, price: 0.26 },
-  Ecooltra: { color: '#73C1A1', logo: logoEcooltra, price: 0.26 },
-  Gecco: { color: '#000', logo: logoGecco, price: 0.28 },
-  Iberscot: { color: '#BF1E2E', logo: logoIberscot, price: 0.25 },
-  'SEAT MÓtosharing': { color: '#33302E', logo: logoSeat, price: 0.26 },
-  TuCycleBarcelona: { color: '#661812', logo: logoTucycle, price: 0.23 },
-  OIZ: { color: '#00AEEF', logo: logoOIZ, price: 0.24 },
-  Yego: { color: '#28323C', logo: logoYego, price: 0.25 },
+const providerStore: ProviderStoreI = {
+  Acciona: {
+    color: '#FF0100',
+    logo: logoAcciona,
+    price: 0.26,
+    moto: motoAcciona,
+  },
+  Avant: { color: '#1974BB', logo: logoAvant, price: 0.14, moto: motoAvant },
+  Cityscoot: {
+    color: '#0054BB',
+    logo: logoCityscoot,
+    price: 0.26,
+    moto: motoCityscoot,
+  },
+  Ecooltra: {
+    color: '#73C1A1',
+    logo: logoEcooltra,
+    price: 0.26,
+    moto: motoEcooltra,
+  },
+  Gecco: { color: '#000', logo: logoGecco, price: 0.28, moto: motoAvant },
+  Iberscot: {
+    color: '#BF1E2E',
+    logo: logoIberscot,
+    price: 0.25,
+    moto: motoIberscot,
+  },
+  'SEAT MÓtosharing': {
+    color: '#33302E',
+    logo: logoSeat,
+    price: 0.26,
+    moto: motoSeat,
+  },
+  TuCycleBarcelona: {
+    color: '#661812',
+    logo: logoTucycle,
+    price: 0.23,
+    moto: motoTucycle,
+  },
+  OIZ: { color: '#00AEEF', logo: logoOIZ, price: 0.24, moto: motoOIZ },
+  Yego: { color: '#28323C', logo: logoYego, price: 0.25, moto: motoYego },
 };
 
 export const Map: React.FC<IMapProps> = () => {
@@ -160,6 +211,7 @@ export const Map: React.FC<IMapProps> = () => {
             }
           >
             {viewport.zoom > 17 ? <p>{destinationStore.destination}</p> : null}
+
             <PinDropIcon style={{ width: '30px', height: '30px' }} />
           </Marker>
           <Marker latitude={userStore.latitude} longitude={userStore.longitude}>
@@ -174,7 +226,7 @@ export const Map: React.FC<IMapProps> = () => {
                 latitude={moto.latitude}
                 longitude={moto.longitude}
               >
-                {i === 0 ? (
+                {i === 0 && !moto.isIncomming ? (
                   <SelectedMotoDiv>
                     {viewport.zoom > 17 ? (
                       <img
@@ -183,25 +235,16 @@ export const Map: React.FC<IMapProps> = () => {
                         style={{ height: '20px' }}
                       />
                     ) : null}
-
-                    <RoomIcon
-                      onClickCapture={
-                        () =>
-                          handleClickedMoto(
-                            moto,
-                            i,
-                            providerStore[provider.name]
-                          )
-                        // eslint-disable-next-line react/jsx-curly-newline
+                    <img
+                      src={motoRecommended}
+                      alt="provider moto"
+                      style={{ height: '45px' }}
+                      onClickCapture={() =>
+                        handleClickedMoto(moto, i, providerStore[provider.name])
                       }
-                      style={{
-                        color: '#FFA40B',
-                        width: 35,
-                        height: 35,
-                      }}
                     />
                   </SelectedMotoDiv>
-                ) : (
+                ) : i === 0 && moto.isIncomming ? (
                   <NormalMotoDiv>
                     {viewport.zoom > 17 ? (
                       <img
@@ -210,27 +253,56 @@ export const Map: React.FC<IMapProps> = () => {
                         style={{ height: '20px' }}
                       />
                     ) : null}
-                    <RoomIcon
-                      onClickCapture={
-                        () =>
-                          handleClickedMoto(
-                            moto,
-                            i,
-                            providerStore[provider.name]
-                          )
-                        // eslint-disable-next-line react/jsx-curly-newline
+                    <img
+                      src={incommingMoto}
+                      alt="provider moto"
+                      style={{ height: '30px' }}
+                      onClickCapture={() =>
+                        handleClickedMoto(moto, i, providerStore[provider.name])
                       }
-                      style={{
-                        color: `${providerStore[provider.name].color}`,
-                        width: 25,
-                        height: 25,
-                      }}
                     />
                   </NormalMotoDiv>
-                )}
+                ) : i > 0 && !moto.isIncomming ? (
+                  <NormalMotoDiv>
+                    {viewport.zoom > 17 ? (
+                      <img
+                        src={providerStore[provider.name].logo}
+                        alt="provider logo"
+                        style={{ height: '20px' }}
+                      />
+                    ) : null}
+                    <img
+                      src={providerStore[provider.name].moto}
+                      alt="provider moto"
+                      style={{ height: 35 }}
+                      onClickCapture={() =>
+                        handleClickedMoto(moto, i, providerStore[provider.name])
+                      }
+                    />
+                  </NormalMotoDiv>
+                ) : i > 0 && moto.isIncomming ? (
+                  <NormalMotoDiv>
+                    {viewport.zoom > 17 ? (
+                      <img
+                        src={providerStore[provider.name].logo}
+                        alt="provider logo"
+                        style={{ height: '20px' }}
+                      />
+                    ) : null}
+                    <img
+                      src={incommingMoto}
+                      alt="provider logo"
+                      style={{ height: 35 }}
+                      onClickCapture={() =>
+                        handleClickedMoto(moto, i, providerStore[provider.name])
+                      }
+                    />
+                  </NormalMotoDiv>
+                ) : null}
               </Marker>
             );
           })}
+
           {isMotoInfoClicked && (
             <>
               {motoIndex === 0 ? (
