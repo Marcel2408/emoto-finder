@@ -69,7 +69,9 @@ export const LoginButton = styled.button`
   border: 1px solid #3f51b5;
   border-radius: 5px;
   height: 4em;
-  width: 80%;
+  width: 100%;
+  font-size: large;
+  font-weight: 600;
 
   :hover {
     background-color: #ffa726;
