@@ -46,8 +46,7 @@ interface IMapProps {}
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const providerStore: any = {
   Acciona: { color: '#FF0100', logo: logoAcciona, price: 0.26 },
-  Avant: { color: '#1974BB', logo: logoAvant },
-  price: 0.14,
+  Avant: { color: '#1974BB', logo: logoAvant, price: 0.14 },
   Cityscoot: { color: '#0054BB', logo: logoCityscoot, price: 0.26 },
   Ecooltra: { color: '#73C1A1', logo: logoEcooltra, price: 0.26 },
   Gecco: { color: '#000', logo: logoGecco, price: 0.28 },
@@ -160,11 +159,11 @@ export const Map: React.FC<IMapProps> = () => {
               userStore.destinationCoordinates.destinationLongitude
             }
           >
-            {viewport.zoom > 18 ? <p>{destinationStore.destination}</p> : null}
+            {viewport.zoom > 17 ? <p>{destinationStore.destination}</p> : null}
             <PinDropIcon style={{ width: '30px', height: '30px' }} />
           </Marker>
           <Marker latitude={userStore.latitude} longitude={userStore.longitude}>
-            {viewport.zoom > 18 ? <p>{userStore.username}</p> : null}
+            {viewport.zoom > 17 ? <p>{userStore.username}</p> : null}
             <AccountCircleIcon style={{ width: '30px', height: '30px' }} />
           </Marker>
           {motosFilteredByProviders?.map((moto: Moto, i: number) => {
@@ -177,7 +176,7 @@ export const Map: React.FC<IMapProps> = () => {
               >
                 {i === 0 ? (
                   <SelectedMotoDiv>
-                    {viewport.zoom > 18 ? (
+                    {viewport.zoom > 17 ? (
                       <img
                         src={providerStore[provider.name].logo}
                         alt="provider logo"
@@ -204,7 +203,7 @@ export const Map: React.FC<IMapProps> = () => {
                   </SelectedMotoDiv>
                 ) : (
                   <NormalMotoDiv>
-                    {viewport.zoom > 18 ? (
+                    {viewport.zoom > 17 ? (
                       <img
                         src={providerStore[provider.name].logo}
                         alt="provider logo"
