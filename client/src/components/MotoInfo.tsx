@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import BatteryCharging60Icon from '@material-ui/icons/BatteryCharging60';
@@ -15,6 +16,8 @@ import {
   MotoInfoRightInfo,
   MotoInfoRightLogo,
 } from './MotoInfoStyle';
+import { RootState } from '../store';
+import { bookMoto } from '../store/actions';
 
 interface IMotoInfoProps {
   moto: Moto;
@@ -28,16 +31,39 @@ const MotoInfo: React.FC<IMotoInfoProps> = ({
   motoIndex,
   motoProvider,
 }) => {
+
+  const detectOS = (): string => {
+    let OSName = 'Unknown';
+    if (window.navigator.platform.indexOf('Win') !== -1) OSName='Windows';
+    if (window.navigator.platform.indexOf('Mac') !== -1) OSName='Mac';
+    if (window.navigator.platform.indexOf('X11') !== -1) OSName='UNIX';
+    if (window.navigator.platform.indexOf('Linux') !== -1) OSName='Linux';
+    if (window.navigator.platform.indexOf('iPhone') !== -1) OSName='iOS';
+    if (window.navigator.platform.indexOf('Android') !== -1) OSName='Android';
+
+    return OSName;
+  };
+
+  const dispatch = useDispatch();
+  const destination = useSelector((state: RootState) => state.destination);
+
+  function handletTakeMeThereClick() {
+    dispatch(bookMoto(destination.destination, moto));
+    const userOS = detectOS();
+    if (userOS === ('Windows' || 'UNIX' || 'Linux' || 'Android')) window.location.replace(moto.provider.app.android);
+    if (userOS === ('Mac' || 'iOS')) window.location.replace(moto.provider.app.ios);
+  }
+
   return (
     <MotoInfoContainer>
       <MotoInfoDetails>
         <MotoInfoLeft>
           <h2>{moto.provider.name}</h2>
-          <Divider variant="middle" />
+          <Divider variant='middle' />
         </MotoInfoLeft>
         <MotoInfoRight>
           <MotoInfoRightLogo>
-            <img src={motoProvider.logo} alt="provider logo" />
+            <img src={motoProvider.logo} alt='provider logo' />
           </MotoInfoRightLogo>
           <MotoInfoRightInfo>
             <div>
@@ -57,10 +83,10 @@ const MotoInfo: React.FC<IMotoInfoProps> = ({
       </MotoInfoDetails>
       <MotoInfoButton>
         <Button
-          variant="contained"
-          type="button"
-          color="primary"
-          onClick={() => alert('Have a nice trip!')}
+          variant='contained'
+          type='button'
+          color='primary'
+          onClick={handletTakeMeThereClick}
         >
           Book Moto
         </Button>

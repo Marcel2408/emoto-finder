@@ -21,6 +21,7 @@ import {
   UPDATE_FAVOURITES,
   Provider,
   UPDATE_FAVOURITES_PROVIDERS,
+  Moto,
 } from './types';
 
 export const BASE_URL = 'http://localhost:4000';
@@ -85,8 +86,6 @@ export function updateFavouriteProviders(
         updatedValues: newFavouritesProviders,
       })
       .then((res) => {
-        console.log('>>>>>>', res.data);
-
         dispatch({
           type: UPDATE_FAVOURITES_PROVIDERS,
           providers: res.data.providers,
@@ -108,8 +107,6 @@ export function getDestinationCoordinatesAndMotos(
 ): ThunkAction<void, RootState, unknown, Action> {
   return (dispatch) => {
     axios.post(`${BASE_URL}/map`, { destination, username }).then((res) => {
-      console.log(res.data);
-
       dispatch({
         type: GET_DESTINATION_COORDINATES_AND_MOTOS,
         availableMotos: res.data.motos,
@@ -117,6 +114,21 @@ export function getDestinationCoordinatesAndMotos(
       dispatch({
         type: STORE_USER_DATA,
         destinationCoordinates: res.data.destinationCoordinates,
+      });
+    });
+  };
+}
+
+export function bookMoto(
+  destination: string,
+  moto: Moto
+): ThunkAction<void, RootState, unknown, Action> {
+  return (dispatch) => {
+    axios.post(`${BASE_URL}/add-trip`, { destination, moto }).then((res) => {
+      console.log('bookMoto response >>>>', res.data);
+
+      dispatch({
+        type: BOOK_MOTO,
       });
     });
   };
@@ -137,12 +149,6 @@ export function changeCurrentDestination(
   return {
     type: CHANGE_CURRENT_DESTINATION,
     destination,
-  };
-}
-
-export function bookMoto(appState: AppState): MapActionTypes {
-  return {
-    type: BOOK_MOTO,
   };
 }
 
