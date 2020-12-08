@@ -45,16 +45,16 @@ interface IMapProps {}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const providerStore: any = {
-  Acciona: { color: '#FF0100', logo: logoAcciona },
-  Avant: { color: '#1974BB', logo: logoAvant },
-  Cityscoot: { color: '#0054BB', logo: logoCityscoot },
-  Ecooltra: { color: '#73C1A1', logo: logoEcooltra },
-  Gecco: { color: '#000', logo: logoGecco },
-  Iberscot: { color: '#BF1E2E', logo: logoIberscot },
-  'SEAT MÓtosharing': { color: '#33302E', logo: logoSeat },
-  TuCycleBarcelona: { color: '#661812', logo: logoTucycle },
-  OIZ: { color: '#00AEEF', logo: logoOIZ },
-  Yego: { color: '#28323C', logo: logoYego },
+  Acciona: { color: '#FF0100', logo: logoAcciona, price: 0.26 },
+  Avant: { color: '#1974BB', logo: logoAvant, price: 0.14 },
+  Cityscoot: { color: '#0054BB', logo: logoCityscoot, price: 0.26 },
+  Ecooltra: { color: '#73C1A1', logo: logoEcooltra, price: 0.26 },
+  Gecco: { color: '#000', logo: logoGecco, price: 0.28 },
+  Iberscot: { color: '#BF1E2E', logo: logoIberscot, price: 0.25 },
+  'SEAT MÓtosharing': { color: '#33302E', logo: logoSeat, price: 0.26 },
+  TuCycleBarcelona: { color: '#661812', logo: logoTucycle, price: 0.23 },
+  OIZ: { color: '#00AEEF', logo: logoOIZ, price: 0.24 },
+  Yego: { color: '#28323C', logo: logoYego, price: 0.25 },
 };
 
 export const Map: React.FC<IMapProps> = () => {
@@ -78,6 +78,7 @@ export const Map: React.FC<IMapProps> = () => {
   const [motoProvider, setMotoProvider] = useState({});
   const userStore = useSelector((state: RootState) => state.user);
   const motoStore = useSelector((state: RootState) => state.motos);
+  const destinationStore = useSelector((state: RootState) => state.destination);
   const [motosFilteredByProviders, setMotosFilteredByProviders] = useState([]);
   const motoStoreCopy: any = [...motoStore];
   const [viewport, setViewport] = useState({
@@ -158,11 +159,11 @@ export const Map: React.FC<IMapProps> = () => {
               userStore.destinationCoordinates.destinationLongitude
             }
           >
-            {viewport.zoom > 18 ? <p>{userStore.username}</p> : null}
+            {viewport.zoom > 17 ? <p>{destinationStore.destination}</p> : null}
             <PinDropIcon style={{ width: '30px', height: '30px' }} />
           </Marker>
           <Marker latitude={userStore.latitude} longitude={userStore.longitude}>
-            {viewport.zoom > 18 ? <p>{userStore.username}</p> : null}
+            {viewport.zoom > 17 ? <p>{userStore.username}</p> : null}
             <AccountCircleIcon style={{ width: '30px', height: '30px' }} />
           </Marker>
           {motosFilteredByProviders?.map((moto: Moto, i: number) => {
@@ -175,7 +176,7 @@ export const Map: React.FC<IMapProps> = () => {
               >
                 {i === 0 ? (
                   <SelectedMotoDiv>
-                    {viewport.zoom > 18 ? (
+                    {viewport.zoom > 17 ? (
                       <img
                         src={providerStore[provider.name].logo}
                         alt="provider logo"
@@ -202,7 +203,7 @@ export const Map: React.FC<IMapProps> = () => {
                   </SelectedMotoDiv>
                 ) : (
                   <NormalMotoDiv>
-                    {viewport.zoom > 18 ? (
+                    {viewport.zoom > 17 ? (
                       <img
                         src={providerStore[provider.name].logo}
                         alt="provider logo"
