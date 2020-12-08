@@ -88,7 +88,7 @@ export const userReducer = (
       return {
         ...state,
         ...action.userData,
-        destinationCoordinates: action.destinationCoordinates,
+        ...action.destinationCoordinates,
       };
     }
     case AUTHENTICATE_USER: {

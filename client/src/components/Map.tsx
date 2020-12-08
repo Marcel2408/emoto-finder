@@ -73,10 +73,7 @@ export const Map: React.FC<IMapProps> = () => {
     },
     battery: 0,
   });
-  const [destinationCoordinates, setDestinationCoordinates] = useState({
-    destinationLatitude: 0,
-    destinationLongitude: 0,
-  });
+
   const [motoIndex, setMotoIndex] = useState(0);
   const [motoProvider, setMotoProvider] = useState({});
   const userStore = useSelector((state: RootState) => state.user);
@@ -92,9 +89,6 @@ export const Map: React.FC<IMapProps> = () => {
   });
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
     for (let i = 0; i < motoStoreCopy.length; i++) {
       for (let j = 0; j < userStore.providers.length; j++) {
         if (motoStoreCopy[i].provider.name === userStore.providers[j].name) {
@@ -104,14 +98,11 @@ export const Map: React.FC<IMapProps> = () => {
         }
       }
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [motoStore]);
-
-  useEffect(() => {
-    setDestinationCoordinates({ ...userStore.destinationCoordinates });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userStore.destinationCoordinates]);
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleClickedMoto(moto: Moto, i: number, motoProviderInfo: any) {
     setIsMotoInfoClicked(true);
@@ -158,8 +149,14 @@ export const Map: React.FC<IMapProps> = () => {
           mapStyle={MAPBOX_STYLE}
         >
           <Marker
-            latitude={destinationCoordinates.destinationLatitude}
-            longitude={destinationCoordinates.destinationLongitude}
+            latitude={
+              userStore.destinationCoordinates &&
+              userStore.destinationCoordinates.destinationLatitude
+            }
+            longitude={
+              userStore.destinationCoordinates &&
+              userStore.destinationCoordinates.destinationLongitude
+            }
           >
             {viewport.zoom > 18 ? <p>{userStore.username}</p> : null}
             <PinDropIcon style={{ width: '30px', height: '30px' }} />
