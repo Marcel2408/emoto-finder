@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const ContainerDiv = styled.div`
   height: 736px;
@@ -9,12 +9,21 @@ export const MapDiv = styled.div`
   position: relative;
   z-index: 1;
 `;
+
+const slideInUp = keyframes`
+  0% {
+    height: 0;
+  }
+`;
+
 export const MotoContainerDiv = styled.div`
-  height: 200px;
-  width: 414px;
+  display: inline-block;
   position: absolute;
-  z-index: 5;
+  z-index: 100;
   bottom: 0px;
+  height: 40vh;
+  animation: 0.5s ${slideInUp} ease;
+  background-color: blue;
 `;
 export const HeaderDiv = styled.div`
   height: 50px;

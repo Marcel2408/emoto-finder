@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const MotoInfoContainer = styled.div`
   height: 200px;
@@ -43,6 +43,21 @@ export const MotoInfoRight = styled.div`
     width: 25vw;
   }
 `;
+
+const slideInUp = keyframes`
+  0% {
+    height: 0;
+  }
+`;
+
+export const MotoContainerWrapper = styled.div`
+  height: 40vh;
+  animation: 0.5s ${slideInUp} ease;
+  background-color: blue;
+  position: absolute;
+  bottom: 0;
+`;
+
 export const MotoInfoRightLogo = styled.div`
   height: 75px;
   width: 30vw;
@@ -73,4 +88,17 @@ export const MotoInfoButton = styled.div`
   align-items: center;
   justify-content: center;
   margin-botton: 10px;
+`;
+
+export const BookMoto = styled.button`
+  box-sizing: border-box;
+  padding: 1em 2em;
+  margin: auto;
+  font-size: 100%;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  background-color: #ffa40b;
+  box-shadow: 0 2px 10px -1px rgba(7, 7, 7, 0.3);
 `;

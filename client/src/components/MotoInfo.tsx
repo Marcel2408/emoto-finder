@@ -19,6 +19,7 @@ import {
   MotoInfoRight,
   MotoInfoRightInfo,
   MotoInfoRightLogo,
+  BookMoto
 } from './MotoInfoStyle';
 import { RootState } from '../store';
 import { bookMoto } from '../store/actions';
@@ -85,7 +86,10 @@ const MotoInfo: React.FC<IMotoInfoProps> = ({
               <p>{moto.battery} %</p>
             </div>
             <div>
-              <img src={DrivingPlateIcon} style={{ height: '25px', width: '25px' }} />
+              <img
+                src={DrivingPlateIcon}
+                style={{ height: '25px', width: '25px' }}
+              />
               <p>{moto.publicId && moto.publicId}</p>
             </div>
             <div>
@@ -96,14 +100,11 @@ const MotoInfo: React.FC<IMotoInfoProps> = ({
         </MotoInfoRight>
       </MotoInfoDetails>
       <MotoInfoButton>
-        <Button
-          variant="contained"
-          type="button"
-          color="primary"
+        <BookMoto
           onClick={handletTakeMeThereClick}
         >
           Book Moto
-        </Button>
+        </BookMoto>
       </MotoInfoButton>
     </MotoInfoContainer>
   );

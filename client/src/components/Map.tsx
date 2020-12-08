@@ -26,6 +26,8 @@ import {
   SelectedMotoDiv,
   NormalMotoDiv,
 } from './MapStyle';
+
+import { MotoContainerWrapper } from './MotoInfoStyle';
 import HamburgerMenu from './HamburgerMenu';
 import { setCurrentDestination } from '../store/actions';
 import logoAcciona from '../assets/logos/accionaLogo.png';
@@ -232,7 +234,7 @@ export const Map: React.FC<IMapProps> = () => {
             );
           })}
           {isMotoInfoClicked && (
-            <>
+            <MotoContainerWrapper>
               {motoIndex === 0 ? (
                 <>
                   <img
@@ -256,7 +258,7 @@ export const Map: React.FC<IMapProps> = () => {
                   motoProvider={motoProvider}
                 />
               </MotoContainerDiv>
-            </>
+            </MotoContainerWrapper>
           )}
         </ReactMapGL>
       </MapDiv>
