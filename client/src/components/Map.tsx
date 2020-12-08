@@ -45,16 +45,17 @@ interface IMapProps {}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const providerStore: any = {
-  Acciona: { color: '#FF0100', logo: logoAcciona },
+  Acciona: { color: '#FF0100', logo: logoAcciona, price: 0.26 },
   Avant: { color: '#1974BB', logo: logoAvant },
-  Cityscoot: { color: '#0054BB', logo: logoCityscoot },
-  Ecooltra: { color: '#73C1A1', logo: logoEcooltra },
-  Gecco: { color: '#000', logo: logoGecco },
-  Iberscot: { color: '#BF1E2E', logo: logoIberscot },
-  'SEAT MÓtosharing': { color: '#33302E', logo: logoSeat },
-  TuCycleBarcelona: { color: '#661812', logo: logoTucycle },
-  OIZ: { color: '#00AEEF', logo: logoOIZ },
-  Yego: { color: '#28323C', logo: logoYego },
+  price: 0.14,
+  Cityscoot: { color: '#0054BB', logo: logoCityscoot, price: 0.26 },
+  Ecooltra: { color: '#73C1A1', logo: logoEcooltra, price: 0.26 },
+  Gecco: { color: '#000', logo: logoGecco, price: 0.28 },
+  Iberscot: { color: '#BF1E2E', logo: logoIberscot, price: 0.25 },
+  'SEAT MÓtosharing': { color: '#33302E', logo: logoSeat, price: 0.26 },
+  TuCycleBarcelona: { color: '#661812', logo: logoTucycle, price: 0.23 },
+  OIZ: { color: '#00AEEF', logo: logoOIZ, price: 0.24 },
+  Yego: { color: '#28323C', logo: logoYego, price: 0.25 },
 };
 
 export const Map: React.FC<IMapProps> = () => {
