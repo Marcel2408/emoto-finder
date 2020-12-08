@@ -9,19 +9,15 @@ export const LoginDiv = styled.div`
 `;
 
 export const SelectDestinationContainerDiv = styled.div`
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100vw;
   height: 100vh;
-  margin: 0;
-  border: 2px solid #303f9f;
   overflow: hidden;
 `;
 
 export const SelectDestinationHeader = styled.h1`
-  box-sizing: border-box;
   width: 100%;
   text-align: center;
   margin-block-start: 0;
@@ -34,7 +30,6 @@ export const SelectDestinationHeader = styled.h1`
 `;
 
 export const FormWrapper = styled.div`
-  box-sizing: border-box;
   width: inherit;
   display: flex;
 `;
@@ -47,14 +42,12 @@ export const FormTag = styled.form`
 `;
 
 export const InputContainerDiv = styled.div`
-  box-sizing: border-box;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
 `;
 
 export const InputTag = styled.input`
-  box-sizing: border-box;
   flex: 4;
   border: none;
   padding: 0.5em;
@@ -81,7 +74,6 @@ export const InputButton = styled.button`
 `;
 
 export const FavouritesContainerDiv = styled.div`
-  box-sizing: border-box;
   width: 100%;
   max-height: 34vh;
   overflow-y: scroll;
@@ -122,7 +114,6 @@ const slideInUp = keyframes`
 `;
 
 export const DestinationSummaryContainerDiv = styled.div`
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -155,7 +146,6 @@ export const ImageContainer = styled.img`
 `;
 
 export const DestinationSummaryHeader = styled.h4`
-  box-sizing: border-box;
   margin-bottom: 0.25em;
   width: 100%;
   border-radius: 4px;
