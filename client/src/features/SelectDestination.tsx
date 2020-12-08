@@ -2,15 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import { Autorenew } from '@material-ui/icons';
+import StarOutlineIcon from '@material-ui/icons/StarOutline';
+import AddIcon from '@material-ui/icons/Add';
+import ClearIcon from '@material-ui/icons/Clear';
 import { RootState } from '../store';
 import { getUserData, setCurrentDestination, getDestinationCoordinatesAndMotos } from '../store/actions';
 import { AppState, FavouriteDestination, MapActionTypes } from '../store/types';
 
 import { SelectDestinationContainerDiv, FormWrapper, FavouritesContainerDiv, FavouritesHeader, InputContainerDiv,
-  DestinationSummaryContainerDiv, SelectDestinationHeader, FormTag, MainButtonWrapper, InputButton, InputTag, DestinationSummaryHeader,  FavouriteWrapper, FavouriteLabelParagraph, FavouriteDestinationParagraph } from './SelectDestinationStyle';
+  DestinationSummaryContainerDiv, SelectDestinationHeader, FormTag, MainButtonWrapper, InputButton, InputTag, DestinationSummaryHeader,  FavouriteWrapper, FavouriteLabelParagraph, FavouriteDestinationParagraph, ImageContainer, DestinationContentContainer } from './SelectDestinationStyle';
+
+import emotoLogo from '../assets/logos/emotoLogo.svg';
 
 import { Favourites } from './Favourites';
 
@@ -20,9 +22,11 @@ interface ISelectDestinationProps {}
 
 export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   const [isFromClicked, setIsFromClicked] = useState(false);
-  // const [isDestinationChosen, setIsDestinationChosen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [newDestination, setNewDestination] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+
 
   const history = useHistory();
   const user = useSelector((state: RootState) => state.user);
@@ -33,35 +37,45 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
 
   useEffect(() => {
     dispatch(getUserData({ ...user }));
+    if (destination && destination.destination) {
+      setIsClicked(!isClicked);
+    }
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleTakeMeThereSubmit(event: any): void {
     event.preventDefault();
-    console.log('submit to map');
-
     dispatch(getDestinationCoordinatesAndMotos(destination.destination, user.username));
     history.push('/map');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleOKClick(): void {
-    dispatch(setCurrentDestination({ destination: newDestination, label: '' }));
-    setIsClicked(!isClicked);
-
-    inputFields[0].value = '';
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleFavoutiteClick(favourite: FavouriteDestination): void{
+  function handleFavouriteClick(favourite: FavouriteDestination): void{
+    inputFields[0].value = favourite.destination;
+    setIsVisible(true);
+    setIsClicked(true);
     dispatch(setCurrentDestination({ ...favourite }));
-    setIsClicked(!isClicked);
-    // setIsDestinationChosen(!isDestinationChosen);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleCustomDestinationChange(event: any): void {
-    setNewDestination(event.target.value);
+  function handleInputChange() {
+    if (isVisible) {
+      setInputValue(inputFields[0].value = '');
+      setIsVisible(!isVisible);
+      setIsClicked(!isClicked);
+    }
+  }
+
+  function handleOKClick() {
+    dispatch(setCurrentDestination({ destination: inputFields[0].value, label: '' }));
+    if (inputFields[0].value === '') {
+      setIsClicked(false);
+      return;
+    }
+    if (isClicked) {
+      setInputValue(inputFields[0].value = '');
+    }
+    setIsVisible(!isVisible);
+    setIsClicked(!isClicked);
   }
 
   return (
@@ -74,19 +88,18 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
         >
           <InputContainerDiv
             onClickCapture={() => setIsFromClicked(true)}
-            onChange={handleCustomDestinationChange}
           >
             <InputTag
               type="text"
-              disabled={isClicked}
               placeholder="Eg: Carrer Sant Miquel 7, Barcelona"
+              onFocus={handleInputChange}
             />
             <InputButton
               id='OK_button'
               type='button'
               onClick={handleOKClick}
             >
-              {isClicked ? 'change' : 'add'}
+              {isClicked && !isFocused ? <ClearIcon /> : <AddIcon />}
             </InputButton>
             <FavouritesContainerDiv>
               <FavouritesHeader>Favourites</FavouritesHeader>
@@ -99,10 +112,14 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
                 >
                   <div
                     role='button'
-                    onClick={() => handleFavoutiteClick(favourite)}
-                    onKeyDown={() => handleFavoutiteClick(favourite)}
+                    onClick={() => handleFavouriteClick(favourite)}
+                    onKeyDown={() => handleFavouriteClick(favourite)}
                     tabIndex={-1}
+                    style={{
+                      outline: 'none',
+                    }}
                   >
+                    <StarOutlineIcon style={{ color:'#ffa40b', fontSize: 'small', display: 'inline-block', marginRight: '.5em' }} />
                     <FavouriteLabelParagraph>
                       {favourite.label}
                     </FavouriteLabelParagraph>
@@ -117,13 +134,18 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
         </FormTag>
       </FormWrapper>
       <div />
-      {isClicked ? (
+      {isVisible ? (
         <DestinationSummaryContainerDiv>
-          <DestinationSummaryHeader>You are heading to:
-          </DestinationSummaryHeader>
-          <div key={destination && destination.destination}>
-            <h4>{destination && destination.destination}</h4>
-          </div>
+          <DestinationContentContainer>
+            <ImageContainer src={emotoLogo} alt="emoto logo" />
+            <div>
+              <DestinationSummaryHeader>You are heading to:
+              </DestinationSummaryHeader>
+              <div key={destination && destination.destination}>
+                <p>{destination && destination.destination}</p>
+              </div>
+            </div>
+          </DestinationContentContainer>
           <MainButtonWrapper
             onClick={handleTakeMeThereSubmit}
             type="submit"
