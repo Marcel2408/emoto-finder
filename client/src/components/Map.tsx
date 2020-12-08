@@ -79,6 +79,7 @@ export const Map: React.FC<IMapProps> = () => {
   const [motoProvider, setMotoProvider] = useState({});
   const userStore = useSelector((state: RootState) => state.user);
   const motoStore = useSelector((state: RootState) => state.motos);
+  const destinationStore = useSelector((state: RootState) => state.destination);
   const [motosFilteredByProviders, setMotosFilteredByProviders] = useState([]);
   const motoStoreCopy: any = [...motoStore];
   const [viewport, setViewport] = useState({
@@ -159,7 +160,7 @@ export const Map: React.FC<IMapProps> = () => {
               userStore.destinationCoordinates.destinationLongitude
             }
           >
-            {viewport.zoom > 18 ? <p>{userStore.username}</p> : null}
+            {viewport.zoom > 18 ? <p>{destinationStore.destination}</p> : null}
             <PinDropIcon style={{ width: '30px', height: '30px' }} />
           </Marker>
           <Marker latitude={userStore.latitude} longitude={userStore.longitude}>
