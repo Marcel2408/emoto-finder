@@ -4,9 +4,13 @@ import { MouseEventHandler, SetStateAction, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import StarOutlineIcon from '@material-ui/icons/StarOutline';
+import ArrowBackIosOutlinedIcon from '@material-ui/icons/ArrowBackIosOutlined';
 import { RootState } from '../store';
 import { updateFavouriteDestination } from '../store/actions';
 import { AppState, FavouriteDestination } from '../store/types';
+
+import { FavouriteContainerDiv, FavouriteWrapperDiv, DeleteButton, FavouriteLabelParagraph, FavouriteDestinationParagraph, FavouritesHeader, FavouritesForm, FormFieldWrapper, FormFieldHeader } from './FavouritesStyle';
 
 interface IFavouritesProps {}
 
@@ -52,58 +56,88 @@ export const Favourites: React.FC<IFavouritesProps> = () => {
 
   return (
     <>
-      <form>
-        <div>
-          <h3>Label</h3>
+      <FavouritesHeader>
+        <button
+          type='button'
+          onClick={() => history.push('/map')}
+          style={{
+            position: 'absolute',
+            height: '100%',
+            left: '0',
+            top: '0',
+            border: 'none',
+            backgroundColor: 'transparent',
+            padding: '0',
+            marginLeft: '.2em' }}
+        >
+          <ArrowBackIosOutlinedIcon style={{
+            color:'white', fontSize: '200%' }}
+          />
+        </button>
+        <span>Favourites
+        </span>
+      </FavouritesHeader>
+      <FavouritesForm>
+        <FormFieldWrapper>
+          <FormFieldHeader>Label</FormFieldHeader>
           <TextField
             required
             id="standard-required"
             label="Required"
-            defaultValue="Label"
             type="text"
             onChange={handleInputLabel}
+            style={{
+              width:'100%'
+            }}
           />
-        </div>
-        <div>
-          <h3>Address</h3>
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormFieldHeader>Address</FormFieldHeader>
           <TextField
             id="standard-basic"
-            label={`${destination}`}
+            label="Required"
             type="text"
             defaultValue={`${destination}`}
+            style={{
+              width:'100%'
+            }}
           />
-        </div>
+        </FormFieldWrapper>
         <Button
           onClick={handleLabelClick}
           variant="contained"
           type="button"
-          color="primary"
+          style={{
+            backgroundColor:'#ffa40b',
+            margin: '1em auto',
+            padding: '.5em 2em',
+            color: 'white'
+          }}
         >
           SAVE
         </Button>
-      </form>
-      {newFavourites?.map((favoriteDestination) => (
-        <div key={favoriteDestination.label}>
-          <div>
-            <h2>{favoriteDestination.label}</h2>
-            <p>{favoriteDestination.destination}</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => handleDeleteClick(favoriteDestination)}
-          >
-            <DeleteForeverIcon />
-          </button>
-        </div>
-      ))}
-      <Button
-        variant="contained"
-        type="button"
-        color="primary"
-        onClick={() => history.push('/map')}
-      >
-        BACK
-      </Button>
+      </FavouritesForm>
+      <FavouriteContainerDiv>
+        {newFavourites?.map((favoriteDestination) => (
+          <FavouriteWrapperDiv key={favoriteDestination.label}>
+            <div>
+              <StarOutlineIcon style={{ color:'#ffa40b', fontSize: 'medium',  display: 'inline-block', marginRight: '.35em' }} />
+              <FavouriteLabelParagraph>
+                {favoriteDestination.label}
+              </FavouriteLabelParagraph>
+              <FavouriteDestinationParagraph>
+                {favoriteDestination.destination}
+              </FavouriteDestinationParagraph>
+            </div>
+            <DeleteButton
+              type="button"
+              onClick={() => handleDeleteClick(favoriteDestination)}
+            >
+              <DeleteForeverIcon style={{ color:'#303f9f', backgroundColor: 'transparent', border: 'none', display: 'inline-block' }} />
+            </DeleteButton>
+          </FavouriteWrapperDiv>
+        ))}
+      </FavouriteContainerDiv>
     </>
   );
 };
