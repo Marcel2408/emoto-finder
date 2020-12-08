@@ -20,9 +20,19 @@ export const MotoInfoDetails = styled.div`
 export const MotoInfoLeft = styled.div`
   height: 100px;
   width: 70vw;
-  padding-left: 1vw;
+  padding-left: 2vw;
   h2 {
-    margin: 2vh;
+    margin: 2vh 0vh;
+  }
+`;
+export const MotoInfoLeftDetails = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  p {
+    margin-right: 1vw;
+    margin-top: 1vw;
   }
 `;
 export const MotoInfoRight = styled.div`

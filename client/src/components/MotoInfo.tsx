@@ -5,6 +5,9 @@ import Divider from '@material-ui/core/Divider';
 import BatteryCharging60Icon from '@material-ui/icons/BatteryCharging60';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
+import EuroIcon from '@material-ui/icons/Euro';
+import MotorcycleIcon from '@material-ui/icons/Motorcycle';
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 
 import { Moto } from '../store/types';
 import {
@@ -12,6 +15,7 @@ import {
   MotoInfoContainer,
   MotoInfoDetails,
   MotoInfoLeft,
+  MotoInfoLeftDetails,
   MotoInfoRight,
   MotoInfoRightInfo,
   MotoInfoRightLogo,
@@ -61,9 +65,23 @@ const MotoInfo: React.FC<IMotoInfoProps> = ({
         <MotoInfoLeft>
           <h2>{moto.provider.name}</h2>
           <Divider variant="middle" />
-          <p>
-            Drivetime: {Math.round((moto.driveTime / 60) * motoProvider.price)}
-          </p>
+          <MotoInfoLeftDetails>
+            <EuroIcon style={{ height: '20px' }} />
+            <p>Estimated cost:</p>
+
+            {parseFloat(
+              ` ${(moto.driveTime / 60) * motoProvider.price}`
+            ).toFixed(2)}
+          </MotoInfoLeftDetails>
+          <MotoInfoLeftDetails>
+            <MotorcycleIcon style={{ height: '20px' }} />
+            <p>Driving time: {Math.round(moto.driveTime / 60)} min</p>
+          </MotoInfoLeftDetails>
+          <MotoInfoLeftDetails>
+            <QueryBuilderIcon style={{ height: '20px' }} />
+            <p>Total time: {Math.round(moto.totalTravelTime / 60)} min</p>
+          </MotoInfoLeftDetails>
+          <p>{motoIndex}</p>
         </MotoInfoLeft>
         <MotoInfoRight>
           <MotoInfoRightLogo>
