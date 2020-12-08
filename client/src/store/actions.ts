@@ -20,6 +20,7 @@ import {
   Provider,
   UPDATE_FAVOURITES_PROVIDERS,
   Moto,
+  STORE_USER_DESTINATION_COORDINATES,
 } from './types';
 
 export const BASE_URL = 'http://localhost:4000';
@@ -111,7 +112,7 @@ export function getDestinationCoordinatesAndMotos(
         availableMotos: res.data.motos,
       });
       dispatch({
-        type: STORE_USER_DATA,
+        type: STORE_USER_DESTINATION_COORDINATES,
         destinationCoordinates: res.data.destinationCoordinates,
       });
     });

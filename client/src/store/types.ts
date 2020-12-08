@@ -76,6 +76,9 @@ export interface AppState {
 // action constans
 
 export const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
+export const STORE_USER_DESTINATION_COORDINATES =
+  'STORE_USER_DESTINATION_COORDINATES';
+
 export const STORE_USER_DATA = 'STORE_USER_DATA';
 export const LOGOUT = 'LOGOUT';
 export const SET_DESTINATION = 'SET_DESTINATION';
@@ -92,6 +95,10 @@ export const GET_DESTINATION_COORDINATES_AND_MOTOS =
 interface GetUserData {
   type: typeof STORE_USER_DATA;
   userData: User;
+}
+
+interface GetUserDestinationCoordinates {
+  type: typeof STORE_USER_DESTINATION_COORDINATES;
   destinationCoordinates?: DestinationCoordinates;
 }
 
@@ -115,11 +122,6 @@ interface GetDestinationCoordinatesAndMotos {
   availableMotos: Moto[];
 }
 
-// interface LoadMotos {
-//   type: typeof LOAD_MOTOS;
-//   availableMotos: Moto[];
-// }
-
 interface ChangeCurretnDestination {
   type: typeof CHANGE_CURRENT_DESTINATION;
   destination: CurrentDestination;
@@ -142,6 +144,7 @@ interface BookMoto {
 
 export type UserActionTypes =
   | GetUserData
+  | GetUserDestinationCoordinates
   | AuthenticateUser
   | LogoutUser
   | UpdateFavourites
