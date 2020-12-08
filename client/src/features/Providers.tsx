@@ -10,9 +10,11 @@ import Switch from '@material-ui/core/Switch';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import ArrowBackIosOutlinedIcon from '@material-ui/icons/ArrowBackIosOutlined';
 import { AppState, Provider } from '../store/types';
 import { RootState } from '../store';
 import { updateFavouriteProviders } from '../store/actions';
+import { ProviderHeader, ProvidersContainerDiv, FlexWrapper } from './ProvidersStyle';
 
 interface IProvidersProps {}
 
@@ -44,35 +46,68 @@ export const Providers: React.FC<IProvidersProps> = () => {
   };
 
   return (
-    <>
-      <FormControl component="fieldset">
-        <FormGroup>
-          {user.providers.map((provider, i) => (
-            <div key={provider.name}>
-              <FormControlLabel
-                label={provider.name}
-                control={
-                  <Switch
-                    checked={provider.isFiltered}
-                    onChange={(event) => handleChange(event, provider)}
-                    name={provider.name}
-                    color="primary"
-                  />
+    <FlexWrapper>
+      <ProviderHeader>
+        <button
+          type='button'
+          onClick={handleSaveProviders}
+          style={{
+            position: 'absolute',
+            height: '100%',
+            left: '0',
+            top: '0',
+            border: 'none',
+            backgroundColor: 'transparent',
+            padding: '0',
+            marginLeft: '.2em' }}
+        >
+          <ArrowBackIosOutlinedIcon style={{
+            color:'white', fontSize: '200%' }}
+          />
+        </button>
+        <span>Providers
+        </span>
+      </ProviderHeader>
+      <ProvidersContainerDiv>
+        <FormControl component="fieldset">
+          <FormGroup>
+            {user.providers.map((provider, i) => (
+              <div
+                key={provider.name}
+                style={{
+                  marginBottom: '.35em',
+                }}
+              >
+                <FormControlLabel
+                  label={provider.name}
+                  control={
+                    <Switch
+                      checked={provider.isFiltered}
+                      onChange={(event) => handleChange(event, provider)}
+                      name={provider.name}
+                      color="primary"
+                    />
                 }
-              />
-            </div>
-          ))}
-        </FormGroup>
-      </FormControl>
-      <Button
-        variant="contained"
-        type="button"
-        color="primary"
-        onClick={handleSaveProviders}
-      >
-        SAVE
-      </Button>
-    </>
+                />
+              </div>
+            ))}
+          </FormGroup>
+        </FormControl>
+        <Button
+          variant="contained"
+          type="button"
+          onClick={handleSaveProviders}
+          style={{
+            padding: '.5em 3em',
+            backgroundColor:'#ffa40b',
+            color: 'white',
+            fontWeight: 'bold'
+          }}
+        >
+          SAVE
+        </Button>
+      </ProvidersContainerDiv>
+    </FlexWrapper>
   );
 };
 

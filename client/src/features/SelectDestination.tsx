@@ -150,7 +150,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
             onClick={handleTakeMeThereSubmit}
             type="submit"
           >
-            Take me there
+            TAKE ME THERE
           </MainButtonWrapper>
         </DestinationSummaryContainerDiv>
       ) : null}
