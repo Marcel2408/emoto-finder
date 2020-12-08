@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
 /* eslint-disable no-nested-ternary */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -7,9 +11,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import RoomIcon from '@material-ui/icons/Room';
-import StarIcon from '@material-ui/icons/Star';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import PinDropIcon from '@material-ui/icons/PinDrop';
 import { AppState, Moto } from '../store/types';
-import userSVG from '../assets/images/user.svg';
 import starSVG from '../assets/images/star.svg';
 import { RootState } from '../store';
 import MotoInfo from './MotoInfo';
@@ -69,10 +73,16 @@ export const Map: React.FC<IMapProps> = () => {
     },
     battery: 0,
   });
+  const [destinationCoordinates, setDestinationCoordinates] = useState({
+    destinationLatitude: 0,
+    destinationLongitude: 0,
+  });
   const [motoIndex, setMotoIndex] = useState(0);
   const [motoProvider, setMotoProvider] = useState({});
   const userStore = useSelector((state: RootState) => state.user);
-
+  const motoStore = useSelector((state: RootState) => state.motos);
+  const [motosFilteredByProviders, setMotosFilteredByProviders] = useState([]);
+  const motoStoreCopy: any = [...motoStore];
   const [viewport, setViewport] = useState({
     width: 414,
     height: 736,
@@ -82,9 +92,25 @@ export const Map: React.FC<IMapProps> = () => {
   });
 
   useEffect(() => {
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    for (let i = 0; i < motoStoreCopy.length; i++) {
+      for (let j = 0; j < userStore.providers.length; j++) {
+        if (motoStoreCopy[i].provider.name === userStore.providers[j].name) {
+          if (userStore.providers[j].isFiltered) {
+            setMotosFilteredByProviders((prev) => [...prev, motoStoreCopy[i]]);
+          }
+        }
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [motoStore]);
+
+  useEffect(() => {
+    setDestinationCoordinates({ ...userStore.destinationCoordinates });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userStore.destinationCoordinates]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleClickedMoto(moto: Moto, i: number, motoProviderInfo: any) {
@@ -101,8 +127,6 @@ export const Map: React.FC<IMapProps> = () => {
     disptach(setCurrentDestination({ destination: '', label: '' }));
     history.push('/destination');
   };
-
-  const motoStore = useSelector((state: RootState) => state.motos);
 
   if (isLoading) {
     return <div>LOADING...</div>;
@@ -133,15 +157,18 @@ export const Map: React.FC<IMapProps> = () => {
           mapboxApiAccessToken={MAPBOX_TOKEN}
           mapStyle={MAPBOX_STYLE}
         >
+          <Marker
+            latitude={destinationCoordinates.destinationLatitude}
+            longitude={destinationCoordinates.destinationLongitude}
+          >
+            {viewport.zoom > 18 ? <p>{userStore.username}</p> : null}
+            <PinDropIcon style={{ width: '30px', height: '30px' }} />
+          </Marker>
           <Marker latitude={userStore.latitude} longitude={userStore.longitude}>
             {viewport.zoom > 18 ? <p>{userStore.username}</p> : null}
-            <img
-              src={userSVG}
-              alt="user marker"
-              style={{ width: '35px', height: '35px' }}
-            />
+            <AccountCircleIcon style={{ width: '30px', height: '30px' }} />
           </Marker>
-          {motoStore?.map((moto, i) => {
+          {motosFilteredByProviders?.map((moto: Moto, i: number) => {
             const { provider } = moto;
             return (
               <Marker
@@ -209,17 +236,19 @@ export const Map: React.FC<IMapProps> = () => {
           {isMotoInfoClicked && (
             <>
               {motoIndex === 0 ? (
-                <img
-                  src={starSVG}
-                  alt="star"
-                  style={{
-                    height: '65px',
-                    marginLeft: 20,
-                    position: 'absolute',
-                    zIndex: 20,
-                    marginTop: '65vh',
-                  }}
-                />
+                <>
+                  <img
+                    src={starSVG}
+                    alt="star"
+                    style={{
+                      height: '65px',
+                      marginLeft: 20,
+                      position: 'absolute',
+                      zIndex: 20,
+                      marginTop: '65vh',
+                    }}
+                  />
+                </>
               ) : null}
 
               <MotoContainerDiv>

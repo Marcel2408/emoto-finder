@@ -6,7 +6,6 @@ import {
   CurrentDestination,
   STORE_USER_DATA,
   LOGOUT,
-  LOAD_MOTOS,
   CHANGE_CURRENT_DESTINATION,
   BOOK_MOTO,
   SET_DESTINATION,
@@ -14,7 +13,6 @@ import {
   GET_DESTINATION_COORDINATES_AND_MOTOS,
   UserActionTypes,
   DestinationActionTypes,
-  MapActionTypes,
   AppState,
   User,
   FavouriteDestination,
@@ -76,6 +74,7 @@ export function updateFavouriteDestination(
       });
   };
 }
+
 export function updateFavouriteProviders(
   userId: string,
   newFavouritesProviders: Provider[]
@@ -125,12 +124,19 @@ export function bookMoto(
 ): ThunkAction<void, RootState, unknown, Action> {
   return (dispatch) => {
     axios.post(`${BASE_URL}/add-trip`, { destination, moto }).then((res) => {
-      console.log('bookMoto response >>>>', res.data);
-
       dispatch({
         type: BOOK_MOTO,
       });
     });
+  };
+}
+
+export function updateMotosByFilteredProviders(
+  appState: AppState
+): UserActionTypes {
+  return {
+    type: LOGOUT,
+    payload: appState,
   };
 }
 
@@ -151,23 +157,3 @@ export function changeCurrentDestination(
     destination,
   };
 }
-
-// export function getAllMotos(): ThunkAction<void, RootState, unknown, Action> {
-//   return (dispatch) => {
-//     axios
-//       .post(`${BASE_URL}/map`, {
-//         username: 'Ewa',
-//         destination: 'Carrer del Marquès de Sentmenat, 75, 08029 Barcelona',
-//       })
-//       .then((res) => {
-//         console.log(res.data);
-//         dispatch({
-//           type: LOAD_MOTOS,
-//           availableMotos: res.data,
-//         });
-//       })
-//       .catch((err) => {
-//         console.error(err);
-//       });
-//   };
-// }
