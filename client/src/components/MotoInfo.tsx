@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import BatteryCharging60Icon from '@material-ui/icons/BatteryCharging60';
-import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import EuroIcon from '@material-ui/icons/Euro';
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
 import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import DrivingPlateIcon from '../assets/images/licence-plate.png';
 
 import { Moto } from '../store/types';
 import {
@@ -63,25 +63,17 @@ const MotoInfo: React.FC<IMotoInfoProps> = ({
     <MotoInfoContainer>
       <MotoInfoDetails>
         <MotoInfoLeft>
-          <h2>{moto.provider.name}</h2>
           <Divider variant="middle" />
           <MotoInfoLeftDetails>
             <EuroIcon style={{ height: '20px' }} />
-            <p>Estimated cost:</p>
-
             {parseFloat(
               ` ${(moto.driveTime / 60) * motoProvider.price}`
             ).toFixed(2)}
           </MotoInfoLeftDetails>
           <MotoInfoLeftDetails>
             <MotorcycleIcon style={{ height: '20px' }} />
-            <p>Driving time: {Math.round(moto.driveTime / 60)} min</p>
+            <p>{Math.round(moto.driveTime / 60)} min</p>
           </MotoInfoLeftDetails>
-          <MotoInfoLeftDetails>
-            <QueryBuilderIcon style={{ height: '20px' }} />
-            <p>Total time: {Math.round(moto.totalTravelTime / 60)} min</p>
-          </MotoInfoLeftDetails>
-          <p>{motoIndex}</p>
         </MotoInfoLeft>
         <MotoInfoRight>
           <MotoInfoRightLogo>
@@ -93,7 +85,7 @@ const MotoInfo: React.FC<IMotoInfoProps> = ({
               <p>{moto.battery} %</p>
             </div>
             <div>
-              <AspectRatioIcon style={{ height: '20px' }} />
+              <img src={DrivingPlateIcon} style={{ height: '25px', width: '25px' }} />
               <p>{moto.publicId && moto.publicId}</p>
             </div>
             <div>

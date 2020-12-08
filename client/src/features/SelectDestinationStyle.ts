@@ -115,7 +115,7 @@ export const FavouriteDestinationParagraph = styled.p`
   padding-left: 1.3em;
 `;
 
-const slideInUp = keyframes`
+export const slideInUp = keyframes`
   0% {
     height: 0;
   }
