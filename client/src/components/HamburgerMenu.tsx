@@ -3,6 +3,7 @@ import * as React from 'react';
 import { MouseEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
+import { CircleIcon } from './MapStyle';
 
 interface IHamburgerMenuProps {}
 
@@ -28,24 +29,26 @@ const HamburgerMenu: React.FC<IHamburgerMenuProps> = () => {
   };
   return (
     <>
-      <Button
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        <MenuIcon fontSize="large" />
-      </Button>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleDestination}>Favorites</MenuItem>
-        <MenuItem onClick={handleProviders}>Providers</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-      </Menu>
+      <CircleIcon>
+        <Button
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          <MenuIcon color="primary" fontSize="large" />
+        </Button>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleDestination}>Favorites</MenuItem>
+          <MenuItem onClick={handleProviders}>Providers</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
+      </CircleIcon>
     </>
   );
 };

@@ -9,10 +9,15 @@ import { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PinDropIcon from '@material-ui/icons/PinDrop';
+import { PulseLoader } from 'react-spinners';
+import DirectionsIcon from '@material-ui/icons/Directions';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { common } from '@material-ui/core/colors';
 import { AppState, Moto } from '../store/types';
 import starSVG from '../assets/images/star.svg';
 import { RootState } from '../store';
@@ -22,11 +27,12 @@ import {
   HeaderDiv,
   MapDiv,
   MotoContainerDiv,
-  ChangeDestinationDiv,
   SelectedMotoDiv,
   NormalMotoDiv,
+  Loader,
+  CircleIcon,
+  HeaderRight,
 } from './MapStyle';
-import HamburgerMenu from './HamburgerMenu';
 import { setCurrentDestination } from '../store/actions';
 import logoAcciona from '../assets/logos/accionaLogo.png';
 import logoAvant from '../assets/logos/avantLogo.png';
@@ -49,6 +55,7 @@ import motoSeat from '../assets/images/motoSeat.svg';
 import motoTucycle from '../assets/images/motoTucycle.svg';
 import motoOIZ from '../assets/images/motoOIZ.svg';
 import motoYego from '../assets/images/motoYego.svg';
+import HamburgerMenu from './HamburgerMenu';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
@@ -108,9 +115,15 @@ const providerStore: ProviderStoreI = {
   Yego: { color: '#28323C', logo: logoYego, price: 0.25, moto: motoYego },
 };
 
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: common.white },
+  },
+});
+
 export const Map: React.FC<IMapProps> = () => {
   const history = useHistory();
-  const disptach = useDispatch();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [isMotoInfoClicked, setIsMotoInfoClicked] = useState(false);
   const [motoInfo, setMotoInfo] = useState({
@@ -152,7 +165,7 @@ export const Map: React.FC<IMapProps> = () => {
     }
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [motoStore]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -167,31 +180,50 @@ export const Map: React.FC<IMapProps> = () => {
     setIsMotoInfoClicked(false);
   }
   const handleChangeDestination = () => {
-    disptach(setCurrentDestination({ destination: '', label: '' }));
+    dispatch(setCurrentDestination({ destination: '', label: '' }));
     history.push('/destination');
+  };
+  const handleChangeProviders = () => {
+    history.push('/providers');
   };
 
   if (isLoading) {
-    return <div>LOADING...</div>;
+    return (
+      <Loader>
+        <PulseLoader
+          css=""
+          margin={6}
+          size={20}
+          color="#303f9f"
+          loading={isLoading}
+        />
+      </Loader>
+    );
   }
 
   return (
     <ContainerDiv>
-      <HeaderDiv>
-        <div>
+      <ThemeProvider theme={theme}>
+        <HeaderDiv>
           <HamburgerMenu />
-        </div>
-        <ChangeDestinationDiv>
-          <Button
-            variant="contained"
-            color="primary"
-            type="button"
-            onClick={handleChangeDestination}
-          >
-            Change Destination
-          </Button>
-        </ChangeDestinationDiv>
-      </HeaderDiv>
+          <HeaderRight>
+            <CircleIcon color="primary">
+              <DirectionsIcon
+                color="primary"
+                fontSize="large"
+                onClick={handleChangeDestination}
+              />
+            </CircleIcon>
+            <CircleIcon>
+              <FilterListIcon
+                color="primary"
+                fontSize="large"
+                onClick={handleChangeProviders}
+              />
+            </CircleIcon>
+          </HeaderRight>
+        </HeaderDiv>
+      </ThemeProvider>
       <MapDiv>
         <ReactMapGL
           {...viewport}
