@@ -47,6 +47,35 @@ export const CircleIcon = styled.div`
   margin: 1vh 0vh;
   background-color: #303f9f;
 `;
+
+export const NormalMotoDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 7;
+  p {
+    margin: 0px;
+    padding: 0px;
+  }
+`;
+export const LoaderMap = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+export const Pin = styled.div`
+  width: 5vw;
+  height: 5vw;
+  background: rgba(5, 124, 255, 1);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  filter: drop-shadow(4px 8px 16px #057cff);
+`;
 export const SelectedMotoDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -76,24 +105,4 @@ export const SelectedMotoDiv = styled.div`
     margin: 0px;
     padding: 0px;
   }
-`;
-export const NormalMotoDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  z-index: 7;
-  p {
-    margin: 0px;
-    padding: 0px;
-  }
-`;
-export const Loader = styled.div`
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 `;

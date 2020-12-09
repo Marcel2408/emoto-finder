@@ -18,7 +18,11 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { common } from '@material-ui/core/colors';
-import { AppState, Moto } from '../store/types';
+import {
+  AppState,
+  GET_DESTINATION_COORDINATES_AND_MOTOS,
+  Moto,
+} from '../store/types';
 import starSVG from '../assets/images/star.svg';
 import { RootState } from '../store';
 import MotoInfo from './MotoInfo';
@@ -29,9 +33,10 @@ import {
   MotoContainerDiv,
   SelectedMotoDiv,
   NormalMotoDiv,
-  Loader,
   CircleIcon,
   HeaderRight,
+  Pin,
+  LoaderMap,
 } from './MapStyle';
 import { setCurrentDestination } from '../store/actions';
 import logoAcciona from '../assets/logos/accionaLogo.png';
@@ -50,6 +55,7 @@ import motoAcciona from '../assets/images/motoAcciona.svg';
 import motoAvant from '../assets/images/motoAvant.svg';
 import motoCityscoot from '../assets/images/motoCityscoot.svg';
 import motoEcooltra from '../assets/images/motoEcooltra.svg';
+import motoGecco from '../assets/images/motoGecco.svg';
 import motoIberscot from '../assets/images/motoIberscot.svg';
 import motoSeat from '../assets/images/motoSeat.svg';
 import motoTucycle from '../assets/images/motoTucycle.svg';
@@ -92,7 +98,7 @@ const providerStore: ProviderStoreI = {
     price: 0.26,
     moto: motoEcooltra,
   },
-  Gecco: { color: '#000', logo: logoGecco, price: 0.28, moto: motoAvant },
+  Gecco: { color: '#000', logo: logoGecco, price: 0.28, moto: motoGecco },
   Iberscot: {
     color: '#BF1E2E',
     logo: logoIberscot,
@@ -180,16 +186,22 @@ export const Map: React.FC<IMapProps> = () => {
     setIsMotoInfoClicked(false);
   }
   const handleChangeDestination = () => {
+    dispatch({
+      type: GET_DESTINATION_COORDINATES_AND_MOTOS,
+      availableMotos: [],
+    });
     dispatch(setCurrentDestination({ destination: '', label: '' }));
+    setMotosFilteredByProviders([]);
     history.push('/destination');
   };
   const handleChangeProviders = () => {
+    setMotosFilteredByProviders([]);
     history.push('/providers');
   };
 
   if (isLoading) {
     return (
-      <Loader>
+      <LoaderMap>
         <PulseLoader
           css=""
           margin={6}
@@ -197,7 +209,7 @@ export const Map: React.FC<IMapProps> = () => {
           color="#303f9f"
           loading={isLoading}
         />
-      </Loader>
+      </LoaderMap>
     );
   }
 
@@ -247,8 +259,7 @@ export const Map: React.FC<IMapProps> = () => {
             <PinDropIcon style={{ width: '30px', height: '30px' }} />
           </Marker>
           <Marker latitude={userStore.latitude} longitude={userStore.longitude}>
-            {viewport.zoom > 17 ? <p>{userStore.username}</p> : null}
-            <AccountCircleIcon style={{ width: '30px', height: '30px' }} />
+            <Pin />
           </Marker>
           {motosFilteredByProviders?.map((moto: Moto, i: number) => {
             const { provider } = moto;
