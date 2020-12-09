@@ -1,47 +1,35 @@
 import styled, { keyframes } from 'styled-components';
 
 export const MotoInfoContainer = styled.div`
-  height: 200px;
-  width: 100vw;
-  background-color: #FFF;
+  width: 100%;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.5em;
   border-radius: 15px 15px 0px 0px;
-  box-shadow: 0px 0px 8px 8px rgba(0,0,0,0.11);
-  position: absolute;
-  z-index-2;
+  box-shadow: 0px 0px 8px 8px rgba(0, 0, 0, 0.11);
 `;
-export const MotoInfoDetails = styled.div`
-  height: 150px;
-  width: 100vw;
+
+export const MotoInfoWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  width: 90%;
+  padding-top: 0.25em;
 `;
-export const MotoInfoLeft = styled.div`
-  height: 100px;
-  width: 70vw;
-  padding-left: 2vw;
-  h2 {
-    margin: 2vh 0vh;
-  }
+
+export const FlexColumn = styled.div`
+  flex-basis: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 `;
-export const MotoInfoLeftDetails = styled.div`
+
+export const MotoInfoDetails = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: left;
-  p {
-    margin-right: 1vw;
-    margin-top: 1vw;
-  }
-`;
-export const MotoInfoRight = styled.div`
-  height: 150px;
-  width: 30vw;
-  margin-right: 2vw;
-  img {
-    width: 25vw;
-  }
+  margin-bottom: 0.25em;
 `;
 
 const slideInUp = keyframes`
@@ -51,43 +39,27 @@ const slideInUp = keyframes`
 `;
 
 export const MotoContainerWrapper = styled.div`
-  height: 40vh;
-  animation: 0.5s ${slideInUp} ease;
-  background-color: blue;
   position: absolute;
-  bottom: 0;
+  bottom: 0px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 40vh;
+  animation: 0.2s ${slideInUp} ease;
 `;
 
-export const MotoInfoRightLogo = styled.div`
-  height: 75px;
-  width: 30vw;
+export const MotoInfoProviderLogo = styled.div`
+  max-width: 50%;
+  height: 3em;
+  margin: 1em 0 0.5em auto;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: center;
+  padding: 1em;
   img {
-    width: 25vw;
+    height: 2em;
+    max-width: 100%;
   }
-`;
-export const MotoInfoRightInfo = styled.div`
-  height: 75px;
-  width: 30vw;
-  div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: left;
-  }
-  p {
-    margin-left: 1vw;
-  }
-`;
-export const MotoInfoButton = styled.div`
-  height: 50px;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-botton: 10px;
 `;
 
 export const BookMoto = styled.button`

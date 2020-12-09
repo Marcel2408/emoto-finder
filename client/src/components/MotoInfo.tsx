@@ -6,19 +6,16 @@ import BatteryCharging60Icon from '@material-ui/icons/BatteryCharging60';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import EuroIcon from '@material-ui/icons/Euro';
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
-import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import BrandingWatermarkIcon from '@material-ui/icons/BrandingWatermark';
 import DrivingPlateIcon from '../assets/images/licence-plate.png';
 
 import { Moto } from '../store/types';
 import {
-  MotoInfoButton,
   MotoInfoContainer,
+  MotoInfoWrapper,
+  FlexColumn,
   MotoInfoDetails,
-  MotoInfoLeft,
-  MotoInfoLeftDetails,
-  MotoInfoRight,
-  MotoInfoRightInfo,
-  MotoInfoRightLogo,
+  MotoInfoProviderLogo,
   BookMoto
 } from './MotoInfoStyle';
 import { RootState } from '../store';
@@ -62,50 +59,42 @@ const MotoInfo: React.FC<IMotoInfoProps> = ({
 
   return (
     <MotoInfoContainer>
-      <MotoInfoDetails>
-        <MotoInfoLeft>
-          <Divider variant="middle" />
-          <MotoInfoLeftDetails>
-            <EuroIcon style={{ height: '20px' }} />
+      <MotoInfoProviderLogo>
+        <img src={motoProvider.logo} alt="provider logo" />
+      </MotoInfoProviderLogo>
+      <MotoInfoWrapper>
+        <FlexColumn>
+          <MotoInfoDetails>
+            <EuroIcon style={{ height: '1em', width: '1em', borderRadius: '4px', backgroundColor: '#303f9f', padding: '.15em', color: 'white', marginRight: '.35em' }} />
             {parseFloat(
               ` ${(moto.driveTime / 60) * motoProvider.price}`
             ).toFixed(2)}
-          </MotoInfoLeftDetails>
-          <MotoInfoLeftDetails>
-            <MotorcycleIcon style={{ height: '20px' }} />
+          </MotoInfoDetails>
+          <MotoInfoDetails>
+            <DirectionsWalkIcon style={{ height: '1em', width: '1em', borderRadius: '4px', backgroundColor: '#303f9f', padding: '.15em', color: 'white', marginRight: '.35em' }} />
+            <p>{Math.round(moto.walkTime / 60)} min</p>
+          </MotoInfoDetails>
+          <MotoInfoDetails>
+            <MotorcycleIcon style={{ height: '1em', width: '1em', borderRadius: '4px', backgroundColor: '#303f9f', padding: '.15em', color: 'white', marginRight: '.35em' }} />
             <p>{Math.round(moto.driveTime / 60)} min</p>
-          </MotoInfoLeftDetails>
-        </MotoInfoLeft>
-        <MotoInfoRight>
-          <MotoInfoRightLogo>
-            <img src={motoProvider.logo} alt="provider logo" />
-          </MotoInfoRightLogo>
-          <MotoInfoRightInfo>
-            <div>
-              <BatteryCharging60Icon style={{ height: '20px' }} />
-              <p>{moto.battery} %</p>
-            </div>
-            <div>
-              <img
-                src={DrivingPlateIcon}
-                style={{ height: '25px', width: '25px' }}
-              />
-              <p>{moto.publicId && moto.publicId}</p>
-            </div>
-            <div>
-              <DirectionsWalkIcon style={{ height: '20px' }} />
-              <p>{Math.round(moto.walkTime / 60)} min</p>
-            </div>
-          </MotoInfoRightInfo>
-        </MotoInfoRight>
-      </MotoInfoDetails>
-      <MotoInfoButton>
-        <BookMoto
-          onClick={handletTakeMeThereClick}
-        >
-          Book Moto
-        </BookMoto>
-      </MotoInfoButton>
+          </MotoInfoDetails>
+        </FlexColumn>
+        <FlexColumn>
+          <MotoInfoDetails>
+            <BatteryCharging60Icon style={{ height: '1em', width: '1em', borderRadius: '4px', backgroundColor: '#303f9f', padding: '.15em', color: 'white', marginRight: '.35em' }} />
+            <p>{moto.battery} %</p>
+          </MotoInfoDetails>
+          <MotoInfoDetails>
+            <BrandingWatermarkIcon style={{ height: '1em', width: '1em', borderRadius: '4px', backgroundColor: '#303f9f', padding: '.15em', color: 'white', marginRight: '.35em' }} />
+            <p>{moto.publicId && moto.publicId}</p>
+          </MotoInfoDetails>
+        </FlexColumn>
+      </MotoInfoWrapper>
+      <BookMoto
+        onClick={handletTakeMeThereClick}
+      >
+        BOOK MOTO
+      </BookMoto>
     </MotoInfoContainer>
   );
 };

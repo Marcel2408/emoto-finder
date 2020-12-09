@@ -1,8 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 
 export const ContainerDiv = styled.div`
-  height: 736px;
-  width: 414px;
+  height: 100vh;
+  width: 100vw;
 `;
 export const MapDiv = styled.div`
   height: 100vh;
@@ -10,21 +10,37 @@ export const MapDiv = styled.div`
   z-index: 1;
 `;
 
-const slideInUp = keyframes`
-  0% {
-    height: 0;
-  }
+export const MotoContainerDiv = styled.div`
+  position: relative;
+  display: flex;
+  width: 100%;
+  border-radius: 15px 15px 0 0;
+  background-color: white;
 `;
 
-export const MotoContainerDiv = styled.div`
+export const BestMotoImage = styled.img`
+  height: 6em;
+  width: 6em;
   display: inline-block;
   position: absolute;
-  z-index: 100;
-  bottom: 0px;
-  height: 40vh;
-  animation: 0.5s ${slideInUp} ease;
-  background-color: blue;
+  top: -2.5em;
+  left: 1.5em;
 `;
+
+export const TotalTravelTime = styled.div`
+  height: 2.5em;
+  width: 40%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 1em;
+  padding: 0.5em;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  background-color: #ffa40b;
+  color: white;
+`;
+
 export const HeaderDiv = styled.div`
   height: 50px;
   box-sizing: border-box;

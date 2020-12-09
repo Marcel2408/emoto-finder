@@ -14,7 +14,7 @@ import RoomIcon from '@material-ui/icons/Room';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PinDropIcon from '@material-ui/icons/PinDrop';
 import { AppState, Moto } from '../store/types';
-import starSVG from '../assets/images/star.svg';
+import lightening from '../assets/images/lightning.svg';
 import { RootState } from '../store';
 import MotoInfo from './MotoInfo';
 import {
@@ -25,6 +25,8 @@ import {
   ChangeDestinationDiv,
   SelectedMotoDiv,
   NormalMotoDiv,
+  BestMotoImage,
+  TotalTravelTime
 } from './MapStyle';
 
 import { MotoContainerWrapper } from './MotoInfoStyle';
@@ -84,8 +86,8 @@ export const Map: React.FC<IMapProps> = () => {
   const [motosFilteredByProviders, setMotosFilteredByProviders] = useState([]);
   const motoStoreCopy: any = [...motoStore];
   const [viewport, setViewport] = useState({
-    width: 414,
-    height: 736,
+    width: window.innerWidth,
+    height: window.innerHeight,
     latitude: userStore.latitude,
     longitude: userStore.longitude,
     zoom: 16,
@@ -235,23 +237,18 @@ export const Map: React.FC<IMapProps> = () => {
           })}
           {isMotoInfoClicked && (
             <MotoContainerWrapper>
-              {motoIndex === 0 ? (
-                <>
-                  <img
-                    src={starSVG}
-                    alt="star"
-                    style={{
-                      height: '65px',
-                      marginLeft: 20,
-                      position: 'absolute',
-                      zIndex: 20,
-                      marginTop: '65vh',
-                    }}
-                  />
-                </>
-              ) : null}
-
               <MotoContainerDiv>
+                {motoIndex === 0 ? (
+                  <>
+                    <BestMotoImage
+                      src={lightening}
+                      alt="lightening"
+                    />
+                  </>
+                ) : (
+                  <TotalTravelTime> Total Travel Time:
+                  </TotalTravelTime>
+                )}
                 <MotoInfo
                   moto={motoInfo}
                   motoIndex={motoIndex}
