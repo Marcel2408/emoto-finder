@@ -75,7 +75,7 @@ export const InputButton = styled.button`
 
 export const FavouritesContainerDiv = styled.div`
   width: 100%;
-  max-height: 34vh;
+  max-height: 25vh;
   overflow-y: scroll;
   margin: 0.25em;
 `;
@@ -117,7 +117,7 @@ export const DestinationSummaryContainerDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 35vh;
+  height: 55vh;
   margin-bottom: 0;
   margin-top: auto;
   padding-top: 1em;
@@ -130,6 +130,7 @@ export const DestinationSummaryContainerDiv = styled.div`
 `;
 
 export const DestinationContentContainer = styled.div`
+  height: 35vh;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -164,4 +165,13 @@ export const MainButtonWrapper = styled.button`
   border-radius: 4px;
   background-color: #ffa40b;
   box-shadow: 0 2px 10px -1px rgba(7, 7, 7, 0.3);
+`;
+
+export const LoaderDestination = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
