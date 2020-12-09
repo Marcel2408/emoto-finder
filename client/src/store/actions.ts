@@ -105,17 +105,24 @@ export function getDestinationCoordinatesAndMotos(
   destination: string,
   username: string
 ): ThunkAction<void, RootState, unknown, Action> {
+  const formatedDestination = destination.split(' ').join('%20');
+  console.log(formatedDestination);
+
   return (dispatch) => {
-    axios.post(`${BASE_URL}/map`, { destination, username }).then((res) => {
-      dispatch({
-        type: GET_DESTINATION_COORDINATES_AND_MOTOS,
-        availableMotos: res.data.motos,
+    axios
+      .get(
+        `${BASE_URL}/map?destination=${formatedDestination}&username=${username}`
+      )
+      .then((res) => {
+        dispatch({
+          type: GET_DESTINATION_COORDINATES_AND_MOTOS,
+          availableMotos: res.data.motos,
+        });
+        dispatch({
+          type: STORE_USER_DESTINATION_COORDINATES,
+          destinationCoordinates: res.data.destinationCoordinates,
+        });
       });
-      dispatch({
-        type: STORE_USER_DESTINATION_COORDINATES,
-        destinationCoordinates: res.data.destinationCoordinates,
-      });
-    });
   };
 }
 
@@ -144,6 +151,8 @@ export function updateMotosByFilteredProviders(
 export function setCurrentDestination(
   destination: CurrentDestination
 ): DestinationActionTypes {
+  console.log('DEST>>', destination);
+
   return {
     type: SET_DESTINATION,
     destination,
