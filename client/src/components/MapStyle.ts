@@ -1,21 +1,32 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const ContainerDiv = styled.div`
-  height: 736px;
-  width: 414px;
+  height: 100vh;
+  width: 100vw;
 `;
 export const MapDiv = styled.div`
   height: 100vh;
   position: relative;
   z-index: 1;
 `;
+
 export const MotoContainerDiv = styled.div`
-  height: 200px;
-  width: 414px;
-  position: absolute;
-  z-index: 5;
-  bottom: 0px;
+  position: relative;
+  display: flex;
+  width: 100%;
+  border-radius: 15px 15px 0 0;
+  background-color: white;
 `;
+
+export const BestMotoImage = styled.img`
+  height: 6em;
+  width: 6em;
+  display: inline-block;
+  position: absolute;
+  top: -2.5em;
+  left: 1.5em;
+`;
+
 export const HeaderDiv = styled.div`
   height: 10%;
   width: 100%;

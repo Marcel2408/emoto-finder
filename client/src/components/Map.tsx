@@ -19,11 +19,11 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { common } from '@material-ui/core/colors';
 import {
-  AppState,
   GET_DESTINATION_COORDINATES_AND_MOTOS,
-  Moto,
-} from '../store/types';
+  AppState, Moto } from '../store/types';
 import starSVG from '../assets/images/star.svg';
+
+import lightening from '../assets/images/lightning.svg';
 import { RootState } from '../store';
 import MotoInfo from './MotoInfo';
 import {
@@ -37,7 +37,11 @@ import {
   HeaderRight,
   Pin,
   LoaderMap,
+  BestMotoImage,
 } from './MapStyle';
+
+import { MotoContainerWrapper } from './MotoInfoStyle';
+import HamburgerMenu from './HamburgerMenu';
 import { setCurrentDestination } from '../store/actions';
 import logoAcciona from '../assets/logos/accionaLogo.png';
 import logoAvant from '../assets/logos/avantLogo.png';
@@ -61,7 +65,7 @@ import motoSeat from '../assets/images/motoSeat.svg';
 import motoTucycle from '../assets/images/motoTucycle.svg';
 import motoOIZ from '../assets/images/motoOIZ.svg';
 import motoYego from '../assets/images/motoYego.svg';
-import HamburgerMenu from './HamburgerMenu';
+
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
@@ -152,8 +156,8 @@ export const Map: React.FC<IMapProps> = () => {
   const [motosFilteredByProviders, setMotosFilteredByProviders] = useState([]);
   const motoStoreCopy: any = [...motoStore];
   const [viewport, setViewport] = useState({
-    width: 414,
-    height: 736,
+    width: window.innerWidth,
+    height: window.innerHeight,
     latitude: userStore.latitude,
     longitude: userStore.longitude,
     zoom: 16,
@@ -347,31 +351,23 @@ export const Map: React.FC<IMapProps> = () => {
           })}
 
           {isMotoInfoClicked && (
-            <>
-              {motoIndex === 0 ? (
-                <>
-                  <img
-                    src={starSVG}
-                    alt="star"
-                    style={{
-                      height: '65px',
-                      marginLeft: 20,
-                      position: 'absolute',
-                      zIndex: 20,
-                      marginTop: '65vh',
-                    }}
-                  />
-                </>
-              ) : null}
-
+            <MotoContainerWrapper>
               <MotoContainerDiv>
+                {motoIndex === 0 ? (
+                  <>
+                    <BestMotoImage
+                      src={lightening}
+                      alt="lightening"
+                    />
+                  </>
+                ) : null }
                 <MotoInfo
                   moto={motoInfo}
                   motoIndex={motoIndex}
                   motoProvider={motoProvider}
                 />
               </MotoContainerDiv>
-            </>
+            </MotoContainerWrapper>
           )}
         </ReactMapGL>
       </MapDiv>
