@@ -94,8 +94,8 @@ export const Login: React.FC<ILoginProps> = () => {
       console.log('LONG: ', location.coords.longitude);
 
       setUserLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude
+        latitude: 41.39269797901637,
+        longitude: 2.1796737644098707
       });
     }, () => {
       if (!locationPermission) alert('Can\'t read location');
