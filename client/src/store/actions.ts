@@ -23,7 +23,7 @@ import {
   STORE_USER_DESTINATION_COORDINATES,
 } from './types';
 
-export const BASE_URL = 'http://localhost:4000';
+export const BASE_URL = process.env.SERVER_URL;
 
 export function authenticateUser(
   username: string

@@ -20,7 +20,9 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { common } from '@material-ui/core/colors';
 import {
   GET_DESTINATION_COORDINATES_AND_MOTOS,
-  AppState, Moto } from '../store/types';
+  AppState,
+  Moto,
+} from '../store/types';
 import starSVG from '../assets/images/star.svg';
 
 import lightening from '../assets/images/lightning.svg';
@@ -66,9 +68,8 @@ import motoTucycle from '../assets/images/motoTucycle.svg';
 import motoOIZ from '../assets/images/motoOIZ.svg';
 import motoYego from '../assets/images/motoYego.svg';
 
-
-const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
-const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
+const { MAPBOX_TOKEN } = process.env;
+const { MAPBOX_STYLE } = process.env;
 interface IMapProps {}
 
 interface ProviderStoreI {
@@ -355,12 +356,9 @@ export const Map: React.FC<IMapProps> = () => {
               <MotoContainerDiv>
                 {motoIndex === 0 ? (
                   <>
-                    <BestMotoImage
-                      src={lightening}
-                      alt="lightening"
-                    />
+                    <BestMotoImage src={lightening} alt="lightening" />
                   </>
-                ) : null }
+                ) : null}
                 <MotoInfo
                   moto={motoInfo}
                   motoIndex={motoIndex}
