@@ -68,8 +68,8 @@ import motoTucycle from '../assets/images/motoTucycle.svg';
 import motoOIZ from '../assets/images/motoOIZ.svg';
 import motoYego from '../assets/images/motoYego.svg';
 
-const { MAPBOX_TOKEN } = process.env;
-const { MAPBOX_STYLE } = process.env;
+const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
+const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
 interface IMapProps {}
 
 interface ProviderStoreI {
