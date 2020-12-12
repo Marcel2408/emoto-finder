@@ -14,7 +14,7 @@ Even in the case of not having any motos around, they can see the incoming ones 
 
 ## Description
 
-Client side for the eMoto app. Find the server side on this repo: [moto-server](https://github.com/EwaRas/moto-server) 
+Client side for the eMoto app. Find the server side on this repo: [emoto-server](https://github.com/EwaRas/emoto-server) 
 
 Our client is built using [React](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/), and [Redux](https://redux.js.org/) as a state management tool.
 
@@ -41,9 +41,9 @@ Create a ```.env``` in the root level of this repo.
 
 Fill the file with the following info:
 ```
-MAPBOX_TOKEN=<replace this with your Mapbox token>
-MAPBOX_STYLE=mapbox://styles/mapbox/streets-v11
-SERVER_URL=http://localhost:4000
+REACT_APP_MAPBOX_TOKEN=<replace this with your Mapbox token>
+REACT_APP_MAPBOX_STYLE=mapbox://styles/mapbox/streets-v11
+REACT_APP_BASE_URL=http://localhost:4000
 ```
 
 ## Running the app
@@ -63,4 +63,4 @@ The client will run on localhost:3000
 - Ewa Rasala - [Github](https://github.com/ewaras) - [LinkedIn](https://www.linkedin.com/in/ewa-rasala)
 - Carlos De Sousa - [Github](https://github.com/carlosdsv) - [LinkedIn](https://www.linkedin.com/in/carlosdsv/)
 - Rafał Witczak [Github](https://github.com/rafwit/) - [LinkedIn](https://www.linkedin.com/in/rafalwitczak/)
-- Marcel Subirana - [Github](https://github.com/marcel2408) - [LinkedIn](
+- Marcel Subirana - [Github](https://github.com/marcel2408) - [LinkedIn](https://www.linkedin.com/in/marcel-subirana-campanera/)
