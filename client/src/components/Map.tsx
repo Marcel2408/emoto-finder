@@ -20,7 +20,9 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { common } from '@material-ui/core/colors';
 import {
   GET_DESTINATION_COORDINATES_AND_MOTOS,
-  AppState, Moto } from '../store/types';
+  AppState,
+  Moto,
+} from '../store/types';
 import starSVG from '../assets/images/star.svg';
 
 import lightening from '../assets/images/lightning.svg';
@@ -65,7 +67,6 @@ import motoSeat from '../assets/images/motoSeat.svg';
 import motoTucycle from '../assets/images/motoTucycle.svg';
 import motoOIZ from '../assets/images/motoOIZ.svg';
 import motoYego from '../assets/images/motoYego.svg';
-
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
@@ -156,480 +157,32 @@ export const Map: React.FC<IMapProps> = () => {
   const [motosFilteredByProviders, setMotosFilteredByProviders] = useState([]);
   const motoStoreCopy: any = [
     {
-      'id': 'aWJlcnNjb3Q6TU9UT1JTQ09PVEVSOnZfM3F2ZWE4MWhhZnVwMWUyNjF2M2g=',
-      'publicId': 'XXX785',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39208,
-      'longitude': 2.17877,
-      'provider': {
-        'name': 'Iberscot',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=net.iberscot.app',
-          'ios': 'https://itunes.apple.com/app/id1513924750'
-        }
+      id: 'b2l6Ok1PVE9SU0NPT1RFUjp2XzNxdmU5bTRqNmFqdW5ycmM4MTNo',
+      publicId: 'BMF088',
+      type: 'MOTORSCOOTER',
+      latitude: 41.395138,
+      longitude: 2.197638,
+      provider: {
+        name: 'Ecooltra',
+        app: {
+          android:
+            'https://play.google.com/store/apps/details?id=com.mobime.ecooltra',
+          ios: 'https://itunes.apple.com/app/id1083424977?',
+        },
       },
-      'battery': 76,
-      'walkTime': 75.3,
-      'driveTime': 561.1,
-      'totalTravelTime': 636.4
+      battery: 91,
+      walkTime: 80.1,
+      driveTime: 562.1,
+      totalTravelTime: 642.2,
+      isIncomming: true,
+      creationTime: 1607616810719,
     },
-    {
-      'id': 'b2l6Ok1PVE9SU0NPT1RFUjp2XzNxdmU5bTRqNmFqdW5ycmM4MTNo',
-      'publicId': 'BMF088',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.394017977120974,
-      'longitude': 2.1813421340462145,
-      'provider': {
-        'name': 'Ecooltra',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.mobime.ecooltra',
-          'ios': 'https://itunes.apple.com/app/id1083424977?'
-        }
-      },
-      'battery': 91,
-      'walkTime': 80.1,
-      'driveTime': 562.1,
-      'totalTravelTime': 642.2
-    },
-    {
-      'id': 'eWVnbzpNT1RPUlNDT09URVI6MTQ2Nw==',
-      'publicId': null,
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.392237,
-      'longitude': 2.179,
-      'provider': {
-        'name': 'Yego',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.getyugo.app',
-          'ios': 'https://itunes.apple.com/appid1181020675?mt=8'
-        }
-      },
-      'battery': 40,
-      'walkTime': 61,
-      'driveTime': 601.8,
-      'totalTravelTime': 662.8
-    },
-    {
-      'id': 'ZWNvb2x0cmE6TU9UT1JTQ09PVEVSOkVTLUItQTAwNjc2',
-      'publicId': 'C6221BWF',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.392231,
-      'longitude': 2.178947,
-      'provider': {
-        'name': 'Ecooltra',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.mobime.ecooltra',
-          'ios': 'https://itunes.apple.com/app/id1083424977?'
-        }
-      },
-      'battery': 100,
-      'walkTime': 62.9,
-      'driveTime': 601.4,
-      'totalTravelTime': 664.3
-    },
-    {
-      'id': 'Y2l0eXNjb290Ok1PVE9SU0NPT1RFUjpDNzQwNUJXSw==',
-      'publicId': 'C7405BWK',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39147833333333,
-      'longitude': 2.1795416666666663,
-      'provider': {
-        'name': 'Cityscoot',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.livebanner.cityscoot',
-          'ios': 'https://itunes.apple.com/app/id1011202160'
-        }
-      },
-      'battery': 91,
-      'walkTime': 138.5,
-      'driveTime': 527.2,
-      'totalTravelTime': 665.7
-    },
-    {
-      'id': 'Y2l0eXNjb290Ok1PVE9SU0NPT1RFUjpDNzY5M0JXSw==',
-      'publicId': 'C7693BWK',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39171999999999,
-      'longitude': 2.178328333333333,
-      'provider': {
-        'name': 'Cityscoot',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.livebanner.cityscoot',
-          'ios': 'https://itunes.apple.com/app/id1011202160'
-        }
-      },
-      'battery': 89,
-      'walkTime': 114.5,
-      'driveTime': 569.6,
-      'totalTravelTime': 684.1
-    },
-    {
-      'id': 'YXZhbnQ6TU9UT1JTQ09PVEVSOnZfM3F2ZTl4NjF1eDFhbjljOWVzcmg=',
-      'publicId': 'XXX072',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39118,
-      'longitude': 2.17982,
-      'provider': {
-        'name': 'Avant',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=fun.avant.app',
-          'ios': 'https://itunes.apple.com/app/id1515087569'
-        }
-      },
-      'battery': 49,
-      'walkTime': 165.6,
-      'driveTime': 531.3,
-      'totalTravelTime': 696.9
-    },
-    {
-      'id': 'b2l6Ok1PVE9SU0NPT1RFUjp2XzNxdmVhNmUyYWhiNGVseGJidmUx',
-      'publicId': 'XXX271',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39268,
-      'longitude': 2.1821699999999997,
-      'provider': {
-        'name': 'OIZ',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.oizbike.app',
-          'ios': 'https://itunes.apple.com/app/id1525687104'
-        }
-      },
-      'battery': 87,
-      'walkTime': 202.9,
-      'driveTime': 498,
-      'totalTravelTime': 700.9
-    },
-    {
-      'id': 'Y2l0eXNjb290Ok1PVE9SU0NPT1RFUjpDMTczNkJXSg==',
-      'publicId': 'C1736BWJ',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39127666666667,
-      'longitude': 2.178148333333333,
-      'provider': {
-        'name': 'Cityscoot',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.livebanner.cityscoot',
-          'ios': 'https://itunes.apple.com/app/id1011202160'
-        }
-      },
-      'battery': 89,
-      'walkTime': 167,
-      'driveTime': 592.4,
-      'totalTravelTime': 759.4
-    },
-    {
-      'id': 'Y2l0eXNjb290Ok1PVE9SU0NPT1RFUjpDMTgwNkJXSg==',
-      'publicId': 'C1806BWJ',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.390901666666664,
-      'longitude': 2.1772983333333333,
-      'provider': {
-        'name': 'Cityscoot',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.livebanner.cityscoot',
-          'ios': 'https://itunes.apple.com/app/id1011202160'
-        }
-      },
-      'battery': 93,
-      'walkTime': 206.6,
-      'driveTime': 596.3,
-      'totalTravelTime': 802.9
-    },
-    {
-      'id': 'aWJlcnNjb3Q6TU9UT1JTQ09PVEVSOnZfM3F2ZWE2N2o0em16Y2h1YmxnbGg=',
-      'publicId': 'XXX089',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.393989999999995,
-      'longitude': 2.1769499999999997,
-      'provider': {
-        'name': 'Iberscot',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=net.iberscot.app',
-          'ios': 'https://itunes.apple.com/app/id1513924750'
-        }
-      },
-      'battery': 74,
-      'walkTime': 237.7,
-      'driveTime': 600.9,
-      'totalTravelTime': 838.5999999999999
-    },
-    {
-      'id': 'aWJlcnNjb3Q6TU9UT1JTQ09PVEVSOnZfM3F2ZWE3OWtybnp1dWF0ZmUzcTE=',
-      'publicId': 'XXX749',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39017,
-      'longitude': 2.1829,
-      'provider': {
-        'name': 'Iberscot',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=net.iberscot.app',
-          'ios': 'https://itunes.apple.com/app/id1513924750'
-        }
-      },
-      'battery': 59,
-      'walkTime': 349,
-      'driveTime': 531.5,
-      'totalTravelTime': 880.5
-    },
-    {
-      'id': 'Y2l0eXNjb290Ok1PVE9SU0NPT1RFUjpDNzYwMkJXSw==',
-      'publicId': 'C7602BWK',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39203333333333,
-      'longitude': 2.1767533333333335,
-      'provider': {
-        'name': 'Cityscoot',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.livebanner.cityscoot',
-          'ios': 'https://itunes.apple.com/app/id1011202160'
-        }
-      },
-      'battery': 91,
-      'walkTime': 269.2,
-      'driveTime': 617,
-      'totalTravelTime': 886.2
-    },
-    {
-      'id': 'Z2VjY286TU9UT1JTQ09PVEVSOkVTLUItRzAwMzk5',
-      'publicId': 'C5302BWH',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.395428,
-      'longitude': 2.179285,
-      'provider': {
-        'name': 'Gecco',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=es.gecco',
-          'ios': 'https://apps.apple.com/app/id1516642624'
-        }
-      },
-      'battery': 69,
-      'walkTime': 282.8,
-      'driveTime': 623.7,
-      'totalTravelTime': 906.5
-    },
-    {
-      'id': 'Z2VjY286TU9UT1JTQ09PVEVSOkVTLUItRzAwMTAy',
-      'publicId': 'C6062BWH',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.395489,
-      'longitude': 2.17914,
-      'provider': {
-        'name': 'Gecco',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=es.gecco',
-          'ios': 'https://apps.apple.com/app/id1516642624'
-        }
-      },
-      'battery': 70,
-      'walkTime': 292.4,
-      'driveTime': 620.3,
-      'totalTravelTime': 912.6999999999999
-    },
-    {
-      'id': 'aWJlcnNjb3Q6TU9UT1JTQ09PVEVSOnZfM3F2ZTl6eXY2MmxybTVxOHFwcmg=',
-      'publicId': 'XXX712',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39544,
-      'longitude': 2.17727,
-      'provider': {
-        'name': 'Iberscot',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=net.iberscot.app',
-          'ios': 'https://itunes.apple.com/app/id1513924750'
-        }
-      },
-      'battery': 83,
-      'walkTime': 305.8,
-      'driveTime': 610.7,
-      'totalTravelTime': 916.5
-    },
-    {
-      'id': 'Z2VjY286TU9UT1JTQ09PVEVSOkVTLUItRzAwMTcz',
-      'publicId': 'C6469BWH',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.395611,
-      'longitude': 2.17894,
-      'provider': {
-        'name': 'Gecco',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=es.gecco',
-          'ios': 'https://apps.apple.com/app/id1516642624'
-        }
-      },
-      'battery': 23,
-      'walkTime': 309.1,
-      'driveTime': 612.8,
-      'totalTravelTime': 921.9
-    },
-    {
-      'id': 'Z2VjY286TU9UT1JTQ09PVEVSOkVTLUItRzAwMzEz',
-      'publicId': 'C7817BWH',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39542,
-      'longitude': 2.178958,
-      'provider': {
-        'name': 'Gecco',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=es.gecco',
-          'ios': 'https://apps.apple.com/app/id1516642624'
-        }
-      },
-      'battery': 31,
-      'walkTime': 323.6,
-      'driveTime': 609.8,
-      'totalTravelTime': 933.4
-    },
-    {
-      'id': 'ZWNvb2x0cmE6TU9UT1JTQ09PVEVSOkVTLUItQTAwNzE4',
-      'publicId': 'C6340BWF',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.391602,
-      'longitude': 2.17604,
-      'provider': {
-        'name': 'Ecooltra',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.mobime.ecooltra',
-          'ios': 'https://itunes.apple.com/app/id1083424977?'
-        }
-      },
-      'battery': 55,
-      'walkTime': 313.1,
-      'driveTime': 635.2,
-      'totalTravelTime': 948.3000000000001
-    },
-    {
-      'id': 'Z2VjY286TU9UT1JTQ09PVEVSOkVTLUItRzAwMTMz',
-      'publicId': 'C6163BWH',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.395805,
-      'longitude': 2.179215,
-      'provider': {
-        'name': 'Gecco',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=es.gecco',
-          'ios': 'https://apps.apple.com/app/id1516642624'
-        }
-      },
-      'battery': 30,
-      'walkTime': 326.7,
-      'driveTime': 628.9,
-      'totalTravelTime': 955.5999999999999
-    },
-    {
-      'id': 'eWVnbzpNT1RPUlNDT09URVI6NzQw',
-      'publicId': null,
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.390422,
-      'longitude': 2.177015,
-      'provider': {
-        'name': 'Yego',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.getyugo.app',
-          'ios': 'https://itunes.apple.com/appid1181020675?mt=8'
-        }
-      },
-      'battery': 50,
-      'walkTime': 260.9,
-      'driveTime': 738.5,
-      'totalTravelTime': 999.4
-    },
-    {
-      'id': 'Z2VjY286TU9UT1JTQ09PVEVSOkVTLUItRzAwNTE3',
-      'publicId': 'C5955BWH',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.395893,
-      'longitude': 2.178968,
-      'provider': {
-        'name': 'Gecco',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=es.gecco',
-          'ios': 'https://apps.apple.com/app/id1516642624'
-        }
-      },
-      'battery': 39,
-      'walkTime': 326.3,
-      'driveTime': 678,
-      'totalTravelTime': 1004.3
-    },
-    {
-      'id': 'b2l6Ok1PVE9SU0NPT1RFUjp2XzNxdmVhNXZoazV1bXFhN24zNG5o',
-      'publicId': 'XXX072',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.395469999999996,
-      'longitude': 2.17657,
-      'provider': {
-        'name': 'OIZ',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.oizbike.app',
-          'ios': 'https://itunes.apple.com/app/id1525687104'
-        }
-      },
-      'battery': 87,
-      'walkTime': 361.2,
-      'driveTime': 648.4,
-      'totalTravelTime': 1009.5999999999999
-    },
-    {
-      'id': 'c2VhdG1vdG9zaGFyaW5nOk1PVE9SU0NPT1RFUjo5YWI2ODE3MC1mMTcxLTQ1NWItYjBjMy02NzM2YWUyZjUxNjY=',
-      'publicId': null,
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.392989,
-      'longitude': 2.175403,
-      'provider': {
-        'name': 'SEAT MÓtosharing',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=seat.code.emobility.seatmo',
-          'ios': 'https://itunes.apple.com/app/id1497902704'
-        }
-      },
-      'battery': 41,
-      'walkTime': 358.7,
-      'driveTime': 680.6,
-      'totalTravelTime': 1039.3
-    },
-    {
-      'id': 'b2l6Ok1PVE9SU0NPT1RFUjp2XzNxdmVhMW1kZW15cHQ0eXpzZTZo',
-      'publicId': 'XXX306',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.39431,
-      'longitude': 2.17563,
-      'provider': {
-        'name': 'OIZ',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=com.oizbike.app',
-          'ios': 'https://itunes.apple.com/app/id1525687104'
-        }
-      },
-      'battery': 89,
-      'walkTime': 333.1,
-      'driveTime': 716.7,
-      'totalTravelTime': 1049.8000000000002
-    },
-    {
-      'id': 'aWJlcnNjb3Q6TU9UT1JTQ09PVEVSOnZfM3F2ZWE2NmVnbnJrbnFlcHpyNTE=',
-      'publicId': 'XXX075',
-      'type': 'MOTORSCOOTER',
-      'latitude': 41.393299999999996,
-      'longitude': 2.17558,
-      'provider': {
-        'name': 'Iberscot',
-        'app': {
-          'android': 'https://play.google.com/store/apps/details?id=net.iberscot.app',
-          'ios': 'https://itunes.apple.com/app/id1513924750'
-        }
-      },
-      'battery': 76,
-      'walkTime': 357.9,
-      'driveTime': 733.3,
-      'totalTravelTime': 1091.1999999999998
-    }
-  ]
-;
+  ];
   const [viewport, setViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
-    latitude: 41.39269797901637,
-    longitude: 2.1796737644098707,
+    latitude: 41.39496940055081,
+    longitude: 2.197908003086182,
     zoom: 16,
   });
 
@@ -732,7 +285,7 @@ export const Map: React.FC<IMapProps> = () => {
 
             <PinDropIcon style={{ width: '30px', height: '30px' }} />
           </Marker>
-          <Marker latitude={41.39269797901637} longitude={2.1796737644098707}>
+          <Marker latitude={41.39496940055081} longitude={2.197908003086182}>
             <Pin />
           </Marker>
           {motosFilteredByProviders?.map((moto: Moto, i: number) => {
@@ -825,12 +378,9 @@ export const Map: React.FC<IMapProps> = () => {
               <MotoContainerDiv>
                 {motoIndex === 0 ? (
                   <>
-                    <BestMotoImage
-                      src={lightening}
-                      alt="lightening"
-                    />
+                    <BestMotoImage src={lightening} alt="lightening" />
                   </>
-                ) : null }
+                ) : null}
                 <MotoInfo
                   moto={motoInfo}
                   motoIndex={motoIndex}
