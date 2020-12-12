@@ -117,7 +117,7 @@ export const DestinationSummaryContainerDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 55vh;
+  height: 48vh;
   margin-bottom: 0;
   margin-top: auto;
   padding-top: 1em;
@@ -135,8 +135,6 @@ export const DestinationContentContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   text-align: left;
-  border-top: 0.1px solid rgba(255, 164, 11, 0.4);
-  border-bottom: 0.1px solid rgba(255, 164, 11, 0.4);
 `;
 
 export const ImageContainer = styled.img`

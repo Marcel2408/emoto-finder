@@ -48,7 +48,7 @@ export interface CurrentTrip {
 export interface Moto {
   id: string;
   isIncomming?: boolean;
-  creationTime?: Date;
+  creationTime?: number;
   publicId: string | null;
   type: string;
   latitude: number;

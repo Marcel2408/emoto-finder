@@ -1,25 +1,25 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
 import BatteryCharging60Icon from '@material-ui/icons/BatteryCharging60';
-import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import EuroIcon from '@material-ui/icons/Euro';
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
-import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import BrandingWatermarkIcon from '@material-ui/icons/BrandingWatermark';
+import incommingMoto from '../assets/images/incommingMoto.png';
 
 import { Moto } from '../store/types';
 import {
-  MotoInfoButton,
   MotoInfoContainer,
+  MotoInfoWrapper,
+  FlexColumn,
   MotoInfoDetails,
-  MotoInfoLeft,
-  MotoInfoLeftDetails,
-  MotoInfoRight,
-  MotoInfoRightInfo,
-  MotoInfoRightLogo,
+  MotoInfoProviderLogo,
+  BookMoto,
+  TotalTravelTime,
+  MotoIconAnimated,
+  AnimatedImage, IncomingText
 } from './MotoInfoStyle';
+
 import { RootState } from '../store';
 import { bookMoto } from '../store/actions';
 
@@ -59,60 +59,71 @@ const MotoInfo: React.FC<IMotoInfoProps> = ({
       window.location.replace(moto.provider.app.ios);
   }
 
+  function calcArrivalTime(){
+    let milisecondsOfArrival;
+    let minToArrival;
+    const timeNow = Date.now();
+    if (moto.isIncomming) {
+      milisecondsOfArrival =
+      (moto.creationTime + (moto.totalTravelTime*1000));
+      minToArrival =  Math.floor((milisecondsOfArrival - timeNow)/60000);
+    }
+    if (minToArrival <= 1) return '1 min';
+    return `${minToArrival} mins`;
+  }
+
   return (
     <MotoInfoContainer>
-      <MotoInfoDetails>
-        <MotoInfoLeft>
-          <h2>{moto.provider.name}</h2>
-          <Divider variant="middle" />
-          <MotoInfoLeftDetails>
-            <EuroIcon style={{ height: '20px' }} />
-            <p>Estimated cost:</p>
-
-            {parseFloat(
-              ` ${(moto.driveTime / 60) * motoProvider.price}`
-            ).toFixed(2)}
-          </MotoInfoLeftDetails>
-          <MotoInfoLeftDetails>
-            <MotorcycleIcon style={{ height: '20px' }} />
-            <p>Driving time: {Math.round(moto.driveTime / 60)} min</p>
-          </MotoInfoLeftDetails>
-          <MotoInfoLeftDetails>
-            <QueryBuilderIcon style={{ height: '20px' }} />
-            <p>Total time: {Math.round(moto.totalTravelTime / 60)} min</p>
-          </MotoInfoLeftDetails>
-          <p>{motoIndex}</p>
-        </MotoInfoLeft>
-        <MotoInfoRight>
-          <MotoInfoRightLogo>
-            <img src={motoProvider.logo} alt="provider logo" />
-          </MotoInfoRightLogo>
-          <MotoInfoRightInfo>
-            <div>
-              <BatteryCharging60Icon style={{ height: '20px' }} />
-              <p>{moto.battery} %</p>
-            </div>
-            <div>
-              <AspectRatioIcon style={{ height: '20px' }} />
-              <p>{moto.publicId && moto.publicId}</p>
-            </div>
-            <div>
-              <DirectionsWalkIcon style={{ height: '20px' }} />
-              <p>{Math.round(moto.walkTime / 60)} min</p>
-            </div>
-          </MotoInfoRightInfo>
-        </MotoInfoRight>
-      </MotoInfoDetails>
-      <MotoInfoButton>
-        <Button
-          variant="contained"
-          type="button"
-          color="primary"
+      <MotoInfoProviderLogo>
+        <img src={motoProvider.logo} alt="provider logo" />
+      </MotoInfoProviderLogo>
+      {
+        moto.isIncomming ? (
+          <MotoIconAnimated>
+            <AnimatedImage
+              src={incommingMoto}
+            />
+            <IncomingText>{'Available in '}{calcArrivalTime()}</IncomingText>
+          </MotoIconAnimated>
+        )
+          :
+          <MotoInfoWrapper>
+            <FlexColumn>
+              <MotoInfoDetails>
+                <MotorcycleIcon style={{ height: '1em', width: '1em', borderRadius: '4px', backgroundColor: '#ffa40b', padding: '.15em', color: 'white', marginRight: '.35em' }} />
+                <p><span>{(Math.floor(moto.totalTravelTime/60))} min</span></p>
+              </MotoInfoDetails>
+              <MotoInfoDetails>
+                <DirectionsWalkIcon style={{ height: '1em', width: '1em', borderRadius: '4px', backgroundColor: '#303f9f', padding: '.15em', color: 'white', marginRight: '.35em' }} />
+                <p>{Math.round(moto.walkTime / 60)} min</p>
+              </MotoInfoDetails>
+              <MotoInfoDetails>
+                <EuroIcon style={{ height: '1em', width: '1em', borderRadius: '4px', backgroundColor: '#303f9f', padding: '.15em', color: 'white', marginRight: '.35em' }} />{'€ '}
+                {parseFloat(
+                  ` ${(moto.driveTime / 60) * motoProvider.price}`
+                ).toFixed(2)}
+              </MotoInfoDetails>
+            </FlexColumn>
+            <FlexColumn>
+              <MotoInfoDetails>
+                <BatteryCharging60Icon style={{ height: '1em', width: '1em', borderRadius: '4px', backgroundColor: '#303f9f', padding: '.15em', color: 'white', marginRight: '.35em' }} />
+                <p>{moto.battery} %</p>
+              </MotoInfoDetails>
+              <MotoInfoDetails>
+                <BrandingWatermarkIcon style={{ height: '1em', width: '1em', borderRadius: '4px', backgroundColor: '#303f9f', padding: '.15em', color: 'white', marginRight: '.35em' }} />
+                <p>{moto.publicId? moto.publicId:'N/A'}</p>
+              </MotoInfoDetails>
+            </FlexColumn>
+          </MotoInfoWrapper>
+      }
+      {
+        moto.isIncomming ? null :
+        <BookMoto
           onClick={handletTakeMeThereClick}
         >
-          Book Moto
-        </Button>
-      </MotoInfoButton>
+          BOOK MOTO
+        </BookMoto>
+      }
     </MotoInfoContainer>
   );
 };
