@@ -36,8 +36,8 @@ import {
   LoaderDestination,
 } from './SelectDestinationStyle';
 
-const { MAPBOX_TOKEN } = process.env;
-const { MAPBOX_STYLE } = process.env;
+const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
+const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
 
 // todo on useEffect I'm sending {username, current location of user}
 
