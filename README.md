@@ -1,6 +1,7 @@
 # eMoto
 
-<logo>
+![eMoto-logo](https://github.com/Marcel2408/moto-server/blob/main/client/src/assets/readme/eMoto-show.png)
+
 Nowadays our cities are full of companies offering electric moto sharing services. Users have to spend time switching apps to find motos around and don't have the possibility to compare and know what's the fastest option. 
 
 eMoto is the solution for that. Users can see all the available motos in just one map, and quickly know which moto is gonna take them faster to the destination.
