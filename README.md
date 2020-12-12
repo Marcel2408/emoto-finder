@@ -1,6 +1,6 @@
 # eMoto
 
-![eMoto-logo](https://github.com/Marcel2408/emoto-finder/blob/main/client/src/assets/readme/eMoto-show.png)
+![eMoto-logo](https://github.com/Marcel2408/emoto-finder/blob/main/client/src/assets/readme/ecooltraLogo.png)
 
 Nowadays our cities are full of companies offering electric moto sharing services. Users have to spend time switching apps to find motos around and don't have the possibility to compare and know what's the fastest option. 
 
@@ -10,9 +10,11 @@ But that's not all, with eMoto users can also see the future!
 
 Even in the case of not having any motos around, they can see the incoming ones in the area!
 
+![eMoto show](https://github.com/Marcel2408/emoto-finder/blob/main/client/src/assets/readme/eMoto-show.png)
+
 ## Description
 
-Client side for the eMoto app. Find the server side on this repo: <link to repo> 
+Client side for the eMoto app. Find the server side on this repo: [moto-server](https://github.com/EwaRas/moto-server) 
 
 Our client is built using [React](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/), and [Redux](https://redux.js.org/) as a state management tool.
 
@@ -20,14 +22,19 @@ For the styling of the app we opted for [Styled-Components](https://styled-compo
 
 Since our client works with the [Mapbox](https://www.mapbox.com/) API, you will need a token to be able to  to render the map component.
 
-<images>
-![eMoto show](https://github.com/Marcel2408/moto-server/blob/main/client/src/assets/readme/eMoto-show.png)
-
 ## Installation
+
+Clone the repo:
+
+```bash
+$ git clone https://github.com/Marcel2408/emoto-finder.git
+$ cd emoto-finder
+```
 
 Install dependencies:
 
 ```bash
+$ cd client
 $ npm install
 ```
 Create a ```.env``` in the root level of this repo.
