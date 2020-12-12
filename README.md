@@ -12,8 +12,6 @@ Even in the case of not having any motos around, they can see the incoming ones 
 
 ![eMoto show](https://github.com/Marcel2408/emoto-finder/blob/main/client/src/assets/readme/eMoto-show.png)
 
-![eMoto-gif](https://github.com/Marcel2408/emoto-finder/blob/main/client/src/assets/readme/eMoto.gif)
-
 
 ## Description
 
