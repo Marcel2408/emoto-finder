@@ -14,11 +14,14 @@ Even in the case of not having any motos around, they can see the incoming ones 
 
 Client side for the eMoto app. Find the server side on this repo: <link to repo> 
 
+Our client is built using [React](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/), and [Redux](https://redux.js.org/) as a state management tool.
 
-## Screenshots
+For the styling of the app we opted for [Styled-Components](https://styled-components.com/) and [Material UI](https://material-ui.com/).
+
+Since our client works with the [Mapbox](https://www.mapbox.com/) API, you will need a token to be able to  to render the map component.
 
 <images>
-![eMoto show](https://github.com/Marcel2408/moto-server/blob/main/client\src\assets\readme\eMoto-show.png)
+![eMoto show](https://github.com/Marcel2408/moto-server/blob/main/client/src/assets/readme/eMoto-show.png)
 
 ## Installation
 
@@ -28,3 +31,29 @@ Install dependencies:
 $ npm install
 ```
 Create a ```.env``` in the root level of this repo.
+
+Fill the file with the following info:
+```
+MAPBOX_TOKEN=<replace this with your Mapbox token>
+MAPBOX_STYLE=mapbox://styles/mapbox/streets-v11
+SERVER_URL=http://localhost:4000
+```
+
+## Running the app
+
+```bash
+$ cd client
+```
+
+```bash
+$ npm start
+```
+
+The client will run on localhost:3000
+
+## Developers
+
+- Ewa Rasala - [Github](https://github.com/ewaras) - [LinkedIn](https://www.linkedin.com/in/ewa-rasala)
+- Carlos De Sousa - [Github](https://github.com/carlosdsv) - [LinkedIn](https://www.linkedin.com/in/carlosdsv/)
+- Rafał Witczak [Github](https://github.com/rafwit/) - [LinkedIn](https://www.linkedin.com/in/rafalwitczak/)
+- Marcel Subirana - [Github](https://github.com/marcel2408) - [LinkedIn](
