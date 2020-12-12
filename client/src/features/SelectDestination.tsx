@@ -29,17 +29,12 @@ import {
   MainButtonWrapper,
   InputButton,
   InputTag,
-  DestinationSummaryHeader,
   FavouriteWrapper,
   FavouriteLabelParagraph,
   FavouriteDestinationParagraph,
-  ImageContainer,
   DestinationContentContainer,
   LoaderDestination,
 } from './SelectDestinationStyle';
-import emotoLogo from '../assets/logos/emotoLogo.svg';
-
-import { Favourites } from './Favourites';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
@@ -59,7 +54,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   const user = useSelector((state: RootState) => state.user);
   const [viewport, setViewport] = useState({
     width: 375,
-    height: 280,
+    height: 250,
     latitude: user.destinationCoordinates.destinationLatitude,
     zoom: 16,
     longitude: user.destinationCoordinates.destinationLongitude,
