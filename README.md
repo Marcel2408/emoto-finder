@@ -1,6 +1,6 @@
 # eMoto
 
-![eMoto-logo](https://github.com/Marcel2408/emoto-finder/blob/main/client/src/assets/readme/ecooltraLogo.png)
+![eMoto-logo](https://github.com/Marcel2408/emoto-finder/blob/main/client/src/assets/readme/eMotoLogo.png)
 
 Nowadays our cities are full of companies offering electric moto sharing services. Users have to spend time switching apps to find motos around and don't have the possibility to compare and know what's the fastest option. 
 
