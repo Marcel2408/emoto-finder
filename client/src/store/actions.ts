@@ -6,7 +6,6 @@ import {
   CurrentDestination,
   STORE_USER_DATA,
   LOGOUT,
-  LOAD_MOTOS,
   CHANGE_CURRENT_DESTINATION,
   BOOK_MOTO,
   SET_DESTINATION,
@@ -14,13 +13,14 @@ import {
   GET_DESTINATION_COORDINATES_AND_MOTOS,
   UserActionTypes,
   DestinationActionTypes,
-  MapActionTypes,
   AppState,
   User,
   FavouriteDestination,
   UPDATE_FAVOURITES,
   Provider,
   UPDATE_FAVOURITES_PROVIDERS,
+  Moto,
+  STORE_USER_DESTINATION_COORDINATES,
 } from './types';
 
 export const BASE_URL = 'http://localhost:4000';
@@ -75,6 +75,7 @@ export function updateFavouriteDestination(
       });
   };
 }
+
 export function updateFavouriteProviders(
   userId: string,
   newFavouritesProviders: Provider[]
@@ -104,25 +105,54 @@ export function getDestinationCoordinatesAndMotos(
   destination: string,
   username: string
 ): ThunkAction<void, RootState, unknown, Action> {
-  return (dispatch) => {
-    axios.post(`${BASE_URL}/map`, { destination, username }).then((res) => {
-      console.log(res.data);
+  const formatedDestination = destination.split(' ').join('%20');
+  console.log(formatedDestination);
 
-      dispatch({
-        type: GET_DESTINATION_COORDINATES_AND_MOTOS,
-        availableMotos: res.data.motos,
+  return (dispatch) => {
+    axios
+      .get(
+        `${BASE_URL}/map?destination=${formatedDestination}&username=${username}`
+      )
+      .then((res) => {
+        dispatch({
+          type: GET_DESTINATION_COORDINATES_AND_MOTOS,
+          availableMotos: res.data.motos,
+        });
+        dispatch({
+          type: STORE_USER_DESTINATION_COORDINATES,
+          destinationCoordinates: res.data.destinationCoordinates,
+        });
       });
+  };
+}
+
+export function bookMoto(
+  destination: string,
+  moto: Moto
+): ThunkAction<void, RootState, unknown, Action> {
+  return (dispatch) => {
+    axios.post(`${BASE_URL}/add-trip`, { destination, moto }).then((res) => {
       dispatch({
-        type: STORE_USER_DATA,
-        destinationCoordinates: res.data.destinationCoordinates,
+        type: BOOK_MOTO,
       });
     });
+  };
+}
+
+export function updateMotosByFilteredProviders(
+  appState: AppState
+): UserActionTypes {
+  return {
+    type: LOGOUT,
+    payload: appState,
   };
 }
 
 export function setCurrentDestination(
   destination: CurrentDestination
 ): DestinationActionTypes {
+  console.log('DEST>>', destination);
+
   return {
     type: SET_DESTINATION,
     destination,
@@ -137,29 +167,3 @@ export function changeCurrentDestination(
     destination,
   };
 }
-
-export function bookMoto(appState: AppState): MapActionTypes {
-  return {
-    type: BOOK_MOTO,
-  };
-}
-
-// export function getAllMotos(): ThunkAction<void, RootState, unknown, Action> {
-//   return (dispatch) => {
-//     axios
-//       .post(`${BASE_URL}/map`, {
-//         username: 'Ewa',
-//         destination: 'Carrer del Marquès de Sentmenat, 75, 08029 Barcelona',
-//       })
-//       .then((res) => {
-//         console.log(res.data);
-//         dispatch({
-//           type: LOAD_MOTOS,
-//           availableMotos: res.data,
-//         });
-//       })
-//       .catch((err) => {
-//         console.error(err);
-//       });
-//   };
-// }

@@ -81,11 +81,12 @@ export const Login: React.FC<ILoginProps> = () => {
   }, [locationPermission]);
 
   useEffect(() => {
-    if (isUserAuthenticated) {
-      dispatch(storeUserLocation(userLocation));
+    if (isUserAuthenticated)
+
+      // dispatch(storeUserLocation(userLocation));
       history.push('/destination');
-    }
-  }, [dispatch, history, isUserAuthenticated, userLocation]);
+
+  }, [isUserAuthenticated]);
 
   function getUserLocation() {
     navigator.geolocation.getCurrentPosition((location) => {
@@ -96,6 +97,11 @@ export const Login: React.FC<ILoginProps> = () => {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude
       });
+    }, () => {
+      if (!locationPermission) alert('Can\'t read location');
+    }, {
+      enableHighAccuracy: true,
+      timeout: 3000,
     });
   }
 
@@ -106,6 +112,7 @@ export const Login: React.FC<ILoginProps> = () => {
       userData: { username, password }
     });
     dispatch(authenticateUser(username));
+    dispatch(storeUserLocation(userLocation));
   }
 
   function handleUsernameChange(

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const LoginDiv = styled.div`
   display: flex;
@@ -9,19 +9,15 @@ export const LoginDiv = styled.div`
 `;
 
 export const SelectDestinationContainerDiv = styled.div`
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100vw;
   height: 100vh;
-  margin: 0;
-  border: 2px solid #303f9f;
   overflow: hidden;
 `;
 
 export const SelectDestinationHeader = styled.h1`
-  box-sizing: border-box;
   width: 100%;
   text-align: center;
   margin-block-start: 0;
@@ -34,7 +30,6 @@ export const SelectDestinationHeader = styled.h1`
 `;
 
 export const FormWrapper = styled.div`
-  box-sizing: border-box;
   width: inherit;
   display: flex;
 `;
@@ -47,14 +42,12 @@ export const FormTag = styled.form`
 `;
 
 export const InputContainerDiv = styled.div`
-  box-sizing: border-box;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
 `;
 
 export const InputTag = styled.input`
-  box-sizing: border-box;
   flex: 4;
   border: none;
   padding: 0.5em;
@@ -81,9 +74,8 @@ export const InputButton = styled.button`
 `;
 
 export const FavouritesContainerDiv = styled.div`
-  box-sizing: border-box;
   width: 100%;
-  max-height: 35vh;
+  max-height: 25vh;
   overflow-y: scroll;
   margin: 0.25em;
 `;
@@ -91,7 +83,7 @@ export const FavouritesContainerDiv = styled.div`
 export const FavouritesHeader = styled.div`
   padding: 1em 0 0.15em 0;
   margin-bottom: 1em;
-  font-size: 90%;
+  font-size: 95%;
   color: rgb(133, 133, 133);
   border-bottom: 1px solid rgba(163, 163, 163, 0.3);
 `;
@@ -101,45 +93,71 @@ export const FavouriteWrapper = styled.div`
   border-radius: 4px;
   margin: 0.5em 0.15em;
   padding: 0.5em;
+  outline: none;
 `;
 
 export const FavouriteLabelParagraph = styled.p`
   color: rgb(48, 63, 159);
+  display: inline-block;
 `;
 
 export const FavouriteDestinationParagraph = styled.p`
   color: rgb(163, 163, 163);
   font-size: 90%;
+  padding-left: 1.3em;
+`;
+
+const slideInUp = keyframes`
+  0% {
+    height: 0;
+  }
 `;
 
 export const DestinationSummaryContainerDiv = styled.div`
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  height: 55vh;
   margin-bottom: 0;
   margin-top: auto;
-  width: 100%;
+  padding-top: 1em;
+  width: 90%;
   border-radius: 15px 15px 0px 0px;
   box-shadow: 0 2px 10px -1px rgba(7, 7, 7, 0.3);
   text-align: center;
-  color: rgb(163, 163, 163);
+  color: black;
+  animation: 0.5s ${slideInUp} ease;
+`;
+
+export const DestinationContentContainer = styled.div`
+  height: 35vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  border-top: 0.1px solid rgba(255, 164, 11, 0.4);
+  border-bottom: 0.1px solid rgba(255, 164, 11, 0.4);
+`;
+
+export const ImageContainer = styled.img`
+  height: 4em;
+  width: 4em;
+  border-radius: 4px;
+  padding: 1em;
 `;
 
 export const DestinationSummaryHeader = styled.h4`
-  padding: 1em;
-  margin-bottom: 1em;
+  margin-bottom: 0.25em;
   width: 100%;
-  border-radius: 15px 15px 0px 0px;
-  background-color: #ffa40b;
+  border-radius: 4px;
   font-size: 110%;
-  color: white;
-  text-align: left;
+  color: rgb(48, 63, 159);
 `;
 
 export const MainButtonWrapper = styled.button`
   box-sizing: border-box;
-  padding: 0.75em 2em;
-  margin: 1.5em auto 0.5em auto;
+  padding: 1em 2em;
+  margin: auto;
   font-size: 100%;
   font-weight: bold;
   color: white;
@@ -147,4 +165,13 @@ export const MainButtonWrapper = styled.button`
   border-radius: 4px;
   background-color: #ffa40b;
   box-shadow: 0 2px 10px -1px rgba(7, 7, 7, 0.3);
+`;
+
+export const LoaderDestination = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;

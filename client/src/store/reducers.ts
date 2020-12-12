@@ -13,6 +13,7 @@ import {
   UPDATE_FAVOURITES,
   GET_DESTINATION_COORDINATES_AND_MOTOS,
   UPDATE_FAVOURITES_PROVIDERS,
+  STORE_USER_DESTINATION_COORDINATES,
 } from './types';
 
 export const initialState: AppState = {
@@ -88,6 +89,11 @@ export const userReducer = (
       return {
         ...state,
         ...action.userData,
+      };
+    }
+    case STORE_USER_DESTINATION_COORDINATES: {
+      return {
+        ...state,
         destinationCoordinates: action.destinationCoordinates,
       };
     }

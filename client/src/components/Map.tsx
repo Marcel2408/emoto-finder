@@ -1,15 +1,28 @@
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
 /* eslint-disable no-nested-ternary */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import RoomIcon from '@material-ui/icons/Room';
-import StarIcon from '@material-ui/icons/Star';
-import { AppState, Moto } from '../store/types';
-import userSVG from '../assets/images/user.svg';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import PinDropIcon from '@material-ui/icons/PinDrop';
+import { PulseLoader } from 'react-spinners';
+import DirectionsIcon from '@material-ui/icons/Directions';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { common } from '@material-ui/core/colors';
+import {
+  AppState,
+  GET_DESTINATION_COORDINATES_AND_MOTOS,
+  Moto,
+} from '../store/types';
 import starSVG from '../assets/images/star.svg';
 import { RootState } from '../store';
 import MotoInfo from './MotoInfo';
@@ -18,11 +31,13 @@ import {
   HeaderDiv,
   MapDiv,
   MotoContainerDiv,
-  ChangeDestinationDiv,
   SelectedMotoDiv,
   NormalMotoDiv,
+  CircleIcon,
+  HeaderRight,
+  Pin,
+  LoaderMap,
 } from './MapStyle';
-import HamburgerMenu from './HamburgerMenu';
 import { setCurrentDestination } from '../store/actions';
 import logoAcciona from '../assets/logos/accionaLogo.png';
 import logoAvant from '../assets/logos/avantLogo.png';
@@ -34,28 +49,87 @@ import logoSeat from '../assets/logos/seatLogo.png';
 import logoTucycle from '../assets/logos/tucycleLogo.png';
 import logoOIZ from '../assets/logos/oizLogo.png';
 import logoYego from '../assets/logos/yegoLogo.png';
+import incommingMoto from '../assets/images/incommingMoto.png';
+import motoRecommended from '../assets/images/motoRecommended.svg';
+import motoAcciona from '../assets/images/motoAcciona.svg';
+import motoAvant from '../assets/images/motoAvant.svg';
+import motoCityscoot from '../assets/images/motoCityscoot.svg';
+import motoEcooltra from '../assets/images/motoEcooltra.svg';
+import motoGecco from '../assets/images/motoGecco.svg';
+import motoIberscot from '../assets/images/motoIberscot.svg';
+import motoSeat from '../assets/images/motoSeat.svg';
+import motoTucycle from '../assets/images/motoTucycle.svg';
+import motoOIZ from '../assets/images/motoOIZ.svg';
+import motoYego from '../assets/images/motoYego.svg';
+import HamburgerMenu from './HamburgerMenu';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
 interface IMapProps {}
 
+interface ProviderStoreI {
+  [key: string]: ProviderI;
+}
+interface ProviderI {
+  color: string;
+  logo: string;
+  price: number;
+  moto: string;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const providerStore: any = {
-  Acciona: { color: '#FF0100', logo: logoAcciona },
-  Avant: { color: '#1974BB', logo: logoAvant },
-  Cityscoot: { color: '#0054BB', logo: logoCityscoot },
-  Ecooltra: { color: '#73C1A1', logo: logoEcooltra },
-  Gecco: { color: '#000', logo: logoGecco },
-  Iberscot: { color: '#BF1E2E', logo: logoIberscot },
-  'SEAT MÓtosharing': { color: '#33302E', logo: logoSeat },
-  TuCycleBarcelona: { color: '#661812', logo: logoTucycle },
-  OIZ: { color: '#00AEEF', logo: logoOIZ },
-  Yego: { color: '#28323C', logo: logoYego },
+const providerStore: ProviderStoreI = {
+  Acciona: {
+    color: '#FF0100',
+    logo: logoAcciona,
+    price: 0.26,
+    moto: motoAcciona,
+  },
+  Avant: { color: '#1974BB', logo: logoAvant, price: 0.14, moto: motoAvant },
+  Cityscoot: {
+    color: '#0054BB',
+    logo: logoCityscoot,
+    price: 0.26,
+    moto: motoCityscoot,
+  },
+  Ecooltra: {
+    color: '#73C1A1',
+    logo: logoEcooltra,
+    price: 0.26,
+    moto: motoEcooltra,
+  },
+  Gecco: { color: '#000', logo: logoGecco, price: 0.28, moto: motoGecco },
+  Iberscot: {
+    color: '#BF1E2E',
+    logo: logoIberscot,
+    price: 0.25,
+    moto: motoIberscot,
+  },
+  'SEAT MÓtosharing': {
+    color: '#33302E',
+    logo: logoSeat,
+    price: 0.26,
+    moto: motoSeat,
+  },
+  TuCycleBarcelona: {
+    color: '#661812',
+    logo: logoTucycle,
+    price: 0.23,
+    moto: motoTucycle,
+  },
+  OIZ: { color: '#00AEEF', logo: logoOIZ, price: 0.24, moto: motoOIZ },
+  Yego: { color: '#28323C', logo: logoYego, price: 0.25, moto: motoYego },
 };
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: common.white },
+  },
+});
 
 export const Map: React.FC<IMapProps> = () => {
   const history = useHistory();
-  const disptach = useDispatch();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [isMotoInfoClicked, setIsMotoInfoClicked] = useState(false);
   const [motoInfo, setMotoInfo] = useState({
@@ -69,10 +143,14 @@ export const Map: React.FC<IMapProps> = () => {
     },
     battery: 0,
   });
+
   const [motoIndex, setMotoIndex] = useState(0);
   const [motoProvider, setMotoProvider] = useState({});
   const userStore = useSelector((state: RootState) => state.user);
-
+  const motoStore = useSelector((state: RootState) => state.motos);
+  const destinationStore = useSelector((state: RootState) => state.destination);
+  const [motosFilteredByProviders, setMotosFilteredByProviders] = useState([]);
+  const motoStoreCopy: any = [...motoStore];
   const [viewport, setViewport] = useState({
     width: 414,
     height: 736,
@@ -82,10 +160,20 @@ export const Map: React.FC<IMapProps> = () => {
   });
 
   useEffect(() => {
-    setIsLoading(false);
+    for (let i = 0; i < motoStoreCopy.length; i++) {
+      for (let j = 0; j < userStore.providers.length; j++) {
+        if (motoStoreCopy[i].provider.name === userStore.providers[j].name) {
+          if (userStore.providers[j].isFiltered) {
+            setMotosFilteredByProviders((prev) => [...prev, motoStoreCopy[i]]);
+          }
+        }
+      }
+    }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  }, [motoStore]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleClickedMoto(moto: Moto, i: number, motoProviderInfo: any) {
     setIsMotoInfoClicked(true);
@@ -98,33 +186,56 @@ export const Map: React.FC<IMapProps> = () => {
     setIsMotoInfoClicked(false);
   }
   const handleChangeDestination = () => {
-    disptach(setCurrentDestination({ destination: '', label: '' }));
+    dispatch({
+      type: GET_DESTINATION_COORDINATES_AND_MOTOS,
+      availableMotos: [],
+    });
+    dispatch(setCurrentDestination({ destination: '', label: '' }));
+    setMotosFilteredByProviders([]);
     history.push('/destination');
   };
-
-  const motoStore = useSelector((state: RootState) => state.motos);
+  const handleChangeProviders = () => {
+    setMotosFilteredByProviders([]);
+    history.push('/providers');
+  };
 
   if (isLoading) {
-    return <div>LOADING...</div>;
+    return (
+      <LoaderMap>
+        <PulseLoader
+          css=""
+          margin={6}
+          size={20}
+          color="#303f9f"
+          loading={isLoading}
+        />
+      </LoaderMap>
+    );
   }
 
   return (
     <ContainerDiv>
-      <HeaderDiv>
-        <div>
+      <ThemeProvider theme={theme}>
+        <HeaderDiv>
           <HamburgerMenu />
-        </div>
-        <ChangeDestinationDiv>
-          <Button
-            variant="contained"
-            color="primary"
-            type="button"
-            onClick={handleChangeDestination}
-          >
-            Change Destination
-          </Button>
-        </ChangeDestinationDiv>
-      </HeaderDiv>
+          <HeaderRight>
+            <CircleIcon color="primary">
+              <DirectionsIcon
+                color="primary"
+                fontSize="large"
+                onClick={handleChangeDestination}
+              />
+            </CircleIcon>
+            <CircleIcon>
+              <FilterListIcon
+                color="primary"
+                fontSize="large"
+                onClick={handleChangeProviders}
+              />
+            </CircleIcon>
+          </HeaderRight>
+        </HeaderDiv>
+      </ThemeProvider>
       <MapDiv>
         <ReactMapGL
           {...viewport}
@@ -133,15 +244,24 @@ export const Map: React.FC<IMapProps> = () => {
           mapboxApiAccessToken={MAPBOX_TOKEN}
           mapStyle={MAPBOX_STYLE}
         >
-          <Marker latitude={userStore.latitude} longitude={userStore.longitude}>
-            {viewport.zoom > 18 ? <p>{userStore.username}</p> : null}
-            <img
-              src={userSVG}
-              alt="user marker"
-              style={{ width: '35px', height: '35px' }}
-            />
+          <Marker
+            latitude={
+              userStore.destinationCoordinates &&
+              userStore.destinationCoordinates.destinationLatitude
+            }
+            longitude={
+              userStore.destinationCoordinates &&
+              userStore.destinationCoordinates.destinationLongitude
+            }
+          >
+            {viewport.zoom > 17 ? <p>{destinationStore.destination}</p> : null}
+
+            <PinDropIcon style={{ width: '30px', height: '30px' }} />
           </Marker>
-          {motoStore?.map((moto, i) => {
+          <Marker latitude={userStore.latitude} longitude={userStore.longitude}>
+            <Pin />
+          </Marker>
+          {motosFilteredByProviders?.map((moto: Moto, i: number) => {
             const { provider } = moto;
             return (
               <Marker
@@ -149,77 +269,99 @@ export const Map: React.FC<IMapProps> = () => {
                 latitude={moto.latitude}
                 longitude={moto.longitude}
               >
-                {i === 0 ? (
+                {i === 0 && !moto.isIncomming ? (
                   <SelectedMotoDiv>
-                    {viewport.zoom > 18 ? (
+                    {viewport.zoom > 17 ? (
                       <img
                         src={providerStore[provider.name].logo}
                         alt="provider logo"
                         style={{ height: '20px' }}
                       />
                     ) : null}
-
-                    <RoomIcon
-                      onClickCapture={
-                        () =>
-                          handleClickedMoto(
-                            moto,
-                            i,
-                            providerStore[provider.name]
-                          )
-                        // eslint-disable-next-line react/jsx-curly-newline
+                    <img
+                      src={motoRecommended}
+                      alt="provider moto"
+                      style={{ height: '45px' }}
+                      onClickCapture={() =>
+                        handleClickedMoto(moto, i, providerStore[provider.name])
                       }
-                      style={{
-                        color: '#FFA40B',
-                        width: 35,
-                        height: 35,
-                      }}
                     />
                   </SelectedMotoDiv>
-                ) : (
+                ) : i === 0 && moto.isIncomming ? (
                   <NormalMotoDiv>
-                    {viewport.zoom > 18 ? (
+                    {viewport.zoom > 17 ? (
                       <img
                         src={providerStore[provider.name].logo}
                         alt="provider logo"
                         style={{ height: '20px' }}
                       />
                     ) : null}
-                    <RoomIcon
-                      onClickCapture={
-                        () =>
-                          handleClickedMoto(
-                            moto,
-                            i,
-                            providerStore[provider.name]
-                          )
-                        // eslint-disable-next-line react/jsx-curly-newline
+                    <img
+                      src={incommingMoto}
+                      alt="provider moto"
+                      style={{ height: '30px' }}
+                      onClickCapture={() =>
+                        handleClickedMoto(moto, i, providerStore[provider.name])
                       }
-                      style={{
-                        color: `${providerStore[provider.name].color}`,
-                        width: 25,
-                        height: 25,
-                      }}
                     />
                   </NormalMotoDiv>
-                )}
+                ) : i > 0 && !moto.isIncomming ? (
+                  <NormalMotoDiv>
+                    {viewport.zoom > 17 ? (
+                      <img
+                        src={providerStore[provider.name].logo}
+                        alt="provider logo"
+                        style={{ height: '20px' }}
+                      />
+                    ) : null}
+                    <img
+                      src={providerStore[provider.name].moto}
+                      alt="provider moto"
+                      style={{ height: 35 }}
+                      onClickCapture={() =>
+                        handleClickedMoto(moto, i, providerStore[provider.name])
+                      }
+                    />
+                  </NormalMotoDiv>
+                ) : i > 0 && moto.isIncomming ? (
+                  <NormalMotoDiv>
+                    {viewport.zoom > 17 ? (
+                      <img
+                        src={providerStore[provider.name].logo}
+                        alt="provider logo"
+                        style={{ height: '20px' }}
+                      />
+                    ) : null}
+                    <img
+                      src={incommingMoto}
+                      alt="provider logo"
+                      style={{ height: 35 }}
+                      onClickCapture={() =>
+                        handleClickedMoto(moto, i, providerStore[provider.name])
+                      }
+                    />
+                  </NormalMotoDiv>
+                ) : null}
               </Marker>
             );
           })}
+
           {isMotoInfoClicked && (
             <>
               {motoIndex === 0 ? (
-                <img
-                  src={starSVG}
-                  alt="star"
-                  style={{
-                    height: '65px',
-                    marginLeft: 20,
-                    position: 'absolute',
-                    zIndex: 20,
-                    marginTop: '65vh',
-                  }}
-                />
+                <>
+                  <img
+                    src={starSVG}
+                    alt="star"
+                    style={{
+                      height: '65px',
+                      marginLeft: 20,
+                      position: 'absolute',
+                      zIndex: 20,
+                      marginTop: '65vh',
+                    }}
+                  />
+                </>
               ) : null}
 
               <MotoContainerDiv>

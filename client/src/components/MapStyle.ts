@@ -17,19 +17,64 @@ export const MotoContainerDiv = styled.div`
   bottom: 0px;
 `;
 export const HeaderDiv = styled.div`
-  height: 50px;
-  box-sizing: border-box;
+  height: 10%;
+  width: 100%;
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+  margin-top: 4vw;
+  padding: 0% 5vw;
   position: absolute;
-  margin-top: 20px;
-  left: 0px;
-  top: 0px;
   z-index: 5;
 `;
-export const ChangeDestinationDiv = styled.div`
-  margin-left: 100px;
+export const HeaderRight = styled.div`
+  width: 12vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: right;
+  margin-top: 15vw;
+  padding: 0% 5vw;
+`;
+export const CircleIcon = styled.div`
+  height: 12vw;
+  width: 12vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 1vh 0vh;
+  background-color: #303f9f;
+`;
+
+export const NormalMotoDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 7;
+  p {
+    margin: 0px;
+    padding: 0px;
+  }
+`;
+export const LoaderMap = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+export const Pin = styled.div`
+  width: 5vw;
+  height: 5vw;
+  background: rgba(5, 124, 255, 1);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  filter: drop-shadow(4px 8px 16px #057cff);
 `;
 export const SelectedMotoDiv = styled.div`
   display: flex;
@@ -56,18 +101,6 @@ export const SelectedMotoDiv = styled.div`
       filter: drop-shadow(0px 0px 0px #ffd700);
     }
   }
-  p {
-    margin: 0px;
-    padding: 0px;
-  }
-`;
-export const NormalMotoDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  z-index: 7;
   p {
     margin: 0px;
     padding: 0px;
