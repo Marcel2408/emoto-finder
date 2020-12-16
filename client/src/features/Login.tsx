@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Button, Switch } from '@material-ui/core';
+import { Switch } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -14,21 +14,16 @@ import orange from '@material-ui/core/colors/orange';
 
 import { RootState } from '../store';
 import { authenticateUser, getUserData, storeUserLocation } from '../store/actions';
-import { AppState, STORE_USER_DATA, User } from '../store/types';
+import { STORE_USER_DATA, User } from '../store/types';
 import { Video, LoginDiv, WrapperDiv, FormDiv, LoginButton, Footer } from './LoginStyle';
 import video from '../assets/video/background-login-video.mp4';
-import logo from '../assets/logos/emotoLogo.svg';
-
 
 const theme = createMuiTheme({
   palette: {
     primary: { main: common.white },
     secondary: { main: orange[400] }
   }
-
 });
-
-interface ILoginProps {}
 
 const useStyles = makeStyles((theme1: Theme) =>
   createStyles({
@@ -40,7 +35,6 @@ const useStyles = makeStyles((theme1: Theme) =>
       height: '3em',
       textColor: 'primary'
     },
-
     root: {
       '& .MuiInputLabel-formControl': {
         position: 'static'
@@ -54,7 +48,7 @@ const useStyles = makeStyles((theme1: Theme) =>
   })
 );
 
-export const Login: React.FC<ILoginProps> = () => {
+export const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState({ password: '', showPassword: false });
   const [locationPermission, setLocationPermission] = useState(true);
@@ -68,12 +62,10 @@ export const Login: React.FC<ILoginProps> = () => {
   });
 
   const classes = useStyles();
-
   const dispatch = useDispatch();
   const history = useHistory();
   const isUserAuthenticated = useSelector((state: RootState) =>
     state.user.isAuthenticated);
-
 
   useEffect(() => {
     locationPermission ?
@@ -81,18 +73,11 @@ export const Login: React.FC<ILoginProps> = () => {
   }, [locationPermission]);
 
   useEffect(() => {
-    if (isUserAuthenticated)
-
-      // dispatch(storeUserLocation(userLocation));
-      history.push('/destination');
-
+    if (isUserAuthenticated) history.push('/destination');
   }, [isUserAuthenticated]);
 
   function getUserLocation() {
     navigator.geolocation.getCurrentPosition((location) => {
-      console.log('LAT: ', location.coords.latitude);
-      console.log('LONG: ', location.coords.longitude);
-
       setUserLocation({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude
@@ -150,82 +135,73 @@ export const Login: React.FC<ILoginProps> = () => {
 
 
   return (
-    <>
-      <WrapperDiv>
-        <Video loop autoPlay muted>
-          <source src={video} />
-        </Video>
+    <WrapperDiv>
+      <Video loop autoPlay muted>
+        <source src={video} />
+      </Video>
 
-        <ThemeProvider theme={theme}>
-          <LoginDiv>
-            <FormDiv onSubmit={handleSubmit}>
-              <FormControl
-                className={clsx(
-                  classes.margin, classes.textField, classes.root
-                )}
-              >
-                <TextField
-                  inputProps={{ className: classes.input }}
-                  className={fieldFocus.username ? 'textfield_focus' : null}
-                  InputLabelProps={{ className: 'textfield_not_focus' }}
-                  label='Username'
-                  id='standard-basic'
-                  type='text'
-                  onFocus={handleOnUsernameFieldFocus}
-                  onBlur={handleOnUsernameFieldBlur}
-                  onChange={handleUsernameChange}
-                />
-              </FormControl>
-              <FormControl
-                className={clsx(
-                  classes.margin, classes.textField, classes.root
-                )}
-              >
-                <TextField
-                  inputProps={{ className: classes.input }}
-                  className={fieldFocus.password ? 'textfield_focus' : null}
-                  label='Password'
-                  InputLabelProps={{ className: 'textfield_not_focus' }}
-                  id='standard-basic'
-                  type='password'
-                  value={password.password}
-                  onFocus={handleOnPasswordFieldFocus}
-                  onBlur={handleOnPasswordFieldBlur}
-                  onChange={handlePasswordChange}
-                />
-              </FormControl>
-              <WrapperDiv className='location'>
-                Allow location services
-                <Switch
-                  onChange={handleLocationPermissionChange}
-                  type='checkbox'
-                  name='geo-location'
-                  required={true}
-                  checked={locationPermission}
-                  color='secondary'
-                  inputProps={{ 'aria-label': 'secondary checkbox' }}
-                />
-
-              </WrapperDiv>
-
-
-              <LoginButton type='submit' className='login'>
-                LOGIN
-              </LoginButton>
-            </FormDiv>
-            <Footer>
-              New to eMoto? Create account here.
-            </Footer>
-          </LoginDiv>
-        </ThemeProvider>
-      </WrapperDiv>
-    </>
+      <ThemeProvider theme={theme}>
+        <LoginDiv>
+          <FormDiv onSubmit={handleSubmit}>
+            <FormControl
+              className={clsx(
+                classes.margin, classes.textField, classes.root
+              )}
+            >
+              <TextField
+                inputProps={{ className: classes.input }}
+                className={fieldFocus.username ? 'textfield_focus' : null}
+                InputLabelProps={{ className: 'textfield_not_focus' }}
+                label='Username'
+                id='standard-basic'
+                type='text'
+                onFocus={handleOnUsernameFieldFocus}
+                onBlur={handleOnUsernameFieldBlur}
+                onChange={handleUsernameChange}
+              />
+            </FormControl>
+            <FormControl
+              className={clsx(
+                classes.margin, classes.textField, classes.root
+              )}
+            >
+              <TextField
+                inputProps={{ className: classes.input }}
+                className={fieldFocus.password ? 'textfield_focus' : null}
+                label='Password'
+                InputLabelProps={{ className: 'textfield_not_focus' }}
+                id='standard-basic'
+                type='password'
+                value={password.password}
+                onFocus={handleOnPasswordFieldFocus}
+                onBlur={handleOnPasswordFieldBlur}
+                onChange={handlePasswordChange}
+              />
+            </FormControl>
+            <WrapperDiv className='location'>
+              Allow location services
+              <Switch
+                onChange={handleLocationPermissionChange}
+                type='checkbox'
+                name='geo-location'
+                required={true}
+                checked={locationPermission}
+                color='secondary'
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+              />
+            </WrapperDiv>
+            <LoginButton type='submit' className='login'>
+              LOGIN
+            </LoginButton>
+          </FormDiv>
+          <Footer>
+            New to eMoto? Create account here.
+          </Footer>
+        </LoginDiv>
+      </ThemeProvider>
+    </WrapperDiv>
   );
 };
-
-const mapStateToProps = (state: AppState) => ({
-
-});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapDispatchToProps = (dispatch: React.Dispatch<any>) => ({
@@ -234,4 +210,4 @@ const mapDispatchToProps = (dispatch: React.Dispatch<any>) => ({
 
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapDispatchToProps)(Login);
