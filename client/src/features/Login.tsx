@@ -13,7 +13,7 @@ import common from '@material-ui/core/colors/common';
 import orange from '@material-ui/core/colors/orange';
 
 import { RootState } from '../store';
-import { authenticateUser, getUserData, storeUserLocation } from '../store/actions';
+import { authenticateUser, getUserData, storeUserLocation, updateLocationPermission } from '../store/actions';
 import { STORE_USER_DATA, User } from '../store/types';
 import { Video, LoginDiv, WrapperDiv, FormDiv, LoginButton, Footer } from './LoginStyle';
 import video from '../assets/video/background-login-video.mp4';
@@ -51,7 +51,8 @@ const useStyles = makeStyles((theme1: Theme) =>
 export const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState({ password: '', showPassword: false });
-  const [locationPermission, setLocationPermission] = useState(true);
+  const locationPermission = useSelector(
+    (state: RootState) => state.user.locationPermission);
   const [fieldFocus, setFieldFocus] = useState({
     username: false,
     password: false
@@ -67,28 +68,28 @@ export const Login: React.FC = () => {
   const isUserAuthenticated = useSelector((state: RootState) =>
     state.user.isAuthenticated);
 
-  useEffect(() => {
-    locationPermission ?
-      getUserLocation() : console.log('location permission denied');
-  }, [locationPermission]);
+  // useEffect(() => {
+  //   locationPermission ?
+  //     getUserLocation() : console.log('location permission denied');
+  // }, [locationPermission]);
 
   useEffect(() => {
     if (isUserAuthenticated) history.push('/destination');
   }, [isUserAuthenticated]);
 
-  function getUserLocation() {
-    navigator.geolocation.getCurrentPosition((location) => {
-      setUserLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude
-      });
-    }, () => {
-      if (!locationPermission) alert('Can\'t read location');
-    }, {
-      enableHighAccuracy: true,
-      timeout: 3000,
-    });
-  }
+  // function getUserLocation() {
+  //   navigator.geolocation.getCurrentPosition((location) => {
+  //     setUserLocation({
+  //       latitude: location.coords.latitude,
+  //       longitude: location.coords.longitude
+  //     });
+  //   }, () => {
+  //     if (!locationPermission) alert('Can\'t read location');
+  //   }, {
+  //     enableHighAccuracy: true,
+  //     timeout: 3000,
+  //   });
+  // }
 
   function handleSubmit(event: { preventDefault: () => void; }): void {
     event.preventDefault();
@@ -112,9 +113,8 @@ export const Login: React.FC = () => {
   }
 
   function handleLocationPermissionChange(
-    event: { target: { checked: React.SetStateAction<boolean>; };
-    }) {
-    setLocationPermission(event.target.checked);
+    event: { target: { checked: boolean; }; }) {
+    dispatch(updateLocationPermission(event.target.checked));
   }
 
   function handleOnUsernameFieldFocus() {

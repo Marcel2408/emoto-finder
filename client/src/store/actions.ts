@@ -10,6 +10,7 @@ import {
   BOOK_MOTO,
   SET_DESTINATION,
   AUTHENTICATE_USER,
+  UPDATE_LOCATION_PERMISSION,
   GET_DESTINATION_COORDINATES_AND_MOTOS,
   UserActionTypes,
   DestinationActionTypes,
@@ -48,6 +49,15 @@ export function getUserData(
         userData: res.data,
       });
     });
+  };
+}
+
+export function updateLocationPermission(
+  isLocationPermitted: boolean
+): UserActionTypes {
+  return {
+    type: UPDATE_LOCATION_PERMISSION,
+    locationPermission: isLocationPermitted,
   };
 }
 

@@ -10,6 +10,7 @@ import {
   DestinationActionTypes,
   STORE_USER_DATA,
   AUTHENTICATE_USER,
+  UPDATE_LOCATION_PERMISSION,
   UPDATE_FAVOURITES,
   GET_DESTINATION_COORDINATES_AND_MOTOS,
   UPDATE_FAVOURITES_PROVIDERS,
@@ -24,6 +25,7 @@ export const initialState: AppState = {
     password: '',
     latitude: 0,
     longitude: 0,
+    locationPermission: true,
     favourites: [],
     providers: [
       {
@@ -101,6 +103,12 @@ export const userReducer = (
       return {
         ...state,
         isAuthenticated: action.isAuthenticated,
+      };
+    }
+    case UPDATE_LOCATION_PERMISSION: {
+      return {
+        ...state,
+        locationPermission: action.locationPermission,
       };
     }
     case UPDATE_FAVOURITES: {

@@ -10,6 +10,7 @@ export interface User {
   favourites?: FavouriteDestination[];
   providers?: Provider[];
   destinationCoordinates?: DestinationCoordinates;
+  locationPermission?: boolean;
 }
 export interface DestinationCoordinates {
   destinationLatitude: number;
@@ -89,6 +90,7 @@ export const UPDATE_FAVOURITES_PROVIDERS = 'UPDATE_FAVOURITES_PROVIDERS';
 export const BOOK_MOTO = 'BOOK_MOTO';
 export const GET_DESTINATION_COORDINATES_AND_MOTOS =
   'GET_DESTINATION_COORDINATES_AND_MOTOS';
+export const UPDATE_LOCATION_PERMISSION = 'UPDATE_LOCATION_PERMISSION';
 
 // action shapes
 
@@ -105,6 +107,11 @@ interface GetUserDestinationCoordinates {
 interface AuthenticateUser {
   type: typeof AUTHENTICATE_USER;
   isAuthenticated: User['isAuthenticated'];
+}
+
+interface UpdateLocationPermission {
+  type: typeof UPDATE_LOCATION_PERMISSION;
+  locationPermission: boolean;
 }
 
 interface LogoutUser {
@@ -146,6 +153,7 @@ export type UserActionTypes =
   | GetUserData
   | GetUserDestinationCoordinates
   | AuthenticateUser
+  | UpdateLocationPermission
   | LogoutUser
   | UpdateFavourites
   | UpdateFavouritesProviders;

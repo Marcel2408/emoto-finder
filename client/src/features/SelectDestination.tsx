@@ -80,6 +80,25 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
     });
   }, [user.destinationCoordinates]);
 
+  // useEffect(() => {
+  //   locationPermission ?
+  //     getUserLocation() : console.log('location permission denied');
+  // }, [locationPermission]);
+
+  // function getUserLocation() {
+  //   navigator.geolocation.getCurrentPosition((location) => {
+  //     setUserLocation({
+  //       latitude: location.coords.latitude,
+  //       longitude: location.coords.longitude
+  //     });
+  //   }, () => {
+  //     if (!locationPermission) alert('Can\'t read location');
+  //   }, {
+  //     enableHighAccuracy: true,
+  //     timeout: 3000,
+  //   });
+  // }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleTakeMeThereSubmit(event: any): void {
     event.preventDefault();
