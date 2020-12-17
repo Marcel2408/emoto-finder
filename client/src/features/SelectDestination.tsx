@@ -14,6 +14,7 @@ import {
   getUserData,
   setCurrentDestination,
   getDestinationCoordinatesAndMotos,
+  storeUserLocation,
 } from '../store/actions';
 import { AppState, FavouriteDestination, MapActionTypes } from '../store/types';
 
@@ -39,8 +40,6 @@ import {
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
 
-// todo on useEffect I'm sending {username, current location of user}
-
 interface ISelectDestinationProps {}
 
 export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
@@ -59,6 +58,8 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
     zoom: 16,
     longitude: user.destinationCoordinates.destinationLongitude,
   });
+  const locationPermission = useSelector(
+    (state: RootState) => state.user.locationPermission);
 
   const history = useHistory();
   const destination = useSelector((state: RootState) => state.destination);
@@ -66,11 +67,15 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
   const inputFields = document.getElementsByTagName('input');
 
   useEffect(() => {
-    dispatch(getUserData({ ...user }));
+    locationPermission ?
+      getUserLocation() : console.log('location permission denied');
+    if (user.latitude !== 0) {
+      dispatch(getUserData({ ...user }));
+    }
     if (destination && destination.destination) {
       setIsClicked(!isClicked);
     }
-  }, []);
+  }, [user.latitude]);
 
   useEffect(() => {
     setViewport({
@@ -80,24 +85,22 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
     });
   }, [user.destinationCoordinates]);
 
-  // useEffect(() => {
-  //   locationPermission ?
-  //     getUserLocation() : console.log('location permission denied');
-  // }, [locationPermission]);
+  useEffect(() => {
+  }, [locationPermission]);
 
-  // function getUserLocation() {
-  //   navigator.geolocation.getCurrentPosition((location) => {
-  //     setUserLocation({
-  //       latitude: location.coords.latitude,
-  //       longitude: location.coords.longitude
-  //     });
-  //   }, () => {
-  //     if (!locationPermission) alert('Can\'t read location');
-  //   }, {
-  //     enableHighAccuracy: true,
-  //     timeout: 3000,
-  //   });
-  // }
+  function getUserLocation() {
+    navigator.geolocation.getCurrentPosition((location) => {
+      dispatch(storeUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+      }));
+    }, () => {
+      if (!locationPermission) alert('Can\'t read location');
+    }, {
+      enableHighAccuracy: true,
+      timeout: 3000,
+    });
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleTakeMeThereSubmit(event: any): void {

@@ -43,12 +43,15 @@ export function getUserData(
   userInfo: User
 ): ThunkAction<void, RootState, unknown, Action> {
   return (dispatch) => {
-    axios.put(`${BASE_URL}/user/info`, { ...userInfo }).then((res) => {
-      dispatch({
-        type: STORE_USER_DATA,
-        userData: res.data,
-      });
-    });
+    axios
+      .put(`${BASE_URL}/user/info`, { ...userInfo })
+      .then((res) => {
+        dispatch({
+          type: STORE_USER_DATA,
+          userData: res.data,
+        });
+      })
+      .catch((error) => console.log(error));
   };
 }
 
@@ -116,7 +119,6 @@ export function getDestinationCoordinatesAndMotos(
   username: string
 ): ThunkAction<void, RootState, unknown, Action> {
   const formatedDestination = destination.split(' ').join('%20');
-  console.log(formatedDestination);
 
   return (dispatch) => {
     axios
@@ -161,8 +163,6 @@ export function updateMotosByFilteredProviders(
 export function setCurrentDestination(
   destination: CurrentDestination
 ): DestinationActionTypes {
-  console.log('DEST>>', destination);
-
   return {
     type: SET_DESTINATION,
     destination,

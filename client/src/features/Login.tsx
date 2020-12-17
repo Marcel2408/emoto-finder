@@ -2,7 +2,7 @@
 import { Switch } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { createStyles, Theme, makeStyles, createMuiTheme } from '@material-ui/core/styles';
@@ -13,8 +13,8 @@ import common from '@material-ui/core/colors/common';
 import orange from '@material-ui/core/colors/orange';
 
 import { RootState } from '../store';
-import { authenticateUser, getUserData, storeUserLocation, updateLocationPermission } from '../store/actions';
-import { STORE_USER_DATA, User } from '../store/types';
+import { authenticateUser, updateLocationPermission } from '../store/actions';
+import { STORE_USER_DATA } from '../store/types';
 import { Video, LoginDiv, WrapperDiv, FormDiv, LoginButton, Footer } from './LoginStyle';
 import video from '../assets/video/background-login-video.mp4';
 
@@ -57,10 +57,6 @@ export const Login: React.FC = () => {
     username: false,
     password: false
   });
-  const [userLocation, setUserLocation] = useState({
-    latitude: 0,
-    longitude: 0
-  });
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -68,37 +64,18 @@ export const Login: React.FC = () => {
   const isUserAuthenticated = useSelector((state: RootState) =>
     state.user.isAuthenticated);
 
-  // useEffect(() => {
-  //   locationPermission ?
-  //     getUserLocation() : console.log('location permission denied');
-  // }, [locationPermission]);
-
   useEffect(() => {
     if (isUserAuthenticated) history.push('/destination');
   }, [isUserAuthenticated]);
 
-  // function getUserLocation() {
-  //   navigator.geolocation.getCurrentPosition((location) => {
-  //     setUserLocation({
-  //       latitude: location.coords.latitude,
-  //       longitude: location.coords.longitude
-  //     });
-  //   }, () => {
-  //     if (!locationPermission) alert('Can\'t read location');
-  //   }, {
-  //     enableHighAccuracy: true,
-  //     timeout: 3000,
-  //   });
-  // }
-
   function handleSubmit(event: { preventDefault: () => void; }): void {
     event.preventDefault();
+    dispatch(authenticateUser(username));
     dispatch({
       type: STORE_USER_DATA,
       userData: { username, password }
     });
-    dispatch(authenticateUser(username));
-    dispatch(storeUserLocation(userLocation));
+
   }
 
   function handleUsernameChange(
@@ -203,11 +180,3 @@ export const Login: React.FC = () => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mapDispatchToProps = (dispatch: React.Dispatch<any>) => ({
-  getUserData: (userData: User) => dispatch(getUserData(userData)),
-  authenticateUser: (username: string) => dispatch(authenticateUser(username)),
-
-});
-
-export default connect(mapDispatchToProps)(Login);

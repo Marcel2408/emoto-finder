@@ -1,7 +1,6 @@
 /* eslint-disable no-return-assign */
 import {
   AppState,
-  LOGOUT,
   CHANGE_CURRENT_DESTINATION,
   BOOK_MOTO,
   SET_DESTINATION,
@@ -88,9 +87,16 @@ export const userReducer = (
 ): AppState['currentUser'] => {
   switch (action.type) {
     case STORE_USER_DATA: {
+      if (state.isAuthenticated) {
+        return {
+          ...state,
+          ...action.userData,
+        };
+      }
+
       return {
         ...state,
-        ...action.userData,
+        username: action.userData.username,
       };
     }
     case STORE_USER_DESTINATION_COORDINATES: {
