@@ -1,6 +1,5 @@
 {
   "name": "client",
-  "homepage": "https://Marcel2408.github.io/emoto-finder",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
