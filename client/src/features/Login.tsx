@@ -94,22 +94,9 @@ export const Login: React.FC = () => {
     dispatch(updateLocationPermission(event.target.checked));
   }
 
-  function handleOnUsernameFieldFocus() {
-    setFieldFocus({ ...fieldFocus, username: true });
+  function handleOnFieldFocusChange(field: string, isFocused: boolean) {
+    setFieldFocus({ ...fieldFocus, [field]: isFocused });
   }
-
-  function handleOnUsernameFieldBlur() {
-    setFieldFocus({ ...fieldFocus, username: false });
-  }
-
-  function handleOnPasswordFieldFocus() {
-    setFieldFocus({ ...fieldFocus, password: true });
-  }
-
-  function handleOnPasswordFieldBlur() {
-    setFieldFocus({ ...fieldFocus, password: false });
-  }
-
 
   return (
     <WrapperDiv>
@@ -132,8 +119,8 @@ export const Login: React.FC = () => {
                 label='Username'
                 id='standard-basic'
                 type='text'
-                onFocus={handleOnUsernameFieldFocus}
-                onBlur={handleOnUsernameFieldBlur}
+                onFocus={() => handleOnFieldFocusChange('username', true)}
+                onBlur={() => handleOnFieldFocusChange('username', false)}
                 onChange={handleUsernameChange}
               />
             </FormControl>
@@ -150,8 +137,8 @@ export const Login: React.FC = () => {
                 id='standard-basic'
                 type='password'
                 value={password.password}
-                onFocus={handleOnPasswordFieldFocus}
-                onBlur={handleOnPasswordFieldBlur}
+                onFocus={() => handleOnFieldFocusChange('password', true)}
+                onBlur={() => handleOnFieldFocusChange('password', false)}
                 onChange={handlePasswordChange}
               />
             </FormControl>
