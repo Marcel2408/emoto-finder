@@ -1,6 +1,6 @@
 import { Button, TextField } from '@material-ui/core';
 import * as React from 'react';
-import { MouseEventHandler, SetStateAction, useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';

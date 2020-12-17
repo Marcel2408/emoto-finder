@@ -51,6 +51,7 @@ export function getUserData(
           userData: res.data,
         });
       })
+      // eslint-disable-next-line no-console
       .catch((error) => console.log(error));
   };
 }

@@ -15,7 +15,6 @@ import {
   MotoInfoDetails,
   MotoInfoProviderLogo,
   BookMoto,
-  TotalTravelTime,
   MotoIconAnimated,
   AnimatedImage, IncomingText
 } from './MotoInfoStyle';

@@ -10,7 +10,6 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useHistory } from 'react-router-dom';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PinDropIcon from '@material-ui/icons/PinDrop';
 import { PulseLoader } from 'react-spinners';
 import DirectionsIcon from '@material-ui/icons/Directions';
@@ -23,7 +22,6 @@ import {
   AppState,
   Moto,
 } from '../store/types';
-import starSVG from '../assets/images/star.svg';
 
 import lightening from '../assets/images/lightning.svg';
 import { RootState } from '../store';

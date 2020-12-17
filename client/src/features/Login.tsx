@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
 import { Switch } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';

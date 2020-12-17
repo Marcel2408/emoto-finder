@@ -43,13 +43,10 @@ const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
 interface ISelectDestinationProps {}
 
 export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
-  const [isFromClicked, setIsFromClicked] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const [inputValue, setInputValue] = useState('');
   const user = useSelector((state: RootState) => state.user);
   const [viewport, setViewport] = useState({
     width: 375,
@@ -68,6 +65,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
 
   useEffect(() => {
     locationPermission ?
+      // eslint-disable-next-line no-console
       getUserLocation() : console.log('location permission denied');
     if (user.latitude !== 0) {
       dispatch(getUserData({ ...user }));
@@ -95,6 +93,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
         longitude: location.coords.longitude
       }));
     }, () => {
+      // eslint-disable-next-line no-alert
       if (!locationPermission) alert('Can\'t read location');
     }, {
       enableHighAccuracy: true,
@@ -125,7 +124,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
 
   function handleInputChange() {
     if (isVisible) {
-      setInputValue((inputFields[0].value = ''));
+      inputFields[0].value = '';
       setIsVisible(!isVisible);
       setIsClicked(!isClicked);
     }
@@ -147,7 +146,7 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
       return;
     }
     if (isClicked) {
-      setInputValue((inputFields[0].value = ''));
+      inputFields[0].value = '';
     }
     setIsVisible(!isVisible);
     setIsClicked(!isClicked);
@@ -158,14 +157,14 @@ export const SelectDestination: React.FC<ISelectDestinationProps> = () => {
       <SelectDestinationHeader>Choose destination</SelectDestinationHeader>
       <FormWrapper>
         <FormTag onSubmit={handleTakeMeThereSubmit}>
-          <InputContainerDiv onClickCapture={() => setIsFromClicked(true)}>
+          <InputContainerDiv>
             <InputTag
               type="text"
               placeholder="Eg: Carrer Sant Miquel 7, Barcelona"
               onFocus={handleInputChange}
             />
             <InputButton id="OK_button" type="button" onClick={handleOKClick}>
-              {isClicked && !isFocused ? <ClearIcon /> : <AddIcon />}
+              {isClicked ? <ClearIcon /> : <AddIcon />}
             </InputButton>
             <FavouritesContainerDiv>
               <FavouritesHeader>Favourites</FavouritesHeader>
