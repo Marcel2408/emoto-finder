@@ -1,8 +1,4 @@
 /* eslint-disable react/jsx-curly-newline */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
 /* eslint-disable no-nested-ternary */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -23,7 +19,6 @@ import {
   Moto,
 } from '../store/types';
 
-import lightening from '../assets/images/lightning.svg';
 import { RootState } from '../store';
 import MotoInfo from './MotoInfo';
 import {
@@ -43,86 +38,13 @@ import {
 import { MotoContainerWrapper } from './MotoInfoStyle';
 import HamburgerMenu from './HamburgerMenu';
 import { setCurrentDestination } from '../store/actions';
-import logoAcciona from '../assets/logos/accionaLogo.png';
-import logoAvant from '../assets/logos/avantLogo.png';
-import logoCityscoot from '../assets/logos/cityscootLogo.png';
-import logoEcooltra from '../assets/logos/ecooltraLogo.png';
-import logoGecco from '../assets/logos/geccoLogo.png';
-import logoIberscot from '../assets/logos/iberscotLogo.png';
-import logoSeat from '../assets/logos/seatLogo.png';
-import logoTucycle from '../assets/logos/tucycleLogo.png';
-import logoOIZ from '../assets/logos/oizLogo.png';
-import logoYego from '../assets/logos/yegoLogo.png';
-import incommingMoto from '../assets/images/incommingMoto.png';
-import motoRecommended from '../assets/images/motoRecommended.svg';
-import motoAcciona from '../assets/images/motoAcciona.svg';
-import motoAvant from '../assets/images/motoAvant.svg';
-import motoCityscoot from '../assets/images/motoCityscoot.svg';
-import motoEcooltra from '../assets/images/motoEcooltra.svg';
-import motoGecco from '../assets/images/motoGecco.svg';
-import motoIberscot from '../assets/images/motoIberscot.svg';
-import motoSeat from '../assets/images/motoSeat.svg';
-import motoTucycle from '../assets/images/motoTucycle.svg';
-import motoOIZ from '../assets/images/motoOIZ.svg';
-import motoYego from '../assets/images/motoYego.svg';
+
+import images from '../assets/images';
+import providerStore, { ProviderI } from '../utils/providers';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAPBOX_STYLE = process.env.REACT_APP_MAPBOX_STYLE;
 interface IMapProps {}
-
-interface ProviderStoreI {
-  [key: string]: ProviderI;
-}
-interface ProviderI {
-  color: string;
-  logo: string;
-  price: number;
-  moto: string;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const providerStore: ProviderStoreI = {
-  Acciona: {
-    color: '#FF0100',
-    logo: logoAcciona,
-    price: 0.26,
-    moto: motoAcciona,
-  },
-  Avant: { color: '#1974BB', logo: logoAvant, price: 0.14, moto: motoAvant },
-  Cityscoot: {
-    color: '#0054BB',
-    logo: logoCityscoot,
-    price: 0.26,
-    moto: motoCityscoot,
-  },
-  Ecooltra: {
-    color: '#73C1A1',
-    logo: logoEcooltra,
-    price: 0.26,
-    moto: motoEcooltra,
-  },
-  Gecco: { color: '#000', logo: logoGecco, price: 0.28, moto: motoGecco },
-  Iberscot: {
-    color: '#BF1E2E',
-    logo: logoIberscot,
-    price: 0.25,
-    moto: motoIberscot,
-  },
-  'SEAT MÓtosharing': {
-    color: '#33302E',
-    logo: logoSeat,
-    price: 0.26,
-    moto: motoSeat,
-  },
-  TuCycleBarcelona: {
-    color: '#661812',
-    logo: logoTucycle,
-    price: 0.23,
-    moto: motoTucycle,
-  },
-  OIZ: { color: '#00AEEF', logo: logoOIZ, price: 0.24, moto: motoOIZ },
-  Yego: { color: '#28323C', logo: logoYego, price: 0.25, moto: motoYego },
-};
 
 const theme = createMuiTheme({
   palette: {
@@ -153,7 +75,7 @@ export const Map: React.FC<IMapProps> = () => {
   const motoStore = useSelector((state: RootState) => state.motos);
   const destinationStore = useSelector((state: RootState) => state.destination);
   const [motosFilteredByProviders, setMotosFilteredByProviders] = useState([]);
-  const motoStoreCopy: any = [...motoStore];
+  const motoStoreCopy: Moto[] = [...motoStore];
   const [viewport, setViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -177,8 +99,11 @@ export const Map: React.FC<IMapProps> = () => {
     }, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [motoStore]);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleClickedMoto(moto: Moto, i: number, motoProviderInfo: any) {
+  function handleClickedMoto(
+    moto: Moto,
+    i: number,
+    motoProviderInfo: ProviderI
+  ) {
     setIsMotoInfoClicked(true);
     setMotoInfo(moto);
     setMotoIndex(i);
@@ -282,7 +207,7 @@ export const Map: React.FC<IMapProps> = () => {
                       />
                     ) : null}
                     <img
-                      src={motoRecommended}
+                      src={images.motoRecommended}
                       alt="provider moto"
                       style={{ height: '45px' }}
                       onClickCapture={() =>
@@ -300,7 +225,7 @@ export const Map: React.FC<IMapProps> = () => {
                       />
                     ) : null}
                     <img
-                      src={incommingMoto}
+                      src={images.incommingMoto}
                       alt="provider moto"
                       style={{ height: '30px' }}
                       onClickCapture={() =>
@@ -336,7 +261,7 @@ export const Map: React.FC<IMapProps> = () => {
                       />
                     ) : null}
                     <img
-                      src={incommingMoto}
+                      src={images.incommingMoto}
                       alt="provider logo"
                       style={{ height: 35 }}
                       onClickCapture={() =>
@@ -354,7 +279,7 @@ export const Map: React.FC<IMapProps> = () => {
               <MotoContainerDiv>
                 {motoIndex === 0 ? (
                   <>
-                    <BestMotoImage src={lightening} alt="lightening" />
+                    <BestMotoImage src={images.lightening} alt="lightening" />
                   </>
                 ) : null}
                 <MotoInfo
