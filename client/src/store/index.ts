@@ -1,5 +1,4 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
-import loggerMiddleware from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { destinationReducer, motosReducer, userReducer } from './reducers';
@@ -12,7 +11,7 @@ const appReducers = combineReducers({
 
 export const store = createStore(
   appReducers,
-  composeWithDevTools(applyMiddleware(loggerMiddleware, thunkMiddleware))
+  composeWithDevTools(applyMiddleware(thunkMiddleware))
 );
 
 export type RootState = ReturnType<typeof appReducers>;
